@@ -134,7 +134,7 @@
                                                                                                         if ($status == 'Publish') {
                                                                                                 ?>
                                                                                                 <button class="btn">
-                                                                                                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-bolt"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 3l0 7l6 0l-8 11l0 -7l-6 0l8 -11" /></svg>
+                                                                                                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-bolt-off"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 3l18 18" /><path d="M15.212 15.21l-4.212 5.79v-7h-6l3.79 -5.21m1.685 -2.32l2.525 -3.47v6m1 1h5l-2.104 2.893" /></svg>
                                                                                                         Unpublish
                                                                                                 </button>
                                                                                                 <?php 
@@ -147,25 +147,15 @@
                                                                                                 <?php
                                                                                                         }
                                                                                                 ?>
-                                                                                                <div class="dropdown">
-                                                                                                        <button class="btn dropdown-toggle align-text-top" data-bs-toggle="dropdown">
-                                                                                                                Actions
-                                                                                                        </button>
-                                                                                                        <div class="dropdown-menu">
-                                                                                                                <a class="dropdown-item" href="#">
-                                                                                                                        Reject
-                                                                                                                </a>
-                                                                                                                <a class="dropdown-item" href="#">
-                                                                                                                        Price
-                                                                                                                </a>
-                                                                                                                <a class="dropdown-item" href="#">
-                                                                                                                        Update
-                                                                                                                </a>
-                                                                                                                <a class="dropdown-item" href="#">
-                                                                                                                        More
-                                                                                                                </a>
-                                                                                                        </div>
-                                                                                                </div>
+                                                                                                <button class="btn">
+                                                                                                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                                                                                                        Reject
+                                                                                                </button>
+                                                                                                <a href="publish_expand?unique_id=<?php echo $unique_id ?>" class="btn">
+                                                                                                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+                                                                                                        Expand
+                                                                                                </a>
+
                                                                                         </div>
                                                                                 </td>
                                                                         </tr>
