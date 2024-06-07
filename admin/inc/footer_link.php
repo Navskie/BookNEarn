@@ -18,7 +18,8 @@
             ]
         });
     })
-
+</script>
+<script>
     document.addEventListener("DOMContentLoaded", function () {
     	var el;
     	window.TomSelect && (new TomSelect(el = document.getElementById('select-people'), {
@@ -57,10 +58,12 @@
         // Redirect to the new URL
         window.location.href = newUrl;
     });
-
+</script>
+<script>
+    // @formatter:off
     document.addEventListener("DOMContentLoaded", function () {
     	var el;
-    	window.TomSelect && (new TomSelect(el = document.getElementById('province'), {
+    	window.TomSelect && (new TomSelect(el = document.getElementById('select-users'), {
     		copyClassesToDropdown: false,
     		dropdownParent: 'body',
     		controlInput: '<input>',
@@ -80,10 +83,13 @@
     		},
     	}));
     });
-
-	document.addEventListener("DOMContentLoaded", function () {
+    // @formatter:on
+  </script>
+  <script>
+    // @formatter:off
+    document.addEventListener("DOMContentLoaded", function () {
     	var el;
-    	window.TomSelect && (new TomSelect(el = document.getElementById('city'), {
+    	window.TomSelect && (new TomSelect(el = document.getElementById('select-users2'), {
     		copyClassesToDropdown: false,
     		dropdownParent: 'body',
     		controlInput: '<input>',
@@ -103,4 +109,5 @@
     		},
     	}));
     });
-</script>
+    // @formatter:on
+  </script>

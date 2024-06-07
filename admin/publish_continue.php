@@ -82,22 +82,28 @@
                                                                                         if ($choose == 'Hourly' || $_SESSION['type'] == 'Hourly') {
                                                                                 ?>
                                                                                         <div class="row">
-                                                                                                <div class="col-sm-12 col-md-4 mb-3">
+                                                                                                <div class="col-sm-12 col-md-3 mb-3">
                                                                                                         <div class="form-group">
                                                                                                                 <label class="form-label">4 Hours</label>
                                                                                                                 <input type="text" name="four" class="form-control shadow-none rounded-0" autocomplete="OFF" value="<?php echo $_SESSION['four'] ?>">
                                                                                                         </div>
                                                                                                 </div>
-                                                                                                <div class="col-sm-12 col-md-4 mb-3">
+                                                                                                <div class="col-sm-12 col-md-3 mb-3">
                                                                                                         <div class="form-group">
                                                                                                                 <label class="form-label">8 Hours</label>
                                                                                                                 <input type="text" name="eight" class="form-control shadow-none rounded-0" autocomplete="OFF" value="<?php echo $_SESSION['eight'] ?>">
                                                                                                         </div>
                                                                                                 </div>
-                                                                                                <div class="col-sm-12 col-md-4 mb-3">
+                                                                                                <div class="col-sm-12 col-md-3 mb-3">
                                                                                                         <div class="form-group">
                                                                                                                 <label class="form-label">12 Hours</label>
                                                                                                                 <input type="text" name="twelve" class="form-control shadow-none rounded-0" autocomplete="OFF" value="<?php echo $_SESSION['twelve'] ?>">
+                                                                                                        </div>
+                                                                                                </div>
+                                                                                                <div class="col-sm-12 col-md-3 mb-3">
+                                                                                                        <div class="form-group">
+                                                                                                                <label class="form-label">Overnight</label>
+                                                                                                                <input type="text" name="overnight" class="form-control shadow-none rounded-0" autocomplete="OFF" value="<?php echo $_SESSION['overnight'] ?>">
                                                                                                         </div>
                                                                                                 </div>
                                                                                         </div>

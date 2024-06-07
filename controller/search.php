@@ -4,7 +4,7 @@
 
     if(isset($_POST['query'])) {
         $input = $_POST['query'];
-        $sql = mysqli_query($con, "SELECT citymunDesc FROM refcitymun WHERE citymunDesc LIKE '%$input%'");
+        $sql = mysqli_query($con, "SELECT citymunDesc FROM refcitymun WHERE citymunDesc LIKE '%$input%' LIMIT 8");
         
         if (mysqli_num_rows($sql) > 0) {
             foreach ($sql as $row) {

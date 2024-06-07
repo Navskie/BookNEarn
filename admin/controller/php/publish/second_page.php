@@ -9,6 +9,7 @@
                 $eight = $_POST['eight'];
                 $four = $_POST['four'];
                 $twelve = $_POST['twelve'];
+                $overnight = $_POST['overnight'];
                 $weekday = $_POST['weekday'];
                 $weekend = $_POST['weekend'];
 
@@ -25,6 +26,7 @@
                         $_SESSION['twelve'] = $twelve;
                         $_SESSION['weekend'] = $weekend;
                         $_SESSION['weekday'] = $weekday;
+                        $_SESSION['overnight'] = $overnight;
                         
 
                         echo "success";

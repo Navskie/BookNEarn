@@ -28,6 +28,7 @@
                 $city = $_SESSION['city'];
                 $prov = $_SESSION['prov'];
                 $type = $_SESSION['type'];
+                $overnight = $_SESSION['overnight'];
                 $map = $_POST['map'];
 
                 if (empty($map)) {
@@ -38,7 +39,7 @@
                         if ($sql_img_input)
                         {
 
-                                $price_sql = mysqli_query($con, "INSERT INTO `price` (`unique_id`,`price`,`four_hour`,`eight_hour`,`twelve_hour`,`weekday`,`weekend`,`adult`,`pet`) VALUES ('$unique_id', '$price', '$four', '$eight', '$twelve', '$weekday', '$weekend','$adult', '$pet')");
+                                $price_sql = mysqli_query($con, "INSERT INTO `price` (`unique_id`,`price`,`four_hour`,`eight_hour`,`twelve_hour`,`overnight`,`weekday`,`weekend`,`adult`,`pet`) VALUES ('$unique_id', '$price', '$four', '$eight', '$twelve', '$overnight', '$weekday', '$weekend', '$adult', '$pet')");
 
                                 if ($price_sql) {
 

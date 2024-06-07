@@ -112,8 +112,9 @@
                                 $creator = $data['creator'];
                                 $unique_id = $data['unique_id'];
                                 $title = $data['title'];
-                                $desc = $data['description'];
-
+                                $desc_text = $data['description'];
+                                $max_length = 70; // Maximum length you want
+                                $desc = (strlen($desc_text) > $max_length) ? preg_replace('/\s+?(\S+)?$/', '', substr($desc_text, 0, $max_length)) . '...' : $desc_text;
 
                                 // image
                                 $get_img = mysqli_query($con, "SELECT `filename` FROM `publish_img` WHERE `status` = 'main' AND unique_id = '$unique_id'");

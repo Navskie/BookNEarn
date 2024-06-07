@@ -58,7 +58,7 @@
                                                                                 <div class="row">
                                                                                         <div class="col-sm-12 col-md-6 mb-3">
                                                                                                 <label class="form-label">Province</label>
-                                                                                                <select type="text" class="form-select tomselected" id="province" name="prov" tabindex="-1">
+                                                                                                <select type="text" class="form-select tomselected" id="select-users" name="prov" tabindex="-1">
                                                                                                         <option value="<?php echo $_SESSION['prov'] ?>"><?php echo $_SESSION['prov'] ?></option>
                                                                                                         <?php
                                                                                                                 $city = mysqli_query($con, "SELECT * FROM refprovince ORDER BY id DESC");
@@ -72,7 +72,7 @@
                                                                                         </div>
                                                                                         <div class="col-sm-12 col-md-6 mb-3">
                                                                                                 <label class="form-label">City</label>
-                                                                                                <select type="text" class="form-select tomselected" id="city" name="city" tabindex="-1">
+                                                                                                <select type="text" class="form-select tomselected" id="select-users2" name="city" tabindex="-1">
                                                                                                         <option value="<?php echo $_SESSION['city'] ?>"><?php echo $_SESSION['city'] ?></option>
                                                                                                         <?php
                                                                                                                 $city = mysqli_query($con, "SELECT * FROM refcitymun ORDER BY id DESC");

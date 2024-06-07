@@ -60,13 +60,13 @@
                                                                                 <div class="row">
                                                                                         <div class="col-sm-12 col-md-6 mb-3">
                                                                                                 <label class="form-label">Province</label>
-                                                                                                <select type="text" class="form-select tomselected" id="select-users" name="prov" tabindex="-1">
+                                                                                                <select type="text" class="form-select tomselected" id="province" name="prov" tabindex="-1">
                                                                                                         <option value="<?php echo $_SESSION['prov'] ?>"><?php echo $_SESSION['prov'] ?></option>
                                                                                                 </select>
                                                                                         </div>
                                                                                         <div class="col-sm-12 col-md-6 mb-3">
                                                                                                 <label class="form-label">City</label>
-                                                                                                <select type="text" class="form-select tomselected" id="select-users2" name="city" tabindex="-1">
+                                                                                                <select type="text" class="form-select tomselected" id="city" name="city" tabindex="-1">
                                                                                                         <option value="<?php echo $_SESSION['city'] ?>"><?php echo $_SESSION['city'] ?></option>
                                                                                                 </select>
                                                                                         </div>
@@ -133,22 +133,28 @@
                                                                                         if ($_SESSION['type'] == 'Hourly') {
                                                                                 ?>
                                                                                         <div class="row">
-                                                                                                <div class="col-sm-12 col-md-4 mb-3">
+                                                                                                <div class="col-sm-12 col-md-3 mb-3">
                                                                                                         <div class="form-group">
                                                                                                                 <label class="form-label">4 Hours</label>
                                                                                                                 <input type="text" id="four" class="form-control shadow-none rounded-0" autocomplete="OFF" value="<?php echo $_SESSION['four'] ?>" readonly>
                                                                                                         </div>
                                                                                                 </div>
-                                                                                                <div class="col-sm-12 col-md-4 mb-3">
+                                                                                                <div class="col-sm-12 col-md-3 mb-3">
                                                                                                         <div class="form-group">
                                                                                                                 <label class="form-label">8 Hours</label>
                                                                                                                 <input type="text" id="eight" class="form-control shadow-none rounded-0" autocomplete="OFF" value="<?php echo $_SESSION['eight'] ?>" readonly>
                                                                                                         </div>
                                                                                                 </div>
-                                                                                                <div class="col-sm-12 col-md-4 mb-3">
+                                                                                                <div class="col-sm-12 col-md-3 mb-3">
                                                                                                         <div class="form-group">
                                                                                                                 <label class="form-label">12 Hours</label>
                                                                                                                 <input type="text" id="twelve" class="form-control shadow-none rounded-0" autocomplete="OFF" value="<?php echo $_SESSION['twelve'] ?>" readonly>
+                                                                                                        </div>
+                                                                                                </div>
+                                                                                                <div class="col-sm-12 col-md-3 mb-3">
+                                                                                                        <div class="form-group">
+                                                                                                                <label class="form-label">Overnight</label>
+                                                                                                                <input type="text" id="overnight" class="form-control shadow-none rounded-0" autocomplete="OFF" value="<?php echo $_SESSION['overnight'] ?>" readonly>
                                                                                                         </div>
                                                                                                 </div>
                                                                                         </div>
@@ -188,10 +194,16 @@
                                                                                         </div>
 
                                                                                         <div class="col-sm-12 col-md-12 mb-3">
-                                                                                                <div class="form-group">
-                                                                                                        <label class="form-label">Google Map Link</label>
-
-                                                                                                        <input type="text" name="map" autocomplete="OFF" class="form-control shadow-none rounded-0">
+                                                                                                <div class="row g-2">
+                                                                                                        <label class="form-label">Paste your google embed map</label>
+                                                                                                        <div class="col">
+                                                                                                                <input type="text" name="map" autocomplete="OFF" class="form-control shadow-none rounded-0">
+                                                                                                                </div>
+                                                                                                                <div class="col-auto align-self-center">
+                                                                                                                <span class="form-help" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="<p>Go to your google map link then, click share > embed a map > copy and paste here!</p>
+                                                                                                                <p class='mb-0'><a href='#'>USP ZIP codes lookup tools</a></p>
+                                                                                                                " data-bs-html="true" aria-describedby="popover974844">?</span>
+                                                                                                        </div>
                                                                                                 </div>
                                                                                         </div>
                                                                                 </div>

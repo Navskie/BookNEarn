@@ -37,8 +37,9 @@
                                                                                 <th><button class="table-sort" data-sort="sort-type">Image</button></th>
                                                                                 <th><button class="table-sort" data-sort="sort-type">Title</button></th>
                                                                                 <th><button class="table-sort" data-sort="sort-type">City</button></th>
-                                                                                <th><button class="table-sort" data-sort="sort-type">Province</button></th>
+                                                                                <!-- <th><button class="table-sort" data-sort="sort-type">Province</button></th> -->
                                                                                 <th><button class="table-sort" data-sort="sort-type">Status</button></th>
+                                                                                <th><button class="table-sort" data-sort="sort-type">Visible</button></th>
                                                                                 <th><button class="table-sort" data-sort="sort-type">Console</button></th>
                                                                                 <th></th>
                                                                         </tr>
@@ -55,6 +56,7 @@
                                                                                         $city = $data['city'];
                                                                                         $province = $data['province'];
                                                                                         $status = $data['status'];
+                                                                                        $visible = $data['visible'];
 
                                                                                         // image
                                                                                         $get_img = mysqli_query($con, "SELECT `filename` FROM `publish_img` WHERE `status` = 'main' AND unique_id = '$unique_id'");
@@ -100,16 +102,18 @@
                                                                                         <?php echo $city ?>
                                                                                 </td>
                                                                                 <td class="text-secondary" data-label="Role" >
-                                                                                        <?php echo $province ?>
-                                                                                </td>
-                                                                                <td class="text-secondary" data-label="Role" >
                                                                                         <?php if ($status == 'Pending') { ?>
                                                                                         <span class="badge bg-blue text-blue-fg">Pending</span>
                                                                                         <?php } elseif ($status == 'Reject') { ?>
                                                                                         <span class="badge bg-red text-red-fg">Rejected</span>
                                                                                         <?php } elseif ($status == 'Publish') { ?>
                                                                                         <span class="badge bg-green text-green-fg">Published</span>
+                                                                                        <?php } elseif ($status == 'Unpublish') { ?>
+                                                                                        <span class="badge bg-orange text-orange-fg">Unpublished</span>
                                                                                         <?php } ?>
+                                                                                </td>
+                                                                                <td class="text-secondary" data-label="Role" >
+                                                                                        <?php echo $visible ?>
                                                                                 </td>
                                                                                 <td class="text-secondary" data-label="Role" >
                                                                                         <?php 
@@ -133,21 +137,21 @@
                                                                                                 <?php
                                                                                                         if ($status == 'Publish') {
                                                                                                 ?>
-                                                                                                <button class="btn">
+                                                                                                <button class="btn" id="unpublish" data-bs-toggle="modal" data-bs-target="#unpublished<?php echo $unique_id ?>">
                                                                                                         <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-bolt-off"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 3l18 18" /><path d="M15.212 15.21l-4.212 5.79v-7h-6l3.79 -5.21m1.685 -2.32l2.525 -3.47v6m1 1h5l-2.104 2.893" /></svg>
                                                                                                         Unpublish
                                                                                                 </button>
                                                                                                 <?php 
                                                                                                         } else {
                                                                                                 ?>
-                                                                                                <button class="btn">
+                                                                                                <button class="btn" id="publish" data-bs-toggle="modal" data-bs-target="#published<?php echo $unique_id ?>">
                                                                                                         <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-bolt"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 3l0 7l6 0l-8 11l0 -7l-6 0l8 -11" /></svg>
                                                                                                         Publish
                                                                                                 </button>
                                                                                                 <?php
                                                                                                         }
                                                                                                 ?>
-                                                                                                <button class="btn">
+                                                                                                <button class="btn" data-bs-toggle="modal" data-bs-target="#reject<?php echo $unique_id ?>">
                                                                                                         <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
                                                                                                         Reject
                                                                                                 </button>
@@ -160,6 +164,9 @@
                                                                                 </td>
                                                                         </tr>
                                                                         <?php
+                                                                                        include 'controller/modal/publish/published.php';
+                                                                                        include 'controller/modal/publish/unpublished.php';
+                                                                                        include 'controller/modal/publish/reject.php';
                                                                                 }
                                                                         ?>
                                                                 </tbody>
@@ -171,7 +178,7 @@
                         <!-- Footer -->
                         <?php include_once 'inc/footer.php' ?>
                 </div>
-
+                
 
 
 
