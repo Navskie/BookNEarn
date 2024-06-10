@@ -172,7 +172,7 @@
                                 <i class='bx bx-time-five'></i> &nbsp;2 days
                                 </div>
                         </div>
-                        <button href="#" class="btn btn-sm btn-primary mt-3">Book Now</button>
+                        <a href="booknow?unique_id=<?php echo $unique_id ?>" class="btn btn-sm btn-primary mt-3">Book Now</a>
                 </div>
                 <?php
                         }

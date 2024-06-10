@@ -134,7 +134,19 @@ function publish_complete() {
                                         }).then(function() {
                                                 window.location.reload(true);
                                         });
-                                } 
+                                }  else if (response === 'warning') {
+                                        Swal.fire({
+                                                title: 'Warning',
+                                                text: 'Image Error: Please upload an image that is less than 2MB in size or ensure that it is width and height are equal',
+                                                icon: 'error', // Can be 'success', 'error', 'warning', 'info', 'question'
+                                                confirmButtonText: 'Confirm',
+                                                icon: 'success',
+                                                timer: 5000,
+                                                timerProgressBar: true,
+                                        }).then(function() {
+                                                window.location.reload(true);
+                                        });
+                                }
                         }
                 });
         });

@@ -46,53 +46,81 @@
                                         // Multiple Image Functions
                                         $target_DIR = "../../../../assets/img/publish/";
                                         $loop = 1;
+                                        $available = 1;
                                         foreach ($_FILES['images']['tmp_name'] as $key => $tmp_name) 
                                         {
-                                                if ($loop < 6)
-                                                {
-                                                        if ($loop == 1) {
-                                                                $main = 'main';
+
+                                                $img_SZ = getimagesize($tmp_name);
+                                                $img_filesize = filesize($tmp_name);
+                                                $maxSize = 2 * 1024 * 1024;
+
+                                                $width = $img_SZ[0];
+                                                $height = $img_SZ[1];
+
+                                                // if ($loop < 6) {
+                                                //         echo "TRUE";
+                                                // }
+
+                                                if ($height == $width) {
+                                                        if ($img_filesize <= $maxSize) {        
+                                                                if ($loop < 6)
+                                                                { 
+                                                                        if ($loop == 1) {
+                                                                                $main = 'main';
+                                                                        } else {
+                                                                                $main = '';
+                                                                        }
+                
+                                                                        $img_name = "IMG".date('mdyhis').$loop;
+                
+                                                                        $original_name = $_FILES['images']['name'][$key];
+                
+                                                                        $extension = pathinfo($original_name, PATHINFO_EXTENSION);
+                                                                        $new_filename = $img_name. '.' . $extension;
+                
+                                                                        $target_FILE = $target_DIR . $new_filename;
+                
+                                                                        move_uploaded_file($tmp_name,  $target_FILE);
+                                                                        $upload_files = $target_FILE;
+                
+                                                                        $sql_input = mysqli_query($con, "INSERT INTO publish_img (`unique_id`, `filename`, `status`) VALUES ('$unique_id', '$new_filename', '$main')");
+
+                                                                        $available++;
+                                                                }
                                                         } else {
-                                                                $main = '';
+                                                                $available = 0;
                                                         }
-
-                                                        $img_name = "IMG".date('mdyhis').$loop;
-
-                                                        $original_name = $_FILES['images']['name'][$key];
-
-                                                        $extension = pathinfo($original_name, PATHINFO_EXTENSION);
-                                                        $new_filename = $img_name. '.' . $extension;
-
-                                                        $target_FILE = $target_DIR . $new_filename;
-
-                                                        move_uploaded_file($tmp_name,  $target_FILE);
-                                                        $upload_files = $target_FILE;
-
-                                                        $sql_input = mysqli_query($con, "INSERT INTO publish_img (`unique_id`, `filename`, `status`) VALUES ('$unique_id', '$new_filename', '$main')");
+                                                } else {
+                                                        $available = 0;
                                                 }
 
                                                 $loop++;
+
                                         }
 
-                                        unset($_SESSION['pet_tf']);
-                                        unset($_SESSION['adult_max']);
-                                        unset($_SESSION['qty']);
-                                        unset( $_SESSION['address']);
-                                        unset($_SESSION['city']);
-                                        unset( $_SESSION['prov']);
-                                        unset($_SESSION['desc']);
-                                        unset($_SESSION['title']);
-                                        unset($_SESSION['type']);
-                                        unset($_SESSION['price']);
-                                        unset($_SESSION['adult']);
-                                        unset($_SESSION['pet']);
-                                        unset($_SESSION['eight']);
-                                        unset($_SESSION['four']);
-                                        unset($_SESSION['twelve']);
-                                        unset($_SESSION['weekend']);
-                                        unset($_SESSION['weekday']);
+                                        if ($loop == $available) {
+                                                unset($_SESSION['pet_tf']);
+                                                unset($_SESSION['adult_max']);
+                                                unset($_SESSION['qty']);
+                                                unset( $_SESSION['address']);
+                                                unset($_SESSION['city']);
+                                                unset( $_SESSION['prov']);
+                                                unset($_SESSION['desc']);
+                                                unset($_SESSION['title']);
+                                                unset($_SESSION['type']);
+                                                unset($_SESSION['price']);
+                                                unset($_SESSION['adult']);
+                                                unset($_SESSION['pet']);
+                                                unset($_SESSION['eight']);
+                                                unset($_SESSION['four']);
+                                                unset($_SESSION['twelve']);
+                                                unset($_SESSION['weekend']);
+                                                unset($_SESSION['weekday']);
 
-                                        echo 'success';
+                                                echo 'success';
+                                        } else {
+                                                echo 'warning';
+                                        }
                                 } else {
                                         echo 'error';
                                 }

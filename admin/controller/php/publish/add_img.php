@@ -32,7 +32,7 @@
                         $width = $img_SZ[0];
                         $height = $img_SZ[1];
 
-                        if ($height < $width) {
+                        if ($height == $width) {
                                 if ($img_filesize <= $maxSize) {
                                         $new_filename = $img_name. '.' . $extension;
 

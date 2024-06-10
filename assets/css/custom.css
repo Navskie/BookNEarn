@@ -1055,3 +1055,226 @@ ul {
 .list:hover {
     background-color: #ccc;
 }
+
+/* BOOK NOW */
+.img-list {
+    width: 500px;
+    height: 500px;
+}
+ 
+  .carousel-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .carousel {
+    display: flex;
+    transition: transform 0.5s ease;
+  }
+
+  .carousel img {
+    width: 100%;
+    height: auto;
+  }
+
+  .prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  .prev {
+    left: 0;
+  }
+
+  .next {
+    right: 0;
+  }
+
+  
+  @media only screen and (max-width: 768px) 
+{
+
+}
+
+.book-img {
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.amenities {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .ame-list {
+    background-color: #0175e9;
+    width: 50px;
+    height: 50px;
+  }
+
+  .book-details {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
+
+  .desc h4 {
+    font-size: 25px ;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .desc p {
+    font-size: 17px;
+    text-align: justify;
+  }
+
+  .desc h6 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+.desc .amenities {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 17px;
+    flex-wrap: wrap;
+}
+
+.prices h4 {
+    font-size: 21px;
+}
+
+.prices .price {
+    font-size: 25px;
+    font-weight: 800;
+    color: #0175e9;
+}
+
+.prices .tax {
+    font-size: 15px;
+    font-style: italic;
+    color: #94BC3F;
+}
+
+iframe {
+    width: 100%;
+    height: 300px;
+    border: 1px solid #c2c2c2;
+}
+
+.map-body {
+    padding: 20px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+    border-radius: 15px;
+}
+
+ .rev-title {
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 600;
+ }
+
+.reviews {
+    width: 100%;
+    height: 300px;
+    overflow: auto;
+}
+
+.reviews {
+    margin-bottom: 20px;
+}
+
+.textarea textarea {
+    width: 100%;
+    min-height: 50px;
+    padding: 10px;
+    font-size: 16px;
+    resize: none;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #c2c2c2;
+}
+
+.textarea-btn .btn {
+    background-color: #0e5091;
+    color: #FFF;
+    margin-top: 10px;
+}
+
+.review-body {
+    padding: 20px 30px;
+    border-radius: 15px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.list-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: start;
+    gap: 15px;
+    padding: 0 25px;
+}
+
+.list-prof .img-prof {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #c2c2c2;
+    border-radius: 50%;
+}
+
+.list-comment h6 {
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.list-comment p {
+    /* font-style: italic; */
+    font-size: 15px;
+    text-align: justify;
+}
+
+.top-comment {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.review-form {
+    padding: 0 25px;
+}
+
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.rating input {
+    display: none;
+}
+
+.rating label {
+    font-size: 20px;
+    cursor: pointer;
+    color: #ccc;
+}
+
+.rating input:checked ~ label {
+    color: #f90;
+}
