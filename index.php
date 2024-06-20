@@ -134,29 +134,45 @@
       $number_publish = mysqli_num_rows($get_publish);
       $sum_publish = 5 - $number_publish;
       foreach ($get_publish as $data) {
-      $creator = $data['creator'];
-      $unique_id = $data['unique_id'];
-      $title = $data['title'];
-      $desc_text = $data['description'];
-      $max_length = 70; // Maximum length you want
-      $desc = (strlen($desc_text) > $max_length) ? preg_replace('/\s+?(\S+)?$/', '', substr($desc_text, 0, $max_length)) . '...' : $desc_text;
+         $creator = $data['creator'];
+         $unique_id = $data['unique_id'];
+         $title = $data['title'];
+         $type = $data['type'];
+         $desc_text = $data['description'];
+         $max_length = 70; // Maximum length you want
+         $desc = (strlen($desc_text) > $max_length) ? preg_replace('/\s+?(\S+)?$/', '', substr($desc_text, 0, $max_length)) . '...' : $desc_text;
 
-      // image
-      $get_img = mysqli_query($con, "SELECT `filename` FROM `publish_img` WHERE `status` = 'main' AND unique_id = '$unique_id'");
-      $get_img_fetch = mysqli_fetch_array($get_img);
-      $filename = $get_img_fetch['filename'];
+         // image
+         $get_img = mysqli_query($con, "SELECT `filename` FROM `publish_img` WHERE `status` = 'main' AND unique_id = '$unique_id'");
+         $get_img_fetch = mysqli_fetch_array($get_img);
+         $filename = $get_img_fetch['filename'];
 
-      // creator
-      $get_creator = mysqli_query($con, "SELECT * FROM users WHERE _token = '$creator'");
-      $get_creator_fetch = mysqli_fetch_array($get_creator);
-      $fullname = $get_creator_fetch['fullname'];
-      $email = $get_creator_fetch['email'];
-      $img = $get_creator_fetch['img'];
-      if ($fullname == "") {
-      $fullname = "Administrator";
-      $email = "admin@gmail.com";
-      $img = "default.png";
-      }
+         // creator
+         $get_creator = mysqli_query($con, "SELECT * FROM users WHERE _token = '$creator'");
+         $get_creator_fetch = mysqli_fetch_array($get_creator);
+         $fullname = $get_creator_fetch['fullname'];
+         $email = $get_creator_fetch['email'];
+         $img = $get_creator_fetch['img'];
+         if ($fullname == "") {
+            $fullname = "Administrator";
+            $email = "admin@gmail.com";
+            $img = "default.png";
+         }
+
+         // PRICE
+         $get_price_sql = mysqli_query($con, "SELECT * FROM price WHERE unique_id = '$unique_id'");
+         $price_data = mysqli_fetch_array($get_price_sql);
+
+         $price = $price_data['price'];
+         
+
+         if ($type === 'Daily') {
+            $link = 'booknow-daily';
+         } else {
+            $link = 'booknow-hourly';
+         }
+         
+
    ?>
    <div class="shop-body">
       <div class="img skeleton">
@@ -172,12 +188,12 @@
       <span class="shop-price">
          <span class="s-ratings skeleton">Ratings <i class='bx bxs-star' ></i> 5</span>
 
-         <span class="s-price skeleton">₱2,400.00</span>
+         <span class="s-price skeleton">₱<?php echo $price ?></span>
       </span>
       <span class="shop-price">
          <span class="s-ratings skeleton"></span>
 
-         <span class="s-price-taxes skeleton">Taxes +540.00</span>
+         <span class="s-price-taxes skeleton">Taxes +<?php echo $price * 0.12; ?></span>
       </span>
       </div>
       <hr>
@@ -185,11 +201,11 @@
       <div class="shop-posted">
             <div class="profile">
             <div class="profile-img skeleton">
-                     <img src="assets/img/profile/<?php echo $img ?>" alt="Profile">
+               <img src="assets/img/profile/<?php echo $img ?>" alt="Profile">
             </div>
             <div class="profile-info skeleton">
-                     <span class="name"><?php echo $fullname ?></span>
-                     <span class="status">Verified <i class='bx bxs-certification status-icon'></i></span>
+               <span class="name"><?php echo $fullname ?></span>
+               <span class="status">Verified <i class='bx bxs-certification status-icon'></i></span>
             </div>
             </div>
 
@@ -197,7 +213,7 @@
             <i class='bx bx-time-five'></i> &nbsp;2 days
             </div>
       </div>
-      <a href="booknow?unique_id=<?php echo $unique_id ?>" class="btn btn-sm btn-primary mt-3">Book Now</a>
+      <a href="<?php echo $link ?>?unique_id=<?php echo $unique_id ?>" class="btn btn-sm btn-primary mt-3">Book Now</a>
    </div>
    <?php
       }
@@ -217,29 +233,29 @@
 </body>
 <?php include_once 'inc/footer-link.php' ?>
 <script type="text/javascript">
-$(document).ready(function () {
-   $("#destination").keyup(function() {
-      var searchText = $(this).val(); 
-      if (searchText != '') {
-      $.ajax({
-         url: 'controller/search.php',
-         method: 'POST',
-         data: {query:searchText},
-         success: function(response) {
-            $("#show_menu").html(response);
-            console.log(response);
+   $(document).ready(function () {
+      $("#destination").keyup(function() {
+         var searchText = $(this).val(); 
+         if (searchText != '') {
+         $.ajax({
+            url: 'controller/search.php',
+            method: 'POST',
+            data: {query:searchText},
+            success: function(response) {
+               $("#show_menu").html(response);
+               console.log(response);
+            }
+         })
+         }
+         else
+         {
+         $("#show_menu").html('');
          }
       })
-      }
-      else
-      {
-      $("#show_menu").html('');
-      }
+      $(document).on('click', 'a', function () {
+         $("#destination").val($(this).text());
+         $("#show_menu").html(''); 
+      })
    })
-   $(document).on('click', 'a', function () {
-      $("#destination").val($(this).text());
-      $("#show_menu").html(''); 
-   })
-})
 </script>
 </html>

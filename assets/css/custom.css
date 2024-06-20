@@ -1190,7 +1190,7 @@ iframe {
    resize: none;
    outline: none;
    border: none;
-   border-bottom: 1px solid #c2c2c2;
+   border: 1px solid #c2c2c2;
 }
 
 .textarea-btn .btn {
@@ -1364,4 +1364,10 @@ iframe {
    padding: 10px 16px;
    font-weight: 700;
    font-size: 18px;
+}
+
+.no-comment {
+   display: flex;
+   justify-content: center;
+   align-items: center;
 }

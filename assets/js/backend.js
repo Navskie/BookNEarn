@@ -6,35 +6,26 @@
          url: "controller/register/register.php",
          data: $("#form_register").serialize(),
          success: function (response) {
-               
-               $("#thisisbutton").html("Processing <i class='bx bx-radio-circle bx-burst'></i>");
+               // console.log(response);
+            $("#thisisbutton").html("Processing <i class='bx bx-radio-circle bx-burst'></i>");
 
-               if (response === "success") {
-                  var alert_title = "Success";
-                  var alert_message = "Email Available! Please wait for the OTP Code";
+            if (response === "success") {
+               var alert_title = "Success";
+               var alert_message = "Email Available! Please wait for the OTP Code";
 
-                  ToastAlert(alert_message, alert_title);
-                  setTimeout(()=>{
-                     window.location.href = "otp";
-                  },3000);
-               } else if (response === 'invalid email') {
-                  var alert_title = "Error";
-                  var alert_message = "Invalid Email Address";
+               ToastAlert(alert_message, alert_title);
+               setTimeout(()=>{
+                  window.location.href = "otp";
+               },3000);
+            } else if (response === 'invalid email') {
+               var alert_title = "Error";
+               var alert_message = "Invalid Email Address";
 
-                  ToastAlert(alert_message, alert_title);
-                  setTimeout(()=>{
-                     window.location.href = "register";
-                  },3000);
-               } else {
-                  console.log(response);
-                  var alert_title = "Error";
-                  var alert_message = "Email Not Availble";
-
-                  ToastAlert(alert_message, alert_title);
-                  setTimeout(()=>{
-                     window.location.href = "register";
-                  },3000);
-               }
+               ToastAlert(alert_message, alert_title);
+               setTimeout(()=>{
+                  window.location.href = "register";
+               },3000);
+            }
 
          }
       })
@@ -49,25 +40,25 @@
          url: "controller/register/otp-process.php",
          data: $("#otp_form").serialize(),
          success: function (response) {
-               $("#otp_button").html("Processing <i class='bx bx-radio-circle bx-burst'></i>");
-               console.log(response);
-               if (response === "success") {
-                  var alert_title = "Success";
-                  var alert_message = "OTP Match Please wait a moment";
+            $("#otp_button").html("Processing <i class='bx bx-radio-circle bx-burst'></i>");
+            // console.log(response);
+            if (response === "success") {
+               var alert_title = "Success";
+               var alert_message = "OTP Match Please wait a moment";
 
-                  ToastAlert(alert_message, alert_title);
-                  setTimeout(()=>{
-                     window.location.href = "personal-information";
-                  },3000);
-               } else {
-                  var alert_title = "Error";
-                  var alert_message = "OTP Not Match, Please try again";
+               ToastAlert(alert_message, alert_title);
+               setTimeout(()=>{
+                  window.location.href = "personal-information";
+               },3000);
+            } else {
+               var alert_title = "Error";
+               var alert_message = "OTP Not Match, Please try again";
 
-                  ToastAlert(alert_message, alert_title);
-                  setTimeout(()=>{
-                     window.location.href = "otp";
-                  },3000);
-               }
+               ToastAlert(alert_message, alert_title);
+               setTimeout(()=>{
+                  window.location.href = "otp";
+               },3000);
+            }
          }
       });
    })
