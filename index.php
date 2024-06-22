@@ -232,6 +232,35 @@
 <?php include_once 'inc/footer.php' ?>
 </body>
 <?php include_once 'inc/footer-link.php' ?>
+<script>
+   // Date Range
+   function DatePicker() 
+   {
+      var StartDate;
+      var EndDate;
+
+      $('#startDate').datepicker({
+         dateFormat: 'yy-mm-dd',
+         minDate: 0
+      });
+
+      $('#endDate').datepicker({
+         dateFormat: 'yy-mm-dd',
+      });
+
+      $('#startDate').change(function() {
+         StartDate=$(this).datepicker('getDate');
+         $('#endDate').datepicker('option', 'minDate', StartDate)
+      });
+
+      $('#endDate').change(function() {
+         EndDate=$(this).datepicker('getDate');
+         $('#startDate').datepicker('option', 'maxDate', EndDate)
+      });
+   }
+
+   DatePicker();
+</script>
 <script type="text/javascript">
    $(document).ready(function () {
       $("#destination").keyup(function() {

@@ -10,32 +10,6 @@
       }
    }
 
-   // Date Range
-   function DatePicker() 
-   {
-      var StartDate;
-      var EndDate;
-
-      $('#startDate').datepicker({
-         dateFormat: 'yy-mm-dd',
-         minDate: 0
-      });
-
-      $('#endDate').datepicker({
-         dateFormat: 'yy-mm-dd',
-      });
-
-      $('#startDate').change(function() {
-         StartDate=$(this).datepicker('getDate');
-         $('#endDate').datepicker('option', 'minDate', StartDate)
-      });
-
-      $('#endDate').change(function() {
-         EndDate=$(this).datepicker('getDate');
-         $('#startDate').datepicker('option', 'maxDate', EndDate)
-      });
-   }
-
    // ToastAlert(a, b)
    function ToastAlert(message, title) 
    {
@@ -138,7 +112,7 @@
    // ToastAlert();
    // ShowPassword();
    FloatNavbar();
-   DatePicker();
+   // DatePicker();
    Loader();
    Filter();
    Search();
