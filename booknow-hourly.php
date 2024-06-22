@@ -19,31 +19,7 @@
    <div class="main-body">
 
       <div class="row">
-         <?php 
-            $get_details = mysqli_query($con, "SELECT * FROM publish WHERE unique_id = '$unique_id'");
-            $details_data = mysqli_fetch_array($get_details);
-
-            $title = $details_data['title'];
-            $desc = $details_data['description'];
-            $map = $details_data['google_map'];
-            $type = $details_data['type'];
-            $adultMin = $details_data['min_adult'];
-            $adultMax = $details_data['max_adult'];
-            $petBool = $details_data['pet'];
-
-            // PRICE
-            $get_price_sql = mysqli_query($con, "SELECT * FROM price WHERE unique_id = '$unique_id'");
-            $price_data = mysqli_fetch_array($get_price_sql);
-
-            $price = $price_data['price'];
-            $pet = $price_data['pet'];
-            $adult = $price_data['adult'];
-
-            $four_hour = $price_data['four_hour'];
-            $eight_hour = $price_data['eight_hour'];
-            $twelve_hour = $price_data['twelve_hour'];
-
-         ?>
+         <?php include 'plugin/php/booking-details.php' ?>
          <!-- detials -->
          <div class="col-sm-12 col-md-12 mb-4">
             <div class="row mb-5">
@@ -176,7 +152,7 @@
                         <div class="">
                            <div class="form-group mb-2">
                               <input type="text" class="form-control input" autocomplete="OFF" id="child" required>
-                              <div class="label">Children</div>
+                              <div class="label">Children (12yr)</div>
                            </div>
                         </div>
                      </div>
@@ -223,7 +199,7 @@
                      <?php 
                         if (!empty($token)) {
                      ?>
-                     <button class="btn form-control btn-primary custom-btn">Checkout</button>
+                     <button class="btn form-control btn-primary custom-btn" id="sendDataBtn">Book</button>
                      <?php } else { ?>
                      <div class="login-first">
                         <p class="text-center">You'll need to log in first</p>
@@ -455,28 +431,22 @@
 <?php include_once 'inc/footer-link.php' ?>
 <script>
    $(document).ready( function() {
-      const startDate = $("#startDate").val();
+      startDate = $("#startDate").val();
 
       function Time() {
          var timeSuggestions = [
-            "00:00", "01:00", "02:00", "03:00", "04:00", "05:00",
-            "06:00", "07:00", "08:00", "09:00", "10:00", "11:00",
-            "12:00", "13:00", "14:00", "15:00", "16:00", "17:00",
-            "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"
+            "00:00:00", "01:00:00", "02:00:00", "03:00:00", "04:00:00", "05:00:00",
+            "06:00:00", "07:00:00", "08:00:00", "06:00:00", "10:00:00", "11:00:00",
+            "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00",
+            "18:00:00", "19:00:00", "20:00:00", "21:00:00", "22:00:00", "23:00:00"
          ];
 
-         // Initialize autocomplete on the input field
          $("#timeInput").autocomplete({
             source: timeSuggestions,
-            minLength: 0, // Show suggestions on focus
-            delay: 0,    // No delay for showing suggestions
-            select: function(event, ui) {
-                  // Optionally handle selection event
-                  // console.log("Selected time:", ui.item.value);
-            }
+            minLength: 0,
+            delay: 0, 
          });
 
-         // Optionally, restrict input to valid time format
          $("#timeInput").click('change keyup paste', function() {
             var validTime = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
             var inputValue = $(this).val();
@@ -508,6 +478,9 @@
 
       $("#timeInput").prop('disabled', true)
       $("#selectTime").prop('disabled', true)
+      $("#adult").prop('disabled', true)
+      $("#pet").prop('disabled', true)
+      $("#child").prop('disabled', true)
 
       $('#startDate').change(function() {
          const startDates = $('#startDate').val();
@@ -539,7 +512,8 @@
          
       })
       $('#selectTime').change(function() {
-         const timeSelected = $("#selectTime").val();
+         timeSelected = $("#selectTime").val();
+         $("#adult").prop('disabled', false)
          fourHour = <?php echo $four_hour ?>;
          eightHour = <?php echo $eight_hour ?>;
          twelveHour = <?php echo $twelve_hour ?>;
@@ -575,59 +549,95 @@
          $('#taxPrice').html("");
          $('#subtotalLabel').html("");
          $('#subtotalPrice').html("");
-      })
-      $('#adult').change(function() {
-         const adult = $("#adult").val();
-         minAdult = <?php echo $adultMin ?>;
-         maxAdult = <?php echo $adultMax ?>;
-         adultPrice = <?php echo $adult ?>;
 
-         if (adult > minAdult) {
-            if (adult > maxAdult) {
-               $('#adult').val('');
-               $('#adultLabel').html("Maximum Adult is " + maxAdult);
+         $('#adult').change(function() {
+            adult = $("#adult").val();
+            $("#pet").prop('disabled', false)
+            minAdult = <?php echo $adultMin ?>;
+            maxAdult = <?php echo $adultMax ?>;
+            adultPrice = <?php echo $adult ?>;
+
+            if (adult > minAdult) {
+               if (adult > maxAdult) {
+                  $('#adult').val('');
+                  $('#adultLabel').html("Maximum Adult is " + maxAdult);
+               } else {
+                  extraAdult = adult - minAdult;
+                  totalAdult = extraAdult * adultPrice;
+
+                  $('#adultLabel').html("Extra Adult");
+                  $('#adultPrice').html("₱" + totalAdult.toFixed(2));
+               }
             } else {
-               extraAdult = adult - minAdult;
-               totalAdult = extraAdult * adultPrice;
-
+               totalAdult = 0;
                $('#adultLabel').html("Extra Adult");
                $('#adultPrice').html("₱" + totalAdult.toFixed(2));
             }
-         } else {
-            totalAdult = 0;
-            $('#adultLabel').html("Extra Adult");
-            $('#adultPrice').html("₱" + totalAdult.toFixed(2));
-         }
 
-         
+            $('#pet').change(function() {
+               var pet = $('#pet').val();
+               $("#child").prop('disabled', false)
+
+               const petSelect = "<?php echo $petBool ?>";
+               petPrice = <?php echo $pet ?>;
+
+               if (petSelect === 'Allowed') {
+                  totalPet = pet * petPrice;
+                  $('#petLabel').html("Pet Charges");
+                  $('#petPrice').html("₱" + totalPet.toFixed(2));
+               } else {
+                  totalPet = 0;
+                  $('#petLabel').html("Pets not allowed");
+                  $('#petPrice').html(" ");
+               }
+
+               taxTotal = price * 0.12;
+            
+               subTotal = price + totalAdult + totalPet + taxTotal;
+
+               $('#taxLabel').html("Tax Charges");
+               $('#taxPrice').html("₱" + taxTotal.toFixed(2));
+
+               $('#subtotalLabel').html("Total Amount");
+               $('#subtotalPrice').html("₱" + subTotal.toFixed(2));
+
+               $('#sendDataBtn').click(function() {
+                  startDates = $('#startDate').val();
+                  timeSelected = $("#timeInput").val();
+                  selectTime = $("#selectTime").val();
+                  adult = $("#adult").val();
+                  pet = $('#pet').val();
+                  $.ajax({
+                     url: 'plugin/php/booking-process',
+                     type: 'POST',
+                     data: {
+                        startDates : startDates,
+                        selectTime : selectTime,
+                        timeSelected : timeSelected,
+                        adult : adult,
+                        pet : pet,
+                        subTotal : subTotal,
+                        total : price,
+                        taxTotal : taxTotal,
+                        totalPet : totalPet,
+                        totalAdult : totalAdult,
+                     },
+                     success: function(response) {
+                        if (response === 'success') {
+                           var alert_title = "Book on process...";
+                           var alert_message = "Please wait for a moment.";
+                           ToastAlert(alert_message, alert_title);
+                           setTimeout(()=>{
+                              window.location.href = 'booknow-payment?unique_id=<?php echo $_GET['unique_id'] ?>';
+                           },3000);
+                        }
+                     }
+                  })
+               })
+            })
+         })
       })
-      $('#pet').change(function() {
-         var pet = $('#pet').val();
-
-         const petSelect = "<?php echo $petBool ?>";
-         petPrice = <?php echo $pet ?>;
-
-         if (petSelect === 'Allowed') {
-            totalPet = pet * petPrice;
-            $('#petLabel').html("Pet Charges");
-            $('#petPrice').html("₱" + totalPet.toFixed(2));
-         } else {
-            totalPet = 0;
-            $('#petLabel').html("Pets not allowed");
-            $('#petPrice').html(" ");
-         }
-
-         taxTotal = price * 0.12;
       
-         subTotal = price + totalAdult + totalPet + taxTotal;
-
-         $('#taxLabel').html("Tax Charges");
-         $('#taxPrice').html("₱" + taxTotal.toFixed(2));
-
-         $('#subtotalLabel').html("Total Amount");
-         $('#subtotalPrice').html("₱" + subTotal.toFixed(2));
-      })
-
    })
 </script>
 <script src="assets/js/review/review.js"></script>

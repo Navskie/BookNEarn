@@ -17,47 +17,8 @@
    <!-- <h3>Triple Room</h3> -->
    <br>
    <div class="main-body">
-
       <div class="row">
-         <?php 
-            $get_details = mysqli_query($con, "SELECT * FROM publish WHERE unique_id = '$unique_id'");
-            $details_data = mysqli_fetch_array($get_details);
-
-            $title = $details_data['title'];
-            $desc = $details_data['description'];
-            $map = $details_data['google_map'];
-            $type = $details_data['type'];
-            $adultMin = $details_data['min_adult'];
-            $adultMax = $details_data['max_adult'];
-            $petBool = $details_data['pet'];
-
-            // PRICE
-            $get_price_sql = mysqli_query($con, "SELECT * FROM price WHERE unique_id = '$unique_id'");
-            $price_data = mysqli_fetch_array($get_price_sql);
-
-            $price = $price_data['price'];
-            $pet = $price_data['pet'];
-            $adult = $price_data['adult'];
-            $monthly = $price_data['monthly'];
-            $weekly = $price_data['weekly'];
-
-            $weekday = $price_data['weekday'];
-            $weekend = $price_data['weekend'];
-
-            if ($weekday < 1 || $weekday < 1) {
-               $weekday = $price;
-               $weekend = $price;
-            }
-            else {
-               $weekday = $price_data['weekday'];
-               $weekend = $price_data['weekend'];
-            }
-
-            $four_hour = $price_data['four_hour'];
-            $eight_hour = $price_data['eight_hour'];
-            $twelve_hour = $price_data['twelve_hour'];
-            $overnight = $price_data['overnight'];
-         ?>
+         <?php include 'plugin/php/booking-details.php' ?>
          <!-- detials -->
          <div class="col-sm-12 col-md-12 mb-4">
             <div class="row mb-5">
@@ -223,7 +184,7 @@
                      <?php 
                         if (!empty($token)) {
                      ?>
-                     <button class="btn form-control btn-primary custom-btn">Checkout</button>
+                     <button class="btn form-control btn-primary custom-btn" id="sendDataBtn">Book</button>
                      <?php } else { ?>
                      <div class="login-first">
                         <p class="text-center">You'll need to log in first</p>
@@ -428,9 +389,11 @@
             </div>
          </div>
       </div>
-
    </div>
+   
 </div>
+
+
 <!-- Page Content END -->
 
 <?php include_once 'inc/footer.php' ?>
@@ -457,91 +420,110 @@
    $(document).ready( function() {
       const startDate = $("#startDate").val();
 
+      $("#endDate").prop('disabled', true)
+      $("#adult").prop('disabled', true)
+      $("#pet").prop('disabled', true)
+      $("#child").prop('disabled', true)
+
       $('#startDate').change(function() {
-         const startDates = $('#startDate').val();
+         startDates = $('#startDate').val();
+         $("#endDate").prop('disabled', false)
 
+         endDates();
+
+      })
+
+      function endDates() {
          $('#endDate').change(function() {
-            const endDates = $('#endDate').val();
+            endDates = $('#endDate').val();
+            $("#adult").prop('disabled', false)
 
-            var startDate = new Date(startDates);
-            var endDate = new Date(endDates);
+            if (startDates !== endDates) {
+               var startDate = new Date(startDates);
+               var endDate = new Date(endDates);
 
-            // Calculate the difference in milliseconds
-            var timeDifference = Math.abs(endDate.getTime() - startDate.getTime());
+               // Calculate the difference in milliseconds
+               var timeDifference = Math.abs(endDate.getTime() - startDate.getTime());
 
-            // Convert milliseconds to days
-            var daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+               // Convert milliseconds to days
+               var daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
-            weekend = <?php echo $weekend ?>;
-            weekday = <?php echo $weekday ?>;
-            weekly = <?php echo $weekly ?>;
-            monthly = <?php echo $monthly ?>;
+               weekend = <?php echo $weekend ?>;
+               weekday = <?php echo $weekday ?>;
+               weekly = <?php echo $weekly ?>;
+               monthly = <?php echo $monthly ?>;
 
-            var total = 0;
-            var dateArray = [];
-            var dayNamesArray = [];
+               var total = 0;
+               var dateArray = [];
+               var dayNamesArray = [];
 
-            function splitDateRangeIntoMonths(startDate, endDate) {
-               var start = new Date(startDate);
-               var end = new Date(endDate);
+               function splitDateRangeIntoMonths(startDate, endDate) {
+                  var start = new Date(startDate);
+                  var end = new Date(endDate);
 
-               // Initialize array to store months
-               var months = [];
+                  // Initialize array to store months
+                  var months = [];
 
-               // Loop through each month and add to the array
-               var currentDate = new Date(start);
-               while (currentDate <= end) {
-                     var year = currentDate.getFullYear();
-                     var month = currentDate.getMonth() + 1; // Months are zero indexed, so we add 1
-                     var formattedMonth = year + '-' + (month < 10 ? '0' + month : month); // Format as YYYY-MM
+                  // Loop through each month and add to the array
+                  var currentDate = new Date(start);
+                  while (currentDate <= end) {
+                        var year = currentDate.getFullYear();
+                        var month = currentDate.getMonth() + 1; // Months are zero indexed, so we add 1
+                        var formattedMonth = year + '-' + (month < 10 ? '0' + month : month); // Format as YYYY-MM
 
-                     // Add the formatted month to the array if it's not already added
-                     if (!months.includes(formattedMonth)) {
-                        months.push(formattedMonth);
-                     }
+                        // Add the formatted month to the array if it's not already added
+                        if (!months.includes(formattedMonth)) {
+                           months.push(formattedMonth);
+                        }
 
-                     // Move to the next month
-                     currentDate.setMonth(currentDate.getMonth() + 1);
-               }
-
-               return months;
-            }
-            var monthStart = startDates;
-            var monthEnd = endDates;
-            var months = splitDateRangeIntoMonths(monthStart, monthEnd);
-
-            monthLength = months.length;
-            
-            if (daysDifference < 7) {
-               for (var i = 0; i < daysDifference; i++) {
-                  var currentDate = new Date(startDate);
-                  currentDate.setDate(startDate.getDate() + i);
-                  dateArray.push(currentDate.toISOString().slice(0, 10));
-                  dayNamesArray.push(getDayName(currentDate.getDay()));
-                  
-                  if (currentDate.getDay() === 0 || currentDate.getDay() === 6 || currentDate.getDay() === 5) {
-                        total += weekend;
-                  } else {
-                        total += weekday;
+                        // Move to the next month
+                        currentDate.setMonth(currentDate.getMonth() + 1);
                   }
+
+                  return months;
                }
+               var monthStart = startDates;
+               var monthEnd = endDates;
+               var months = splitDateRangeIntoMonths(monthStart, monthEnd);
+
+               monthLength = months.length;
                
-               function getDayName(dayIndex) {
-                  // ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-                  var days = [weekend, weekday, weekday, weekday, weekday, weekend, weekend];
-                  return days[dayIndex];
+               if (daysDifference < 7) {
+                  for (var i = 0; i < daysDifference; i++) {
+                     var currentDate = new Date(startDate);
+                     currentDate.setDate(startDate.getDate() + i);
+                     dateArray.push(currentDate.toISOString().slice(0, 10));
+                     dayNamesArray.push(getDayName(currentDate.getDay()));
+                     
+                     if (currentDate.getDay() === 0 || currentDate.getDay() === 6 || currentDate.getDay() === 5) {
+                           total += weekend;
+                     } else {
+                           total += weekday;
+                     }
+                  }
+                  
+                  function getDayName(dayIndex) {
+                     // ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                     var days = [weekend, weekday, weekday, weekday, weekday, weekend, weekend];
+                     return days[dayIndex];
+                  }
+               } else if (daysDifference === 7) {
+                  total = weekly;
+               } else if (daysDifference > 7) {
+                  total = monthly;
                }
-            } else if (daysDifference === 7) {
-               total = weekly;
-            } else if (daysDifference > 7) {
-               total = monthly;
+
+               $('#numberOfDays').html(daysDifference + " nights");
+               $('#total').html("₱" + total.toFixed(2));
+            } else {
+               $('#startDate').val('');
+               $('#endDate').val('');
+               $("#endDate").prop('disabled', true)
+               $("#adult").prop('disabled', true)
             }
-
-            $('#numberOfDays').html(daysDifference + " nights");
-            $('#total').html("₱" + total.toFixed(2));
-
             $('#adult').change(function() {
                var adult = $('#adult').val();
+               $("#pet").prop('disabled', false)
 
                minAdult = <?php echo $adultMin ?>;
                maxAdult = <?php echo $adultMax ?>;
@@ -561,10 +543,14 @@
                   }
                } else {
                   totalAdult = 0;
+
+                  $('#adultLabel').html("Extra Adult");
+                  $('#adultPrice').html("₱" + totalAdult.toFixed(2));
                }
 
                $('#pet').change(function() {
                   var pet = $('#pet').val();
+                  $("#child").prop('disabled', false)
 
                   const petSelect = "<?php echo $petBool ?>";
                   petPrice = <?php echo $pet ?>;
@@ -589,19 +575,41 @@
                   $('#subtotalLabel').html("Total Amount");
                   $('#subtotalPrice').html("₱" + subTotal.toFixed(2));
 
-                  // $('#child').change(function() {
-                  //    var child = $('#child').val();
-                  
-                  //    // asd
-                  
-                  // })
+                  $('#sendDataBtn').click(function() {
+                     // const uID = ;
+                     // unique_id = uID;
+                     $.ajax({
+                        url: 'plugin/php/booking-process',
+                        method: 'POST',
+                        data: {
+                           // unique_id: unique_id,
+                           adult: adult,
+                           pet: pet,
+                           startDates: startDates,
+                           endDates: endDates,
+                           subTotal: subTotal,
+                           total: total,
+                           totalAdult: totalAdult,
+                           totalPet: totalPet,
+                           taxTotal: taxTotal
+                        },
+                        success: function(response) {
+                           if (response === 'success') {
+                              var alert_title = "Book on process...";
+                              var alert_message = "Please wait for a moment.";
+                              ToastAlert(alert_message, alert_title);
+                              setTimeout(()=>{
+                                 window.location.href = 'booknow-payment?unique_id=<?php echo $_GET['unique_id'] ?>';
+                              },3000);
+                           }
+                        },
+                     });
+                  })
                
                })
-            
             })
-            
          })
-      })
+      }
 
    })
 </script>

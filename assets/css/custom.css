@@ -1140,6 +1140,7 @@ ul {
    font-size: 25px ;
    font-weight: 700;
    margin-bottom: 10px;
+   
 }
 
 .desc p {
@@ -1367,6 +1368,26 @@ iframe {
 }
 
 .no-comment {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.personal-information {
+   padding: 0 20px 10px 20px;
+}
+.personal-list {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.personal-list .personal-title {
+   font-weight: 700;
+}
+
+.qr {
    display: flex;
    justify-content: center;
    align-items: center;
