@@ -525,7 +525,8 @@
 </script>
 <script>
 $(document).ready(function() {
-    var blockedDates = <?php echo json_encode($blockedDates); ?>;
+   var blockedDates = <?php echo json_encode($blockedDates); ?>;
+   var availableRooms = <?php echo json_encode($available_rooms); ?>;
 
    function updateAvailability(startDate, timeInput, selectTime) {
       var hoursToAdd = parseSelectTime(selectTime);
@@ -535,29 +536,35 @@ $(document).ready(function() {
       var selectedStart = startDateObj.getTime();
       var selectedEnd = endDateObj.getTime();
 
-      var isAvailable = true;
+      var isAvailable = false;
 
-      for (var i = 0; i < blockedDates.length; i++) {
-         var blockStart = new Date(blockedDates[i].start + 'T' + blockedDates[i].start_time);
-         var blockEnd = new Date(blockedDates[i].end + 'T' + blockedDates[i].end_time);
+      // Check available rooms inventory
+      if (availableRooms >= 2) {
+         isAvailable = true; // If rooms available, consider it available
+      } else {
+         // Check time availability only if rooms are insufficient
+         for (var i = 0; i < blockedDates.length; i++) {
+               var blockStart = new Date(blockedDates[i].start + 'T' + blockedDates[i].start_time);
+               var blockEnd = new Date(blockedDates[i].end + 'T' + blockedDates[i].end_time);
+               var blockStartMillis = blockStart.getTime();
+               var blockEndMillis = blockEnd.getTime();
 
-         var blockStartMillis = blockStart.getTime();
-         var blockEndMillis = blockEnd.getTime();
-
-         // Check for overlap
-         if (!(selectedEnd <= blockStartMillis || selectedStart >= blockEndMillis)) {
-               isAvailable = false;
-               break; // No need to check further if there is overlap
+               // Check for overlap
+               if (!(selectedEnd <= blockStartMillis || selectedStart >= blockEndMillis)) {
+                  isAvailable = false;
+                  break; // No need to check further if there is overlap
+               } else {
+                  isAvailable = true; // If no overlap, mark as available
+               }
          }
       }
 
-      var message = isAvailable ? "Date and time are available." : "Date and time are not available or no rooms available.";
+      var message = isAvailable ? "Date and time are available." : "Date and time are not available or not enough rooms available.";
       $('#note').html(message);
 
-      // Enable or disable the button based on availability
+      // Enable or disable the button based on availability and available rooms
       $('#sendDataBtn').prop('disabled', !isAvailable);
    }
-
 
    // Trigger updateAvailability on change of any of these fields
    $('#startDate, #timeInput, #selectTime').change(function() {
@@ -584,7 +591,6 @@ $(document).ready(function() {
       return 0; // Default fallback
    }
 });
-
 
 </script>
 
