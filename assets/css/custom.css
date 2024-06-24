@@ -1392,3 +1392,11 @@ iframe {
    justify-content: center;
    align-items: center;
 }
+
+.note {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   padding-bottom: 12px;
+   color: #e94b4b;
+}

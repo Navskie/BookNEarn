@@ -11,15 +11,13 @@
 <!-- Navigation -->
 <?php include_once 'inc/navigation.php' ?>
 <!-- Navigation END -->
-<?php 
-   $unique_id = $_GET['unique_id']; 
-   $block = mysqli_query($con, "SELECT * FROM `block` WHERE `unique_id` = '$unique_id'");
-?>
+<?php $unique_id = $_GET['unique_id']; ?>
 <!-- Page Content -->
 <div class="container">
    <!-- <h3>Triple Room</h3> -->
    <br>
    <div class="main-body">
+
       <div class="row">
          <?php include 'plugin/php/booking-details.php' ?>
          <!-- detials -->
@@ -112,8 +110,22 @@
                      <div class="col-sm-12 col-lg-6">
                         <div class="">
                            <div class="form-group mb-2">
-                              <input type="text" class="form-control input" id="endDate" autocomplete="OFF" required>
-                              <div class="label">Check Out</div>
+                              <input type="text" class="form-control input" id="timeInput" autocomplete="OFF" required>
+                              <div class="label">Checkin Time</div>
+                           </div>
+                        </div>
+                     </div>
+
+                     <div class="col-sm-12 col-lg-12">
+                        <div class="">
+                           <div class="form-group mb-2">
+                              <select id="selectTime" class="form-control shadow-none" style="padding: 12px 16px;">
+                                 <option></option>
+                                 <option value="4h">4h</option>
+                                 <option value="8h">8h</option>
+                                 <option value="12h">12h</option>
+                              </select>
+                              <div class="label">Select Hours</div>
                            </div>
                         </div>
                      </div>
@@ -140,7 +152,7 @@
                         <div class="">
                            <div class="form-group mb-2">
                               <input type="text" class="form-control input" autocomplete="OFF" id="child" required>
-                              <div class="label">Children</div>
+                              <div class="label">Children (12yr)</div>
                            </div>
                         </div>
                      </div>
@@ -392,11 +404,9 @@
             </div>
          </div>
       </div>
+
    </div>
-   
 </div>
-
-
 <!-- Page Content END -->
 
 <?php include_once 'inc/footer.php' ?>
@@ -421,264 +431,214 @@
 <?php include_once 'inc/footer-link.php' ?>
 <script>
    $(document).ready( function() {
-      const startDate = $("#startDate").val();
+      startDate = $("#startDate").val();
 
-      $("#endDate").prop('disabled', true)
+      function Time() {
+         var timeSuggestions = [
+            "00:00:00", "01:00:00", "02:00:00", "03:00:00", "04:00:00", "05:00:00",
+            "06:00:00", "07:00:00", "08:00:00", "06:00:00", "10:00:00", "11:00:00",
+            "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00",
+            "18:00:00", "19:00:00", "20:00:00", "21:00:00", "22:00:00", "23:00:00"
+         ];
+
+         $("#timeInput").autocomplete({
+            source: timeSuggestions,
+            minLength: 0,
+            delay: 0, 
+         });
+
+         $("#timeInput").click('change keyup paste', function() {
+            var validTime = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+            var inputValue = $(this).val();
+
+            if (!validTime.test(inputValue)) {
+               $(this).val(''); // Clear invalid input or handle error
+            }
+         });
+
+         // Initialize autocomplete on the input field
+         $("#timeInput2").autocomplete({
+            source: timeSuggestions,
+            minLength: 0, // Show suggestions on focus
+            delay: 0,    // No delay for showing suggestions
+         });
+
+         // Optionally, restrict input to valid time format
+         $("#timeInput2").click('change keyup paste', function() {
+            var validTime = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+            var inputValue = $(this).val();
+
+            if (!validTime.test(inputValue)) {
+                  $(this).val(''); // Clear invalid input or handle error
+            }
+         });
+      }
+
+      Time();
+
+      $("#timeInput").prop('disabled', true)
+      $("#selectTime").prop('disabled', true)
       $("#adult").prop('disabled', true)
       $("#pet").prop('disabled', true)
       $("#child").prop('disabled', true)
 
       $('#startDate').change(function() {
-         startDates = $('#startDate').val();
-         $("#endDate").prop('disabled', false)
-
-         endDates();
-
+         const startDates = $('#startDate').val();
+         $("#timeInput").prop('disabled', false)
       })
+      $("#timeInput").change(function() {
+         const startTimes = $("#timeInput").val();
+         $("#selectTime").prop('disabled', false)
 
-      function endDates() {
-         $('#endDate').change(function() {
-            endDates = $('#endDate').val();
-            $("#adult").prop('disabled', false)
+         function subtractTime(startTime) {
+            var startParts = startTime.split(':');
 
-            if (startDates !== endDates) {
-               var startDate = new Date(startDates);
-               var endDate = new Date(endDates);
+            var startHours = parseInt(startParts[0]);
 
-               // Calculate the difference in milliseconds
-               var timeDifference = Math.abs(endDate.getTime() - startDate.getTime());
+            var startTimeInMinutes = startHours * 60;
 
-               // Convert milliseconds to days
-               var daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            var hours = Math.floor(startTimeInMinutes / 60);
 
-               weekend = <?php echo $weekend ?>;
-               weekday = <?php echo $weekday ?>;
-               weekly = <?php echo $weekly ?>;
-               monthly = <?php echo $monthly ?>;
+            var result = ('0' + hours).slice(-2);
 
-               var total = 0;
-               var dateArray = [];
-               var dayNamesArray = [];
+            return result;
+         }
+         var startTime = startTimes; // Start time (HH:MM format)
+         var difference = subtractTime(startTime);
+         // Remove negative sign if present
+         if (difference.charAt(0) === '-') {
+            difference = difference.substr(1); // Remove the negative sign
+         }
+         
+      })
+      $('#selectTime').change(function() {
+         timeSelected = $("#selectTime").val();
+         $("#adult").prop('disabled', false)
+         fourHour = <?php echo $four_hour ?>;
+         eightHour = <?php echo $eight_hour ?>;
+         twelveHour = <?php echo $twelve_hour ?>;
+         if (timeSelected === '4h') {
+            price = fourHour
+         } else if (timeSelected === '8h') {
+            price = eightHour
+         } else if (timeSelected === '12h') {
+            price = twelveHour
+         }
+         // one = 1;
+         // two = 2;
 
-               function splitDateRangeIntoMonths(startDate, endDate) {
-                  var start = new Date(startDate);
-                  var end = new Date(endDate);
+         // result = one - two
 
-                  // Initialize array to store months
-                  var months = [];
+         // sum = Math.abs(result);
+         if (price > 0) {
+            $('#numberOfDays').html("Total Hour (" + timeSelected+")");
+            $('#total').html("₱" + price.toFixed(2));
+         } else {
+            $('#numberOfDays').html(timeSelected+" is not available");
+         }
 
-                  // Loop through each month and add to the array
-                  var currentDate = new Date(start);
-                  while (currentDate <= end) {
-                        var year = currentDate.getFullYear();
-                        var month = currentDate.getMonth() + 1; // Months are zero indexed, so we add 1
-                        var formattedMonth = year + '-' + (month < 10 ? '0' + month : month); // Format as YYYY-MM
+         $("#adult").val('');
+         $('#pet').val('');
+         $('#child').val('');
+         $('#adult').val('');
+         $('#adultLabel').html("");
+         $('#adultPrice').html("");
+         $('#petLabel').html("");
+         $('#petPrice').html("");
+         $('#taxLabel').html("");
+         $('#taxPrice').html("");
+         $('#subtotalLabel').html("");
+         $('#subtotalPrice').html("");
 
-                        // Add the formatted month to the array if it's not already added
-                        if (!months.includes(formattedMonth)) {
-                           months.push(formattedMonth);
-                        }
+         $('#adult').change(function() {
+            adult = $("#adult").val();
+            $("#pet").prop('disabled', false)
+            minAdult = <?php echo $adultMin ?>;
+            maxAdult = <?php echo $adultMax ?>;
+            adultPrice = <?php echo $adult ?>;
 
-                        // Move to the next month
-                        currentDate.setMonth(currentDate.getMonth() + 1);
-                  }
-
-                  return months;
-               }
-               var monthStart = startDates;
-               var monthEnd = endDates;
-               var months = splitDateRangeIntoMonths(monthStart, monthEnd);
-
-               monthLength = months.length;
-               
-               if (daysDifference < 7) {
-                  for (var i = 0; i < daysDifference; i++) {
-                     var currentDate = new Date(startDate);
-                     currentDate.setDate(startDate.getDate() + i);
-                     dateArray.push(currentDate.toISOString().slice(0, 10));
-                     dayNamesArray.push(getDayName(currentDate.getDay()));
-                     
-                     if (currentDate.getDay() === 0 || currentDate.getDay() === 6 || currentDate.getDay() === 5) {
-                           total += weekend;
-                     } else {
-                           total += weekday;
-                     }
-                  }
-                  
-                  function getDayName(dayIndex) {
-                     // ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-                     var days = [weekend, weekday, weekday, weekday, weekday, weekend, weekend];
-                     return days[dayIndex];
-                  }
-               } else if (daysDifference === 7) {
-                  total = weekly;
-               } else if (daysDifference > 7) {
-                  total = monthly;
-               }
-
-               $('#numberOfDays').html(daysDifference + " nights");
-               $('#total').html("₱" + total.toFixed(2));
-            } else {
-               $('#startDate').val('');
-               $('#endDate').val('');
-               $("#endDate").prop('disabled', true)
-               $("#adult").prop('disabled', true)
-            }
-            $('#adult').change(function() {
-               var adult = $('#adult').val();
-               $("#pet").prop('disabled', false)
-
-               minAdult = <?php echo $adultMin ?>;
-               maxAdult = <?php echo $adultMax ?>;
-               adultPrice = <?php echo $adult ?>;
-               var totalAdult = 0;
-
-               if (adult > minAdult) {
-                  if (adult > maxAdult) {
-                     $('#adult').val('');
-                     $('#adultLabel').html("Maximum Adult is " + maxAdult);
-                  } else {
-                     extraAdult = adult - minAdult;
-                     totalAdult = extraAdult * adultPrice * daysDifference;
-
-                     $('#adultLabel').html("Extra Adult");
-                     $('#adultPrice').html("₱" + totalAdult.toFixed(2));
-                  }
+            if (adult > minAdult) {
+               if (adult > maxAdult) {
+                  $('#adult').val('');
+                  $('#adultLabel').html("Maximum Adult is " + maxAdult);
                } else {
-                  totalAdult = 0;
+                  extraAdult = adult - minAdult;
+                  totalAdult = extraAdult * adultPrice;
 
                   $('#adultLabel').html("Extra Adult");
                   $('#adultPrice').html("₱" + totalAdult.toFixed(2));
                }
+            } else {
+               totalAdult = 0;
+               $('#adultLabel').html("Extra Adult");
+               $('#adultPrice').html("₱" + totalAdult.toFixed(2));
+            }
 
-               $('#pet').change(function() {
-                  var pet = $('#pet').val();
-                  $("#child").prop('disabled', false)
+            $('#pet').change(function() {
+               var pet = $('#pet').val();
+               $("#child").prop('disabled', false)
 
-                  const petSelect = "<?php echo $petBool ?>";
-                  petPrice = <?php echo $pet ?>;
+               const petSelect = "<?php echo $petBool ?>";
+               petPrice = <?php echo $pet ?>;
 
-                  if (petSelect === 'Allowed') {
-                     totalPet = pet * petPrice;
-                     $('#petLabel').html("Pet Charges");
-                     $('#petPrice').html("₱" + totalPet.toFixed(2));
-                  } else {
-                     totalPet = 0;
-                     $('#petLabel').html("Pets not allowed");
-                     $('#petPrice').html(" ");
-                  }
+               if (petSelect === 'Allowed') {
+                  totalPet = pet * petPrice;
+                  $('#petLabel').html("Pet Charges");
+                  $('#petPrice').html("₱" + totalPet.toFixed(2));
+               } else {
+                  totalPet = 0;
+                  $('#petLabel').html("Pets not allowed");
+                  $('#petPrice').html(" ");
+               }
 
-                  taxTotal = total * 0.12;
-                  
-                  subTotal = total + totalAdult + totalPet + taxTotal;
+               taxTotal = price * 0.12;
+            
+               subTotal = price + totalAdult + totalPet + taxTotal;
 
-                  $('#taxLabel').html("Tax Charges");
-                  $('#taxPrice').html("₱" + taxTotal.toFixed(2));
+               $('#taxLabel').html("Tax Charges");
+               $('#taxPrice').html("₱" + taxTotal.toFixed(2));
 
-                  $('#subtotalLabel').html("Total Amount");
-                  $('#subtotalPrice').html("₱" + subTotal.toFixed(2));
+               $('#subtotalLabel').html("Total Amount");
+               $('#subtotalPrice').html("₱" + subTotal.toFixed(2));
 
-                  $('#sendDataBtn').click(function() {
-                     // const uID = ;
-                     // unique_id = uID;
-                     $.ajax({
-                        url: 'plugin/php/booking-process',
-                        method: 'POST',
-                        data: {
-                           // unique_id: unique_id,
-                           adult: adult,
-                           pet: pet,
-                           startDates: startDates,
-                           endDates: endDates,
-                           subTotal: subTotal,
-                           total: total,
-                           totalAdult: totalAdult,
-                           totalPet: totalPet,
-                           taxTotal: taxTotal
-                        },
-                        success: function(response) {
-                           if (response === 'success') {
-                              var alert_title = "Book on process...";
-                              var alert_message = "Please wait for a moment.";
-                              ToastAlert(alert_message, alert_title);
-                              setTimeout(()=>{
-                                 window.location.href = 'booknow-payment?unique_id=<?php echo $_GET['unique_id'] ?>';
-                              },3000);
-                           }
-                        },
-                     });
+               $('#sendDataBtn').click(function() {
+                  startDates = $('#startDate').val();
+                  timeSelected = $("#timeInput").val();
+                  selectTime = $("#selectTime").val();
+                  adult = $("#adult").val();
+                  pet = $('#pet').val();
+                  $.ajax({
+                     url: 'plugin/php/booking-process',
+                     type: 'POST',
+                     data: {
+                        startDates : startDates,
+                        selectTime : selectTime,
+                        timeSelected : timeSelected,
+                        adult : adult,
+                        pet : pet,
+                        subTotal : subTotal,
+                        total : price,
+                        taxTotal : taxTotal,
+                        totalPet : totalPet,
+                        totalAdult : totalAdult,
+                     },
+                     success: function(response) {
+                        if (response === 'success') {
+                           var alert_title = "Book on process...";
+                           var alert_message = "Please wait for a moment.";
+                           ToastAlert(alert_message, alert_title);
+                           setTimeout(()=>{
+                              window.location.href = 'booknow-payment?unique_id=<?php echo $_GET['unique_id'] ?>';
+                           },3000);
+                        }
+                     }
                   })
-               
                })
             })
          })
-      }
-
+      })
+      
    })
-</script>
-<script>
-   // Date Range
-   function DatePicker() 
-   {
-      var StartDate;
-      var EndDate;
-
-      // Initialize an empty array to store blocked dates
-      var blockedDates = [
-         <?php
-         // Loop through fetched data and output JavaScript objects
-         foreach ($block as $block_date) {
-         ?>
-         {
-            unique_id: '<?php echo $unique_id ?>',
-            start: '<?php echo $block_date['start'] ?>',
-            end: '<?php echo $block_date['end'] ?>'
-         },
-         <?php } ?>
-      ];
-
-      // Function to check if a date should be disabled
-      function isDateDisabled(date) {
-         var dateString = $.datepicker.formatDate('yy-mm-dd', date);
-
-         // Check if the date should be disabled based on blockedDates array
-         for (var i = 0; i < blockedDates.length; i++) {
-               if (dateString >= blockedDates[i].start && dateString <= blockedDates[i].end) {
-                  return [false]; // Disable the date
-               }
-         }
-         
-         return [true]; // Enable the date
-      }
-
-      // Initialize datepicker
-      $('#startDate').datepicker({
-         dateFormat: 'yy-mm-dd',
-         minDate: 0, // Disable past dates
-         beforeShowDay: function(date) {
-               return isDateDisabled(date);
-         }
-      });
-
-      $('#endDate').datepicker({
-         dateFormat: 'yy-mm-dd',// Disable past dates
-         beforeShowDay: function(date) {
-            return isDateDisabled(date);
-         }
-      });
-
-      $('#startDate').change(function() {
-         StartDate=$(this).datepicker('getDate');
-         $('#endDate').datepicker('option', 'minDate', StartDate)
-      });
-
-      $('#endDate').change(function() {
-         EndDate=$(this).datepicker('getDate');
-         $('#startDate').datepicker('option', 'maxDate', EndDate)
-      });
-   }
-
-   DatePicker();
 </script>
 <script src="assets/js/review/review.js"></script>
 </html>

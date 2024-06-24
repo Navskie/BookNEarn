@@ -11,7 +11,45 @@
 <!-- Navigation -->
 <?php include_once 'inc/navigation.php' ?>
 <!-- Navigation END -->
-<?php $unique_id = $_GET['unique_id']; ?>
+<?php 
+   $unique_id = $_GET['unique_id']; 
+   $blockedDates = [];
+   
+   // Fetch the total inventory quantity
+   $inventory_query = mysqli_query($con, "SELECT `qty` FROM `publish` WHERE `unique_id` = '$unique_id'");
+   $inventory_fetch = mysqli_fetch_array($inventory_query);
+   $total_inventory = $inventory_fetch['qty'];
+   
+   // Fetch all blocked dates for the given unique_id
+   $block_query = mysqli_query($con, "SELECT * FROM `block` WHERE `unique_id` = '$unique_id'");
+   while ($block_date = mysqli_fetch_array($block_query)) {
+      // Calculate available rooms based on total inventory and number of blocks
+      $block_start = $block_date['start'] . ' ' . $block_date['start_time'];
+      $block_end = $block_date['end'] . ' ' . $block_date['end_time'];
+      
+      // Count the number of blocks overlapping this specific period
+      $count_blocks_query = mysqli_query($con, "SELECT COUNT(`id`) AS `count` FROM `block` WHERE `unique_id` = '$unique_id' AND 
+         ((`start` BETWEEN '$block_start' AND '$block_end') OR (`end` BETWEEN '$block_start' AND '$block_end'))");
+      $count_blocks_fetch = mysqli_fetch_array($count_blocks_query);
+      $count_blocks = $count_blocks_fetch['count'];
+      
+      // Calculate available rooms
+      $available_rooms = $total_inventory - $count_blocks;
+      
+      // Create an entry for the blocked date
+      $blockedDates[] = [
+         'start' => $block_date['start'],
+         'end' => $block_date['end'],
+         'start_time' => $block_date['start_time'],
+         'end_time' => $block_date['end_time'],
+         'available_rooms' => $available_rooms,
+      ];
+   }
+   
+   // Output the blockedDates array as JSON
+   // echo json_encode($blockedDates);
+   
+?>
 <!-- Page Content -->
 <div class="container">
    <!-- <h3>Triple Room</h3> -->
@@ -98,6 +136,9 @@
                <hr>
                <div class="billing-content">
                   <div class="row">
+                     <div class="col-12">
+                        <span class="note" id="note"></span>
+                     </div>
                      <div class="col-sm-12 col-lg-6">
                         <div class="">
                            <div class="form-group mb-2">
@@ -430,8 +471,14 @@
 </body>
 <?php include_once 'inc/footer-link.php' ?>
 <script>
-   $(document).ready( function() {
-      startDate = $("#startDate").val();
+   $.noConflict();
+   $(document).ready(function() {
+      var StartDate;
+
+      $('#startDate').datepicker({
+         dateFormat: 'yy-mm-dd',
+         minDate: 0
+      });
 
       function Time() {
          var timeSuggestions = [
@@ -473,172 +520,78 @@
             }
          });
       }
-
       Time();
-
-      $("#timeInput").prop('disabled', true)
-      $("#selectTime").prop('disabled', true)
-      $("#adult").prop('disabled', true)
-      $("#pet").prop('disabled', true)
-      $("#child").prop('disabled', true)
-
-      $('#startDate').change(function() {
-         const startDates = $('#startDate').val();
-         $("#timeInput").prop('disabled', false)
-      })
-      $("#timeInput").change(function() {
-         const startTimes = $("#timeInput").val();
-         $("#selectTime").prop('disabled', false)
-
-         function subtractTime(startTime) {
-            var startParts = startTime.split(':');
-
-            var startHours = parseInt(startParts[0]);
-
-            var startTimeInMinutes = startHours * 60;
-
-            var hours = Math.floor(startTimeInMinutes / 60);
-
-            var result = ('0' + hours).slice(-2);
-
-            return result;
-         }
-         var startTime = startTimes; // Start time (HH:MM format)
-         var difference = subtractTime(startTime);
-         // Remove negative sign if present
-         if (difference.charAt(0) === '-') {
-            difference = difference.substr(1); // Remove the negative sign
-         }
-         
-      })
-      $('#selectTime').change(function() {
-         timeSelected = $("#selectTime").val();
-         $("#adult").prop('disabled', false)
-         fourHour = <?php echo $four_hour ?>;
-         eightHour = <?php echo $eight_hour ?>;
-         twelveHour = <?php echo $twelve_hour ?>;
-         if (timeSelected === '4h') {
-            price = fourHour
-         } else if (timeSelected === '8h') {
-            price = eightHour
-         } else if (timeSelected === '12h') {
-            price = twelveHour
-         }
-         // one = 1;
-         // two = 2;
-
-         // result = one - two
-
-         // sum = Math.abs(result);
-         if (price > 0) {
-            $('#numberOfDays').html("Total Hour (" + timeSelected+")");
-            $('#total').html("₱" + price.toFixed(2));
-         } else {
-            $('#numberOfDays').html(timeSelected+" is not available");
-         }
-
-         $("#adult").val('');
-         $('#pet').val('');
-         $('#child').val('');
-         $('#adult').val('');
-         $('#adultLabel').html("");
-         $('#adultPrice').html("");
-         $('#petLabel').html("");
-         $('#petPrice').html("");
-         $('#taxLabel').html("");
-         $('#taxPrice').html("");
-         $('#subtotalLabel').html("");
-         $('#subtotalPrice').html("");
-
-         $('#adult').change(function() {
-            adult = $("#adult").val();
-            $("#pet").prop('disabled', false)
-            minAdult = <?php echo $adultMin ?>;
-            maxAdult = <?php echo $adultMax ?>;
-            adultPrice = <?php echo $adult ?>;
-
-            if (adult > minAdult) {
-               if (adult > maxAdult) {
-                  $('#adult').val('');
-                  $('#adultLabel').html("Maximum Adult is " + maxAdult);
-               } else {
-                  extraAdult = adult - minAdult;
-                  totalAdult = extraAdult * adultPrice;
-
-                  $('#adultLabel').html("Extra Adult");
-                  $('#adultPrice').html("₱" + totalAdult.toFixed(2));
-               }
-            } else {
-               totalAdult = 0;
-               $('#adultLabel').html("Extra Adult");
-               $('#adultPrice').html("₱" + totalAdult.toFixed(2));
-            }
-
-            $('#pet').change(function() {
-               var pet = $('#pet').val();
-               $("#child").prop('disabled', false)
-
-               const petSelect = "<?php echo $petBool ?>";
-               petPrice = <?php echo $pet ?>;
-
-               if (petSelect === 'Allowed') {
-                  totalPet = pet * petPrice;
-                  $('#petLabel').html("Pet Charges");
-                  $('#petPrice').html("₱" + totalPet.toFixed(2));
-               } else {
-                  totalPet = 0;
-                  $('#petLabel').html("Pets not allowed");
-                  $('#petPrice').html(" ");
-               }
-
-               taxTotal = price * 0.12;
-            
-               subTotal = price + totalAdult + totalPet + taxTotal;
-
-               $('#taxLabel').html("Tax Charges");
-               $('#taxPrice').html("₱" + taxTotal.toFixed(2));
-
-               $('#subtotalLabel').html("Total Amount");
-               $('#subtotalPrice').html("₱" + subTotal.toFixed(2));
-
-               $('#sendDataBtn').click(function() {
-                  startDates = $('#startDate').val();
-                  timeSelected = $("#timeInput").val();
-                  selectTime = $("#selectTime").val();
-                  adult = $("#adult").val();
-                  pet = $('#pet').val();
-                  $.ajax({
-                     url: 'plugin/php/booking-process',
-                     type: 'POST',
-                     data: {
-                        startDates : startDates,
-                        selectTime : selectTime,
-                        timeSelected : timeSelected,
-                        adult : adult,
-                        pet : pet,
-                        subTotal : subTotal,
-                        total : price,
-                        taxTotal : taxTotal,
-                        totalPet : totalPet,
-                        totalAdult : totalAdult,
-                     },
-                     success: function(response) {
-                        if (response === 'success') {
-                           var alert_title = "Book on process...";
-                           var alert_message = "Please wait for a moment.";
-                           ToastAlert(alert_message, alert_title);
-                           setTimeout(()=>{
-                              window.location.href = 'booknow-payment?unique_id=<?php echo $_GET['unique_id'] ?>';
-                           },3000);
-                        }
-                     }
-                  })
-               })
-            })
-         })
-      })
-      
-   })
+   });
 </script>
+<script>
+$(document).ready(function() {
+    var blockedDates = <?php echo json_encode($blockedDates); ?>;
+
+    function updateAvailability(startDate, timeInput, selectTime) {
+    var hoursToAdd = parseSelectTime(selectTime);
+    var startDateObj = new Date(startDate + 'T' + timeInput); // Combine date and time properly
+    var endDateObj = new Date(startDateObj.getTime() + hoursToAdd * 60 * 60 * 1000);
+
+    var selectedStart = startDateObj.getTime();
+    var selectedEnd = endDateObj.getTime();
+
+    var isAvailable = true;
+
+    for (var i = 0; i < blockedDates.length; i++) {
+        var blockStart = new Date(blockedDates[i].start + 'T' + blockedDates[i].start_time);
+        var blockEnd = new Date(blockedDates[i].end + 'T' + blockedDates[i].end_time);
+
+        var blockStartMillis = blockStart.getTime();
+        var blockEndMillis = blockEnd.getTime();
+
+        // Check for overlap
+        if (!(selectedEnd <= blockStartMillis || selectedStart >= blockEndMillis)) {
+            isAvailable = false;
+            break; // No need to check further if there is overlap
+        }
+    }
+
+    var message = isAvailable ? "Date and time are available." : "Date and time are not available or no rooms available.";
+    $('#note').html(message);
+
+    // Enable or disable the button based on availability
+    $('#sendDataBtn').prop('disabled', !isAvailable);
+}
+
+
+
+
+
+
+    // Trigger updateAvailability on change of any of these fields
+    $('#startDate, #timeInput, #selectTime').change(function() {
+        var startDate = $('#startDate').val();
+        var timeInput = $('#timeInput').val();
+        var selectTime = $('#selectTime').val();
+
+        if (startDate && timeInput && selectTime) {
+            updateAvailability(startDate, timeInput, selectTime);
+        } else {
+            $('#note').html("Check Availability");
+            $('#sendDataBtn').prop('disabled', true);
+        }
+    });
+
+    function parseSelectTime(selectTime) {
+        var duration = parseInt(selectTime);
+        var unit = selectTime.slice(-1);
+
+        if (unit === 'h') {
+            return duration;
+        }
+
+        return 0; // Default fallback
+    }
+});
+
+
+</script>
+
+
 <script src="assets/js/review/review.js"></script>
 </html>
