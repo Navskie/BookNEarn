@@ -527,66 +527,62 @@
 $(document).ready(function() {
     var blockedDates = <?php echo json_encode($blockedDates); ?>;
 
-    function updateAvailability(startDate, timeInput, selectTime) {
-    var hoursToAdd = parseSelectTime(selectTime);
-    var startDateObj = new Date(startDate + 'T' + timeInput); // Combine date and time properly
-    var endDateObj = new Date(startDateObj.getTime() + hoursToAdd * 60 * 60 * 1000);
+   function updateAvailability(startDate, timeInput, selectTime) {
+      var hoursToAdd = parseSelectTime(selectTime);
+      var startDateObj = new Date(startDate + 'T' + timeInput); // Combine date and time properly
+      var endDateObj = new Date(startDateObj.getTime() + hoursToAdd * 60 * 60 * 1000);
 
-    var selectedStart = startDateObj.getTime();
-    var selectedEnd = endDateObj.getTime();
+      var selectedStart = startDateObj.getTime();
+      var selectedEnd = endDateObj.getTime();
 
-    var isAvailable = true;
+      var isAvailable = true;
 
-    for (var i = 0; i < blockedDates.length; i++) {
-        var blockStart = new Date(blockedDates[i].start + 'T' + blockedDates[i].start_time);
-        var blockEnd = new Date(blockedDates[i].end + 'T' + blockedDates[i].end_time);
+      for (var i = 0; i < blockedDates.length; i++) {
+         var blockStart = new Date(blockedDates[i].start + 'T' + blockedDates[i].start_time);
+         var blockEnd = new Date(blockedDates[i].end + 'T' + blockedDates[i].end_time);
 
-        var blockStartMillis = blockStart.getTime();
-        var blockEndMillis = blockEnd.getTime();
+         var blockStartMillis = blockStart.getTime();
+         var blockEndMillis = blockEnd.getTime();
 
-        // Check for overlap
-        if (!(selectedEnd <= blockStartMillis || selectedStart >= blockEndMillis)) {
-            isAvailable = false;
-            break; // No need to check further if there is overlap
-        }
-    }
+         // Check for overlap
+         if (!(selectedEnd <= blockStartMillis || selectedStart >= blockEndMillis)) {
+               isAvailable = false;
+               break; // No need to check further if there is overlap
+         }
+      }
 
-    var message = isAvailable ? "Date and time are available." : "Date and time are not available or no rooms available.";
-    $('#note').html(message);
+      var message = isAvailable ? "Date and time are available." : "Date and time are not available or no rooms available.";
+      $('#note').html(message);
 
-    // Enable or disable the button based on availability
-    $('#sendDataBtn').prop('disabled', !isAvailable);
-}
-
-
+      // Enable or disable the button based on availability
+      $('#sendDataBtn').prop('disabled', !isAvailable);
+   }
 
 
+   // Trigger updateAvailability on change of any of these fields
+   $('#startDate, #timeInput, #selectTime').change(function() {
+      var startDate = $('#startDate').val();
+      var timeInput = $('#timeInput').val();
+      var selectTime = $('#selectTime').val();
 
+      if (startDate && timeInput && selectTime) {
+         updateAvailability(startDate, timeInput, selectTime);
+      } else {
+         $('#note').html("Check Availability");
+         $('#sendDataBtn').prop('disabled', true);
+      }
+   });
 
-    // Trigger updateAvailability on change of any of these fields
-    $('#startDate, #timeInput, #selectTime').change(function() {
-        var startDate = $('#startDate').val();
-        var timeInput = $('#timeInput').val();
-        var selectTime = $('#selectTime').val();
+   function parseSelectTime(selectTime) {
+      var duration = parseInt(selectTime);
+      var unit = selectTime.slice(-1);
 
-        if (startDate && timeInput && selectTime) {
-            updateAvailability(startDate, timeInput, selectTime);
-        } else {
-            $('#note').html("Check Availability");
-            $('#sendDataBtn').prop('disabled', true);
-        }
-    });
+      if (unit === 'h') {
+         return duration;
+      }
 
-    function parseSelectTime(selectTime) {
-        var duration = parseInt(selectTime);
-        var unit = selectTime.slice(-1);
-
-        if (unit === 'h') {
-            return duration;
-        }
-
-        return 0; // Default fallback
-    }
+      return 0; // Default fallback
+   }
 });
 
 
