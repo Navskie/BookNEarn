@@ -13,42 +13,6 @@
 <!-- Navigation END -->
 <?php 
    $unique_id = $_GET['unique_id']; 
-   $blockedDates = [];
-   
-   // Fetch the total inventory quantity
-   $inventory_query = mysqli_query($con, "SELECT `qty` FROM `publish` WHERE `unique_id` = '$unique_id'");
-   $inventory_fetch = mysqli_fetch_array($inventory_query);
-   $total_inventory = $inventory_fetch['qty'];
-   
-   // Fetch all blocked dates for the given unique_id
-   $block_query = mysqli_query($con, "SELECT * FROM `block` WHERE `unique_id` = '$unique_id'");
-   while ($block_date = mysqli_fetch_array($block_query)) {
-      // Calculate available rooms based on total inventory and number of blocks
-      $block_start = $block_date['start'] . ' ' . $block_date['start_time'];
-      $block_end = $block_date['end'] . ' ' . $block_date['end_time'];
-      
-      // Count the number of blocks overlapping this specific period
-      $count_blocks_query = mysqli_query($con, "SELECT COUNT(`id`) AS `count` FROM `block` WHERE `unique_id` = '$unique_id' AND 
-         ((`start` BETWEEN '$block_start' AND '$block_end') OR (`end` BETWEEN '$block_start' AND '$block_end'))");
-      $count_blocks_fetch = mysqli_fetch_array($count_blocks_query);
-      $count_blocks = $count_blocks_fetch['count'];
-      
-      // Calculate available rooms
-      $available_rooms = $total_inventory - $count_blocks;
-      
-      // Create an entry for the blocked date
-      $blockedDates[] = [
-         'start' => $block_date['start'],
-         'end' => $block_date['end'],
-         'start_time' => $block_date['start_time'],
-         'end_time' => $block_date['end_time'],
-         'available_rooms' => $available_rooms,
-      ];
-   }
-   
-   // Output the blockedDates array as JSON
-   // echo json_encode($blockedDates);
-   
 ?>
 <!-- Page Content -->
 <div class="container">
@@ -139,6 +103,8 @@
                      <div class="col-12">
                         <span class="note" id="note"></span>
                      </div>
+                     <input type="hidden" id="endDate">
+                     <input type="hidden" id="endTime">
                      <div class="col-sm-12 col-lg-6">
                         <div class="">
                            <div class="form-group mb-2">
@@ -455,6 +421,64 @@
    document.getElementById('star5').checked = true;
 </script>
 <script>
+
+   var ajaxResponse;
+
+   function handleInputChange() {
+      var unique_id = "<?php echo $_GET['unique_id'] ?>";
+      var startDate = $('#startDate').val();
+      var timeInput = $('#timeInput').val();
+      var selectTime = $('#selectTime').val();
+      var pet = $('#pet').val();
+
+      $.ajax({
+         url: 'fetch_blocked_dates.php', 
+         type: 'POST',
+         dataType: 'json',
+         data: {
+            unique_id: unique_id,
+            startDate: startDate,
+            timeInput: timeInput,
+            selectTime: selectTime,
+            pet: pet,
+         },
+         success: function(response) {
+            ajaxResponse = response;
+            result = response.result;
+            total = response.total;
+            endDate = response.endDate;
+            endTime = response.endTime;
+            selectedTime = response.selectedTime;
+            tax = response.tax;
+            adult = response.adult;
+            pet = response.pet;
+            handleResponse(result, total, selectedTime, endDate, endTime, tax, pet);
+         },
+      });
+   }
+
+   function handleResponse(result, total, selectedTime, endDate, endTime, tax, pet) {
+      $('#endDate').val(endDate);
+      $('#endTime').val(endTime);
+      $('#note').html(result);
+      $('#prices').html(selectedTime);
+      $('#total').html("₱" + total);
+
+      $('#petLabel').html("Pet Charges");
+      $('#petPrice').html("₱" + pet);
+
+      $('#taxLabel').html("Tax Charges");
+      $('#taxPrice').html("₱" + tax);
+   }
+
+   $('#startDate, #timeInput, #selectTime, #pet').change(function() {
+      handleInputChange();
+   });
+
+   handleInputChange();
+
+</script>
+<script>
    const carousel = document.getElementById('carousel');
    let currentIndex = 0;
 
@@ -523,76 +547,7 @@
       Time();
    });
 </script>
-<script>
-$(document).ready(function() {
-   var blockedDates = <?php echo json_encode($blockedDates); ?>;
-   var availableRooms = <?php echo json_encode($available_rooms); ?>;
 
-   function updateAvailability(startDate, timeInput, selectTime) {
-      var hoursToAdd = parseSelectTime(selectTime);
-      var startDateObj = new Date(startDate + 'T' + timeInput); // Combine date and time properly
-      var endDateObj = new Date(startDateObj.getTime() + hoursToAdd * 60 * 60 * 1000);
-
-      var selectedStart = startDateObj.getTime();
-      var selectedEnd = endDateObj.getTime();
-
-      var isAvailable = false;
-
-      // Check available rooms inventory
-      if (availableRooms >= 2) {
-         isAvailable = true; // If rooms available, consider it available
-      } else {
-         // Check time availability only if rooms are insufficient
-         for (var i = 0; i < blockedDates.length; i++) {
-               var blockStart = new Date(blockedDates[i].start + 'T' + blockedDates[i].start_time);
-               var blockEnd = new Date(blockedDates[i].end + 'T' + blockedDates[i].end_time);
-               var blockStartMillis = blockStart.getTime();
-               var blockEndMillis = blockEnd.getTime();
-
-               // Check for overlap
-               if (!(selectedEnd <= blockStartMillis || selectedStart >= blockEndMillis)) {
-                  isAvailable = false;
-                  break; // No need to check further if there is overlap
-               } else {
-                  isAvailable = true; // If no overlap, mark as available
-               }
-         }
-      }
-
-      var message = isAvailable ? "Date and time are available." : "Date and time are not available or not enough rooms available.";
-      $('#note').html(message);
-
-      // Enable or disable the button based on availability and available rooms
-      $('#sendDataBtn').prop('disabled', !isAvailable);
-   }
-
-   // Trigger updateAvailability on change of any of these fields
-   $('#startDate, #timeInput, #selectTime').change(function() {
-      var startDate = $('#startDate').val();
-      var timeInput = $('#timeInput').val();
-      var selectTime = $('#selectTime').val();
-
-      if (startDate && timeInput && selectTime) {
-         updateAvailability(startDate, timeInput, selectTime);
-      } else {
-         $('#note').html("Check Availability");
-         $('#sendDataBtn').prop('disabled', true);
-      }
-   });
-
-   function parseSelectTime(selectTime) {
-      var duration = parseInt(selectTime);
-      var unit = selectTime.slice(-1);
-
-      if (unit === 'h') {
-         return duration;
-      }
-
-      return 0; // Default fallback
-   }
-});
-
-</script>
 
 
 <script src="assets/js/review/review.js"></script>
