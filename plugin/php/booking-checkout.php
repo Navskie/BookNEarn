@@ -16,7 +16,7 @@
    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $startDates = $_SESSION['startDate'];
       $endDates = $_SESSION['endDate'];
-   
+      $endTimes = $_SESSION['endTime'];
       $subTotal = $_SESSION['subTotal'];
       $total = $_SESSION['total'];
       $totalAdult = $_SESSION['totalAdult'];
@@ -68,7 +68,7 @@
       // user_information
       $sql_payment = mysqli_query($con, "INSERT INTO `booking`(`unique_id`, `billing_id`, `fullname`, `mobile`, `email`, `pax`, `pet`, `night`) VALUES ('$unique_id','$billingID','$fullname','$mobile','$email','$adult','$pet', '$timeSelected')");
       // dates
-      $sql_payment = mysqli_query($con, "INSERT INTO `block`(`unique_id`, `billing_id`, `start`, `end`, `start_time`, `end_time`) VALUES ('$unique_id','$billingID','$startDates','$endDates','$selectTime','$resultTime')");
+      $sql_payment = mysqli_query($con, "INSERT INTO `block`(`unique_id`, `billing_id`, `start`, `end`, `start_time`, `end_time`) VALUES ('$unique_id','$billingID','$startDates','$endDates','$selectTime','$endTimes')");
 
       unset(
          $_SESSION['subTotal'],
@@ -85,7 +85,8 @@
          $_SESSION['adult'],
          $_SESSION['difference'],
          $_SESSION['selectTime'],
-         $_SESSION['timeSelected']
+         $_SESSION['timeSelected'],
+         $_SESSION['endTime']
       );
 
       echo "success";

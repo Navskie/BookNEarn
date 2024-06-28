@@ -6,12 +6,15 @@
    $timeInput = $_POST['timeInput'] ?? '';
    $selectTime = $_POST['selectTime'] ?? '';
    $pet = $_POST['pet'] ?? '';
+   $adult = $_POST['adult'] ?? '';
    $unique_id = $_POST['unique_id'] ?? '';
 
-   $qty_sql = mysqli_query($con, "SELECT `qty` FROM `publish` WHERE `unique_id` = '$unique_id'");
+   $qty_sql = mysqli_query($con, "SELECT `qty`, `max_adult` FROM `publish` WHERE `unique_id` = '$unique_id'");
    $qty_fetch = mysqli_fetch_array($qty_sql);
 
    $qty = $qty_fetch['qty'];
+   $adultQty = $qty_fetch['max_adult'];
+   $adultMin = $qty_fetch['min_adult'];
 
    $duration = intval($selectTime);
    $unit = substr($selectTime, -1);
@@ -53,7 +56,7 @@
 
    $qty_result = $qty - $result_num;
 
-   $price_sql = mysqli_query($con, "SELECT `four_hour`, `eight_hour`, `twelve_hour`, `pet` FROM `price` WHERE `unique_id` = '$unique_id'");
+   $price_sql = mysqli_query($con, "SELECT `four_hour`, `eight_hour`, `twelve_hour`, `pet`, `adult` FROM `price` WHERE `unique_id` = '$unique_id'");
    $price_fetch = mysqli_fetch_array($price_sql);
 
    if ($selectTime === '4h') {
@@ -62,6 +65,22 @@
       $total = $price_fetch['eight_hour'];
    } elseif ($selectTime === '12h') {
       $total = $price_fetch['twelve_hour'];
+   }
+
+   $adultPrice = $price_fetch['adult'];
+
+   if ($adult >= $adultMin) {
+      if ($adult > $adultQty) {
+         $adultPrompt = "Maximum Adult is ".$adultQty;
+         $adultSum = 0;
+      } else {
+         $adultMinus = $adult - $adultQty;
+         $adultPrompt = "Extra Adult ".$adultMinus;
+         $adultSum = $adultMinus * $adultPrice;
+      }
+   } else {
+      $adultPrompt = "Adult Charges";
+      $adultSum = 0;
    }
 
    $petSum = $pet * $price_fetch['pet'];
@@ -74,6 +93,8 @@
       $message = "Date and Time is Not Available";
    }
 
+   $subTotal = $total + $adultSum + $petSum + $tax;
+
    $response = [
       'result' => $message,
       'selectedTime' => $selectTime,
@@ -82,6 +103,9 @@
       'total' => $total,
       'tax' => $tax,
       'pet' => $petSum,
+      'adult' => $adultSum,
+      'adultPrompt' =>  $adultPrompt,
+      'subTotal' =>  $subTotal
    ];
 
    header('Content-Type: application/json');

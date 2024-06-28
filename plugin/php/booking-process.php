@@ -5,6 +5,7 @@
    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $startDates = $_POST['startDates'];
       $endDates = $_POST['endDates'];
+      $endTime = $_POST['endTimes'];
       $subTotal = $_POST['subTotal'];
       $total = $_POST['total'];
       $totalAdult = $_POST['totalAdult'];
@@ -18,6 +19,7 @@
 
       $_SESSION['startDate'] = $startDates;
       $_SESSION['endDate'] = $endDates;
+      $_SESSION['endTime'] = $endTime;
 
       $_SESSION['subTotal'] = $subTotal;
       $_SESSION['total'] = $total;

@@ -14,6 +14,7 @@
    <?php include_once 'plugin/php/booking-session.php'; ?>
    <!-- Page Content -->
    <div class="container py-5">
+
       <!-- form  -->
       <div class="row" style="height: 80vh;">
          <div class="col-md-8 col-sm-12">

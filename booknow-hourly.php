@@ -430,6 +430,7 @@
       var timeInput = $('#timeInput').val();
       var selectTime = $('#selectTime').val();
       var pet = $('#pet').val();
+      var adult = $('#adult').val();
 
       $.ajax({
          url: 'fetch_blocked_dates.php', 
@@ -441,6 +442,7 @@
             timeInput: timeInput,
             selectTime: selectTime,
             pet: pet,
+            adult: adult
          },
          success: function(response) {
             ajaxResponse = response;
@@ -451,27 +453,74 @@
             selectedTime = response.selectedTime;
             tax = response.tax;
             adult = response.adult;
+            adultPrompt = response.adultPrompt;
             pet = response.pet;
-            handleResponse(result, total, selectedTime, endDate, endTime, tax, pet);
+            subTotal = response.subTotal;
+            handleResponse(result, total, selectedTime, endDate, endTime, tax, pet, adultPrompt, adult, subTotal);
          },
       });
    }
 
-   function handleResponse(result, total, selectedTime, endDate, endTime, tax, pet) {
+   $("#sendDataBtn").prop('disabled', true);
+
+   function handleResponse(result, total, selectedTime, endDate, endTime, tax, pet, adultPrompt, adult, subTotal) {
       $('#endDate').val(endDate);
       $('#endTime').val(endTime);
       $('#note').html(result);
       $('#prices').html(selectedTime);
       $('#total').html("₱" + total);
 
+      $('#adultLabel').html(adultPrompt);
+      $('#adultPrice').html("₱" + adult);
+
       $('#petLabel').html("Pet Charges");
       $('#petPrice').html("₱" + pet);
 
       $('#taxLabel').html("Tax Charges");
       $('#taxPrice').html("₱" + tax);
+
+      $('#subtotalLabel').html("Total Amount");
+      $('#subtotalPrice').html("₱" + subTotal);
+
+      if (result === 'Date and Time is Available') {
+         $("#sendDataBtn").prop('disabled', false);
+      }
+
+      $('#sendDataBtn').click(function() {
+         var formData = {
+            adult: $('#adult').val(),
+            pet: $('#pet').val(),
+            startDates: $('#startDate').val(),
+            endDates: endDate,
+            endTimes: endTime,
+            selectTime: $('#selectTime').val(),
+            timeSelected: $('#timeInput').val(),
+            subTotal: $('#subtotalPrice').text().replace('₱', ''),
+            total: $('#total').text().replace('₱', ''),
+            totalAdult: $('#adultPrice').text().replace('₱', ''),
+            totalPet: $('#petPrice').text().replace('₱', ''),
+            taxTotal: $('#taxPrice').text().replace('₱', '')
+         };
+
+         $.ajax({
+            url: 'plugin/php/booking-process',
+            type: 'POST',
+            data: formData,
+            success: function(response) {
+               if (response === 'success') {
+                  var alert_title = "Book on process...";
+                  var alert_message = "Please wait for a moment.";
+                  ToastAlert(alert_message, alert_title);
+                  setTimeout(()=>{
+                     window.location.href = 'booknow-payment?unique_id=<?php echo $_GET['unique_id'] ?>';
+                  },3000);
+               }
+            },
+         });
+      })
    }
 
-   $('#startDate, #timeInput, #selectTime, #pet').change(function() {
+   $('#startDate, #timeInput, #selectTime, #pet, #adult').change(function() {
       handleInputChange();
    });
 
