@@ -27,4 +27,11 @@
                 echo "<script>window.location.href = '../login';</script>";
                 }
         ?>
+        
+<style>
+   .font-weight-bold {
+      font-weight: 700;
+      font-size: 15px;
+   }
+</style>
 </head>

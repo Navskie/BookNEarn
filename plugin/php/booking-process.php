@@ -16,6 +16,7 @@
 
       $timeSelected = $_POST['timeSelected'];
       $selectHours = $_POST['selectTime'];
+      $dayDiff = $_POST['difference'];
 
       $_SESSION['startDate'] = $startDates;
       $_SESSION['endDate'] = $endDates;
@@ -31,6 +32,7 @@
       $_SESSION['adult'] = $adult;
       $_SESSION['timeSelected'] = $timeSelected;
       $_SESSION['selectTime'] = $selectHours;
+      $_SESSION['difference'] = $dayDiff;
       echo "success";
    } else {
       // Handle cases where request method is not POST (optional)

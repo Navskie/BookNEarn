@@ -46,7 +46,7 @@
    $endTimeFormatted = $endDateTime->format('H:i:s');
 
    $result_sql = mysqli_query($con, "SELECT * FROM `block` 
-   WHERE `unique_id` = '$unique_id'
+   WHERE `unique_id` = '$unique_id' AND `status` = 1
    AND (
       (`start` = '$startDateFormatted' AND `start_time` < '$endTimeFormatted' AND `end_time` > '$startTimeFormatted')
       OR (`end` = '$endDateFormatted' AND `start_time` < '$endTimeFormatted' AND `end_time` > '$startTimeFormatted')

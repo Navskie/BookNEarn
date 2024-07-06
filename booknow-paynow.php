@@ -184,6 +184,7 @@ $(document).ready(function(){
                   window.location.href = 'index';
                },3000);
             }
+            // console.log(response)
          },
       })
     })

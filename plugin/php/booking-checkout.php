@@ -34,7 +34,7 @@
       $selectTime = $_SESSION['timeSelected'];
       $timeSelected = $_SESSION['selectTime'];
 
-      if (empty($selectTime)) {
+      if ($timeSelected == '') {
          $timeSelected = $_SESSION['difference'];
          $resultTime = "";
       } else {
@@ -66,9 +66,9 @@
       // payment
       $sql_payment = mysqli_query($con, "INSERT INTO `payment`(`unique_id`, `billing_id`, `total`, `adult`, `pet`, `tax`, `subtotal`, `reference`, `method`) VALUES ('$unique_id','$billingID','$total','$totalAdult','$totalPet','$taxTotal','$subTotal','$reference','$paymentmethod')");
       // user_information
-      $sql_payment = mysqli_query($con, "INSERT INTO `booking`(`unique_id`, `billing_id`, `fullname`, `mobile`, `email`, `pax`, `pet`, `night`) VALUES ('$unique_id','$billingID','$fullname','$mobile','$email','$adult','$pet', '$timeSelected')");
+      $sql_payment = mysqli_query($con, "INSERT INTO `booking`(`unique_id`, `billing_id`, `fullname`, `mobile`, `email`, `pax`, `pet`, `night`, `status`, `encoder_id`) VALUES ('$unique_id','$billingID','$fullname','$mobile','$email','$totalAdult','$pet', '$timeSelected', 'Pending', '$generated_id')");
       // dates
-      $sql_payment = mysqli_query($con, "INSERT INTO `block`(`unique_id`, `billing_id`, `start`, `end`, `start_time`, `end_time`) VALUES ('$unique_id','$billingID','$startDates','$endDates','$selectTime','$endTimes')");
+      $sql_payment = mysqli_query($con, "INSERT INTO `block`(`unique_id`, `billing_id`, `start`, `end`, `start_time`, `end_time`, `status`) VALUES ('$unique_id','$billingID','$startDates','$endDates','$selectTime','$endTimes', 1)");
 
       unset(
          $_SESSION['subTotal'],

@@ -12,6 +12,7 @@
 
    $timeSelected = $_SESSION['timeSelected'];
    $selectTime = $_SESSION['selectTime'];
+   $difference = $_SESSION['difference'];
 
    $pet = $_SESSION['pet'];
    $adult = $_SESSION['adult'];

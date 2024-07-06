@@ -14,7 +14,7 @@
 <?php 
    $unique_id = $_GET['unique_id']; 
    $blockedDates = [];
-   $block = mysqli_query($con, "SELECT * FROM `block` WHERE `unique_id` = '$unique_id'");
+   $block = mysqli_query($con, "SELECT * FROM `block` WHERE `unique_id` = '$unique_id' AND `status` = 1");
    foreach ($block as $block_date) {
       // Get the end date from database
       $endDate = $block_date['end'];
@@ -431,267 +431,268 @@
 </script>
 <?php include_once 'inc/footer-link.php' ?>
 </body>
-
 <script>
-$.noConflict();
-$(document).ready(function() {
-   var blockedDates = <?php echo json_encode($blockedDates); ?>;
+   $.noConflict();
+   $(document).ready(function() {
+      var blockedDates = <?php echo json_encode($blockedDates); ?>;
 
-   function isDateBlocked(date) {
-      var dateString = $.datepicker.formatDate('yy-mm-dd', date);
-      var currentDate = new Date(dateString);
+      function isDateBlocked(date) {
+         var dateString = $.datepicker.formatDate('yy-mm-dd', date);
+         var currentDate = new Date(dateString);
 
-      for (var i = 0; i < blockedDates.length; i++) {
-            var startDate = new Date(blockedDates[i].start);
-            var endDate = new Date(blockedDates[i].end);
+         for (var i = 0; i < blockedDates.length; i++) {
+               var startDate = new Date(blockedDates[i].start);
+               var endDate = new Date(blockedDates[i].end);
 
-            if (currentDate >= startDate && currentDate <= endDate) {
-               return true; // Date is blocked
-            }
-      }
-
-      return false; // Date is not blocked
-   }
-
-   function calculateMaxEndDate(selectedStartDate) {
-      let startDate = new Date(selectedStartDate);
-      let maxEndDate = new Date(startDate);
-
-      // Find the last valid date from startDate
-      var safetyCounter = 0;
-      while (!isDateBlocked(maxEndDate) && safetyCounter < 365) {
-         maxEndDate.setDate(maxEndDate.getDate() + 1);
-         safetyCounter++;
-      }
-
-      // Roll back to the last valid date
-      maxEndDate.setDate(maxEndDate.getDate() - 1);
-
-      return maxEndDate;
-   }
-
-   $('#startDate').datepicker({
-      dateFormat: 'yy-mm-dd',
-      minDate: 0, // Disable past dates
-      beforeShowDay: function(date) {
-         return [!isDateBlocked(date)]; // Enable dates that are not blocked
-      },
-      onSelect: function(selectedDate) {
-         let maxEndDate = calculateMaxEndDate(selectedDate);
-
-         // Update end datepicker options
-         $('#endDate').datepicker('option', 'minDate', selectedDate);
-         $('#endDate').datepicker('option', 'maxDate', maxEndDate);
-
-         // Check if the currently selected endDate is valid
-         var currentEndDate = $('#endDate').datepicker('getDate');
-         if (currentEndDate > maxEndDate) {
-            $('#endDate').datepicker('setDate', null); // Clear invalid selection
-         }
-      }
-   });
-
-   $('#endDate').datepicker({
-      dateFormat: 'yy-mm-dd',
-      minDate: 0, // Disable past dates
-      beforeShowDay: function(date) {
-         let startDate = $('#startDate').datepicker('getDate');
-         return [!isDateBlocked(date) && (!startDate || date >= startDate)];
-      },
-      onSelect: function(selectedDate) {
-         $('#startDate').datepicker('option', 'maxDate', selectedDate);
-         startDates = $("#startDate").val();
-         endDates = $(this).val();
-         changeDate();
-         adultBilling()
-         petChange();
-      }
-   });
-
-   function changeDate() {
-      endHandler = new Date(endDates);
-
-      if (startDates === endDates) {
-         newday = endHandler.getDate() + 1;
-         newmonth = endHandler.getMonth() + 1;
-         newyear = endHandler.getFullYear();
-
-         if (newmonth < 10) {
-            addZero = 0;
-         } else {
-            addZero = "";
-         }
-
-         endDates = newyear +"-"+ addZero+newmonth +"-"+ newday;
-
-         $('#endDate').val(endDates);
-      }
-
-      let startDate = new Date(startDates);
-      let endDate = new Date(endDates);
-
-      // Calculate the difference in milliseconds
-      var timeDifference = Math.abs(endDate.getTime() - startDate.getTime());
-
-      // Convert milliseconds to days
-      daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-
-      weekend = <?php echo $weekend ?>;
-      weekday = <?php echo $weekday ?>;
-      weekly = <?php echo $weekly ?>;
-      monthly = <?php echo $monthly ?>;
-
-      total = 0;
-      let dateArray = [];
-      let dayNamesArray = [];
-
-      function splitDateRangeIntoMonths(startDate, endDate) {
-         let start = new Date(startDate);
-         let end = new Date(endDate);
-
-         // Initialize array to store months
-         let months = [];
-
-         // Loop through each month and add to the array
-         let currentDate = new Date(start);
-         while (currentDate <= end) {
-               var year = currentDate.getFullYear();
-               var month = currentDate.getMonth() + 1; // Months are zero indexed, so we add 1
-               var formattedMonth = year + '-' + (month < 10 ? '0' + month : month); // Format as YYYY-MM
-
-               // Add the formatted month to the array if it's not already added
-               if (!months.includes(formattedMonth)) {
-                  months.push(formattedMonth);
+               if (currentDate >= startDate && currentDate <= endDate) {
+                  return true; // Date is blocked
                }
-
-               // Move to the next month
-               currentDate.setMonth(currentDate.getMonth() + 1);
          }
 
-         return months;
+         return false; // Date is not blocked
       }
-      let monthStart = startDates;
-      let monthEnd = endDates;
-      let months = splitDateRangeIntoMonths(monthStart, monthEnd);
 
-      monthLength = months.length;
-      
-      if (daysDifference < 7) {
-         for (var i = 0; i < daysDifference; i++) {
-            let currentDate = new Date(startDate);
-            currentDate.setDate(startDate.getDate() + i);
-            dateArray.push(currentDate.toISOString().slice(0, 10));
-            dayNamesArray.push(getDayName(currentDate.getDay()));
-            
-            if (currentDate.getDay() === 0 || currentDate.getDay() === 6 || currentDate.getDay() === 5) {
-                  total += weekend;
-            } else {
-                  total += weekday;
+      function calculateMaxEndDate(selectedStartDate) {
+         let startDate = new Date(selectedStartDate);
+         let maxEndDate = new Date(startDate);
+
+         // Find the last valid date from startDate
+         var safetyCounter = 0;
+         while (!isDateBlocked(maxEndDate) && safetyCounter < 365) {
+            maxEndDate.setDate(maxEndDate.getDate() + 1);
+            safetyCounter++;
+         }
+
+         // Roll back to the last valid date
+         maxEndDate.setDate(maxEndDate.getDate() - 1);
+
+         return maxEndDate;
+      }
+
+      $('#startDate').datepicker({
+         dateFormat: 'yy-mm-dd',
+         minDate: 0, // Disable past dates
+         beforeShowDay: function(date) {
+            return [!isDateBlocked(date)]; // Enable dates that are not blocked
+         },
+         onSelect: function(selectedDate) {
+            let maxEndDate = calculateMaxEndDate(selectedDate);
+
+            // Update end datepicker options
+            $('#endDate').datepicker('option', 'minDate', selectedDate);
+            $('#endDate').datepicker('option', 'maxDate', maxEndDate);
+
+            // Check if the currently selected endDate is valid
+            var currentEndDate = $('#endDate').datepicker('getDate');
+            if (currentEndDate > maxEndDate) {
+               $('#endDate').datepicker('setDate', null); // Clear invalid selection
             }
          }
-         
-         function getDayName(dayIndex) {
-            // ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            var days = [weekend, weekday, weekday, weekday, weekday, weekend, weekend];
-            return days[dayIndex];
+      });
+
+      $('#endDate').datepicker({
+         dateFormat: 'yy-mm-dd',
+         minDate: 0, // Disable past dates
+         beforeShowDay: function(date) {
+            let startDate = $('#startDate').datepicker('getDate');
+            return [!isDateBlocked(date) && (!startDate || date >= startDate)];
+         },
+         onSelect: function(selectedDate) {
+            $('#startDate').datepicker('option', 'maxDate', selectedDate);
+            startDates = $("#startDate").val();
+            endDates = $(this).val();
+            changeDate();
+            adultBilling()
+            petChange();
          }
-      } else if (daysDifference === 7) {
-         total = weekly;
-      } else if (daysDifference > 7) {
-         total = monthly;
+      });
+
+      function changeDate() {
+         endHandler = new Date(endDates);
+
+         if (startDates === endDates) {
+            newday = endHandler.getDate() + 1;
+            newmonth = endHandler.getMonth() + 1;
+            newyear = endHandler.getFullYear();
+
+            if (newmonth < 10) {
+               addZero = 0;
+            } else {
+               addZero = "";
+            }
+
+            endDates = newyear +"-"+ addZero+newmonth +"-"+ newday;
+
+            $('#endDate').val(endDates);
+         }
+
+         let startDate = new Date(startDates);
+         let endDate = new Date(endDates);
+
+         // Calculate the difference in milliseconds
+         var timeDifference = Math.abs(endDate.getTime() - startDate.getTime());
+
+         // Convert milliseconds to days
+         daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+         weekend = <?php echo $weekend ?>;
+         weekday = <?php echo $weekday ?>;
+         weekly = <?php echo $weekly ?>;
+         monthly = <?php echo $monthly ?>;
+
+         total = 0;
+         let dateArray = [];
+         let dayNamesArray = [];
+
+         function splitDateRangeIntoMonths(startDate, endDate) {
+            let start = new Date(startDate);
+            let end = new Date(endDate);
+
+            // Initialize array to store months
+            let months = [];
+
+            // Loop through each month and add to the array
+            let currentDate = new Date(start);
+            while (currentDate <= end) {
+                  var year = currentDate.getFullYear();
+                  var month = currentDate.getMonth() + 1; // Months are zero indexed, so we add 1
+                  var formattedMonth = year + '-' + (month < 10 ? '0' + month : month); // Format as YYYY-MM
+
+                  // Add the formatted month to the array if it's not already added
+                  if (!months.includes(formattedMonth)) {
+                     months.push(formattedMonth);
+                  }
+
+                  // Move to the next month
+                  currentDate.setMonth(currentDate.getMonth() + 1);
+            }
+
+            return months;
+         }
+         let monthStart = startDates;
+         let monthEnd = endDates;
+         let months = splitDateRangeIntoMonths(monthStart, monthEnd);
+
+         monthLength = months.length;
+         
+         if (daysDifference < 7) {
+            for (var i = 0; i < daysDifference; i++) {
+               let currentDate = new Date(startDate);
+               currentDate.setDate(startDate.getDate() + i);
+               dateArray.push(currentDate.toISOString().slice(0, 10));
+               dayNamesArray.push(getDayName(currentDate.getDay()));
+               
+               if (currentDate.getDay() === 0 || currentDate.getDay() === 6 || currentDate.getDay() === 5) {
+                     total += weekend;
+               } else {
+                     total += weekday;
+               }
+            }
+            
+            function getDayName(dayIndex) {
+               // ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+               var days = [weekend, weekday, weekday, weekday, weekday, weekend, weekend];
+               return days[dayIndex];
+            }
+         } else if (daysDifference === 7) {
+            total = weekly;
+         } else if (daysDifference > 7) {
+            total = monthly;
+         }
+
+         $('#numberOfDays').html(daysDifference + " nights");
+         $('#total').html("₱" + total.toFixed(2));
       }
 
-      $('#numberOfDays').html(daysDifference + " nights");
-      $('#total').html("₱" + total.toFixed(2));
-   }
+      function adultBilling() {
+         $('#adult').change(function() {
+            let adult = $('#adult').val();
 
-   function adultBilling() {
-      $('#adult').change(function() {
-         let adult = $('#adult').val();
+            minAdult = <?php echo $adultMin ?>;
+            maxAdult = <?php echo $adultMax ?>;
+            adultPrice = <?php echo $adult ?>;
+            totalAdult = 0;
 
-         minAdult = <?php echo $adultMin ?>;
-         maxAdult = <?php echo $adultMax ?>;
-         adultPrice = <?php echo $adult ?>;
-         totalAdult = 0;
+            if (adult >= minAdult) {
+               if (adult > maxAdult) {
+                  $('#adult').val('');
+                  $('#adultLabel').html("Maximum Adult is " + maxAdult);
+               } else {
+                  extraAdult = adult - minAdult;
+                  totalAdult = extraAdult * adultPrice * daysDifference;
 
-         if (adult >= minAdult) {
-            if (adult > maxAdult) {
-               $('#adult').val('');
-               $('#adultLabel').html("Maximum Adult is " + maxAdult);
+                  $('#adultLabel').html("Extra Adult");
+                  $('#adultPrice').html("₱" + totalAdult.toFixed(2));
+               }
             } else {
-               extraAdult = adult - minAdult;
-               totalAdult = extraAdult * adultPrice * daysDifference;
+               totalAdult = 0;
 
                $('#adultLabel').html("Extra Adult");
                $('#adultPrice').html("₱" + totalAdult.toFixed(2));
             }
-         } else {
-            totalAdult = 0;
+         }) 
+      }
 
-            $('#adultLabel').html("Extra Adult");
-            $('#adultPrice').html("₱" + totalAdult.toFixed(2));
-         }
-      }) 
-   }
+      function petChange() {
+         $('#pet').change(function() {
+            let pet = $('#pet').val();
 
-   function petChange() {
-      $('#pet').change(function() {
-         let pet = $('#pet').val();
+            let petSelect = "<?php echo $petBool ?>";
+            petPrice = <?php echo $pet ?>;
 
-         let petSelect = "<?php echo $petBool ?>";
-         petPrice = <?php echo $pet ?>;
-
-         if (petSelect === 'Allowed') {
-            totalPet = pet * petPrice;
-            $('#petLabel').html("Pet Charges");
-            $('#petPrice').html("₱" + totalPet.toFixed(2));
-         } else {
-            totalPet = 0;
-            $('#petLabel').html("Pets not allowed");
-            $('#petPrice').html(" ");
-         }
-
-         taxTotal = total * 0.12;
-         
-         subTotal = total + totalAdult + totalPet + taxTotal;
-
-         $('#taxLabel').html("Tax Charges");
-         $('#taxPrice').html("₱" + taxTotal.toFixed(2));
-
-         $('#subtotalLabel').html("Total Amount");
-         $('#subtotalPrice').html("₱" + subTotal.toFixed(2));
-      })
-   }
-   $('#sendDataBtn').click(function() {
-      var formData = {
-         adult: $('#adult').val(),
-         pet: $('#pet').val(),
-         startDates: $('#startDate').val(),
-         endDates: $('#endDate').val(),
-         subTotal: $('#subtotalPrice').text().replace('₱', ''),
-         total: $('#total').text().replace('₱', ''),
-         totalAdult: $('#adultPrice').text().replace('₱', ''),
-         totalPet: $('#petPrice').text().replace('₱', ''),
-         taxTotal: $('#taxPrice').text().replace('₱', '')
-      };
-
-      $.ajax({
-         url: 'plugin/php/booking-process',
-         type: 'POST',
-         data: formData,
-         success: function(response) {
-            if (response === 'success') {
-               var alert_title = "Book on process...";
-               var alert_message = "Please wait for a moment.";
-               ToastAlert(alert_message, alert_title);
-               setTimeout(()=>{
-                  window.location.href = 'booknow-payment?unique_id=<?php echo $_GET['unique_id'] ?>';
-               },3000);
+            if (petSelect === 'Allowed') {
+               totalPet = pet * petPrice;
+               $('#petLabel').html("Pet Charges");
+               $('#petPrice').html("₱" + totalPet.toFixed(2));
+            } else {
+               totalPet = 0;
+               $('#petLabel').html("Pets not allowed");
+               $('#petPrice').html(" ");
             }
-         },
-      });
-   })
-});
+
+            taxTotal = total * 0.12;
+            
+            subTotal = total + totalAdult + totalPet + taxTotal;
+
+            $('#taxLabel').html("Tax Charges");
+            $('#taxPrice').html("₱" + taxTotal.toFixed(2));
+
+            $('#subtotalLabel').html("Total Amount");
+            $('#subtotalPrice').html("₱" + subTotal.toFixed(2));
+         })
+      }
+      $('#sendDataBtn').click(function() {
+         // console.log(daysDifference);
+         var formData = {
+            adult: $('#adult').val(),
+            pet: $('#pet').val(),
+            startDates: $('#startDate').val(),
+            endDates: $('#endDate').val(),
+            subTotal: $('#subtotalPrice').text().replace('₱', ''),
+            total: $('#total').text().replace('₱', ''),
+            totalAdult: $('#adultPrice').text().replace('₱', ''),
+            totalPet: $('#petPrice').text().replace('₱', ''),
+            taxTotal: $('#taxPrice').text().replace('₱', ''),
+            difference: daysDifference,
+         };
+
+         $.ajax({
+            url: 'plugin/php/booking-process',
+            type: 'POST',
+            data: formData,
+            success: function(response) {
+               if (response === 'success') {
+                  var alert_title = "Book on process...";
+                  var alert_message = "Please wait for a moment.";
+                  ToastAlert(alert_message, alert_title);
+                  setTimeout(()=>{
+                     window.location.href = 'booknow-payment?unique_id=<?php echo $_GET['unique_id'] ?>';
+                  },3000);
+               }
+            },
+         });
+      })
+   });
 </script>
 <script src="assets/js/review/review.js"></script>
 </html>
