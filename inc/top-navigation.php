@@ -36,7 +36,6 @@
                   else 
                   {
                ?>
-                  <a href="profile" class="top-link"><i class="fa-solid fa-repeat"></i> Switch to Host</a> <span class="top-separator">|</span>
                   <a href="profile" class="top-link"><i class="fa-solid fa-user-large"></i> Profile</a> <span class="top-separator">|</span>
                   <a href="logout" class="top-link"><i class="fa-solid fa-right-from-bracket"></i> Logout</a> 
                <?php
