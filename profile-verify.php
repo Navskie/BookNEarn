@@ -46,18 +46,35 @@
                               <p>
                               We’ll need you to add an official government ID. This step helps make sure you’re really you.
                               </p>
-                              <h5>Upload an existing photo</h5>
+                              <h5>Complete your verification</h5>
                               <div class="verify-form">
                                  <div class="row">
-                                    <div class="col-sm-12 col-md-6">
-                                       <div class="form-group">
-                                          
+                                    <div class="col-sm-12 col-md-4 my-3">
+                                       <div class="form-group mb-3">
+                                          <label for="">Select which ID?</label>
+                                          <select id="selectID" class="form-control shadow-none p-2">
+                                             <option> --- </option>
+                                             <option value="Drivers License">Drivers License</option>
+                                             <option value="Passport">Passport</option>
+                                             <option value="National ID">National ID</option>
+                                             <option value="UMID ID">UMID ID</option>
+                                          </select>
+                                       </div>
+                                       <div class="form-group mb-3">
+                                          <label for="">ID Number</label>
+                                          <input type="text" class="form-control input" id="idNumber">
+                                          <div class="label">ID Number</div>
+                                       </div>
+                                       <div class="form-group mb-3">
+                                          <label for="">Name</label>
+                                          <input type="text" class="form-control input" id="idName">
+                                          <div class="label">Your Full Name</div>
                                        </div>
                                     </div>
                                  </div>
                               </div>
                               <div class="card-btn">
-                                 <a href="profile-verify" class="a">Verify Now</a>
+                                 <button class="a" id="verification">Next</button>
                               </div>
                            </div>
                         </div>
@@ -72,4 +89,5 @@
       <?php include_once 'inc/footer.php' ?>
    </body>
    <?php include_once 'inc/footer-link.php' ?>
+   <script src="assets/js/verify/verification.js"></script>
    </html>
