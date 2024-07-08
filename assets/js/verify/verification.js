@@ -75,6 +75,42 @@ $(document).ready(function() {
          }
       });
    });
+
+   $("#verification").click(function() {
+      $(this).text("Processing...")
+      selectID = $('#selectID').val();
+      idNumber = $('#idNumber').val();
+      idName = $('#idName').val();
+
+      $.ajax({
+         url : 'controller/verify/verification',
+         type : 'POST',
+         data : {
+            selectID : selectID,
+            idNumber : idNumber,
+            idName : idName,
+         },
+         success : function(result) {
+            if (result === 'success') {
+               var alert_title = "Success";
+               var alert_message = "Upload your ID";
+
+               ToastAlert(alert_message, alert_title);
+               setTimeout(()=>{
+                  window.location.href = "profile-upload";
+               },3000);
+            } else if (result === 'empty') {
+               var alert_title = "Failed";
+               var alert_message = "All field are required";
+
+               ToastAlert(alert_message, alert_title);
+               setTimeout(()=>{
+                  window.location.reload();
+               },3000);
+            }
+         }
+      })
+   })
 });
 
 // controller/verify/submitID

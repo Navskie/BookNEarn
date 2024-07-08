@@ -88,6 +88,7 @@
 
       <?php include_once 'inc/footer.php' ?>
    </body>
-   <?php include_once 'inc/footer-link.php' ?>
    <script src="assets/js/verify/verification.js"></script>
+   <?php include_once 'inc/footer-link.php' ?>
+
    </html>
