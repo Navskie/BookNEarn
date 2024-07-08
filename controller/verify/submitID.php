@@ -6,6 +6,9 @@ include "../../.config/dbconnect.php";
 // Handle file upload for front and back IDs
 $frontImage = $_FILES['frontImage'];
 $backImage = $_FILES['backImage'];
+$selectID = $_SESSION['selectID'];
+$idName = $_SESSION['idName'];
+$idNumber = $_SESSION['idNumber'];
 
 // Function to get file extension
 function getFileExtension($filename) {
@@ -26,8 +29,10 @@ if (!in_array($frontExtension, $allowedExtensions) || !in_array($backExtension, 
 
 // Example: Save uploaded files to a directory with unique filenames
 $targetDir = "../../assets/img/verifyID/";
-$frontFileName = $targetDir . 'front_' . uniqid('', true) . '.' . $frontExtension;
-$backFileName = $targetDir . 'back_' . uniqid('', true) . '.' . $backExtension;
+$frontName = 'front_' . uniqid('', true) . '.' . $frontExtension;
+$backName = 'back_' . uniqid('', true) . '.' . $backExtension;
+$frontFileName = $targetDir . $frontName;
+$backFileName = $targetDir . $backName;
 
 // Check if the directory exists or create it if not
 if (!is_dir($targetDir)) {
@@ -37,6 +42,10 @@ if (!is_dir($targetDir)) {
 // Move uploaded files to the target directory with unique filenames
 if (move_uploaded_file($frontImage['tmp_name'], $frontFileName) && move_uploaded_file($backImage['tmp_name'], $backFileName)) {
    // File uploaded successfully
+   $sql = mysqli_query($con, "INSERT INTO `verified` (`token`, `select_type`, `idnumber`, `fullname`, `frontid`, `backid`) VALUES ('$token', '$selectID', '$idNumber', '$idName', '$frontName', '$backName')");
+   unset($_SESSION['selectID']);
+   unset($_SESSION['idName']);
+   unset($_SESSION['idNumber']);
    $response = array('success' => true);
 } else {
    // Failed to upload file

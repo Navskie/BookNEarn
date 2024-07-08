@@ -13,7 +13,13 @@ $(document).ready(function() {
       // Validate file type
       const fileType = image.type.split('/')[1]; // Get file extension
       if (fileType !== 'jpg' && fileType !== 'png') {
-         alert("Please select a JPG or PNG file.");
+         var alert_title = "Failed";
+         var alert_message = "Please select a JPG or PNG file.";
+
+         ToastAlert(alert_message, alert_title);
+         setTimeout(()=>{
+            window.location.reload();
+         },3000);
          return;
       }
 
@@ -29,7 +35,13 @@ $(document).ready(function() {
          };
          reader.readAsDataURL(image);
       } else {
-         alert("Image size more than 2MB");
+         var alert_title = "Failed";
+         var alert_message = "Image size more than 2MB";
+
+         ToastAlert(alert_message, alert_title);
+         setTimeout(()=>{
+            window.location.reload();
+         },3000);
       }
    });
 
@@ -43,7 +55,13 @@ $(document).ready(function() {
 
       // Check if files are selected
       if (!frontImage || !backImage) {
-         alert("Please upload both Front and Back ID images.");
+         var alert_title = "Failed";
+         var alert_message = "Please upload both Front and Back ID images.";
+
+         ToastAlert(alert_message, alert_title);
+         setTimeout(()=>{
+            window.location.reload();
+         },3000);
          return;
       }
 
@@ -63,15 +81,35 @@ $(document).ready(function() {
          success: function(data) {
             // Handle response from server
             if (data.success) {
-               alert('ID submitted successfully!');
-               // Optionally, you can redirect or perform other actions upon success
+               // alert('ID submitted successfully!');
+               // console.log(data.token)
+               var alert_title = "Success";
+               var alert_message = "Application submitted";
+
+               ToastAlert(alert_message, alert_title);
+               setTimeout(()=>{
+                  window.location.href = "verify-done";
+               },3000);
             } else {
-               alert('Submission failed: ' + data.error);
+               var alert_title = "Failed";
+               var alert_message = "Submission failed";
+
+               ToastAlert(alert_message, alert_title);
+               setTimeout(()=>{
+                  window.location.reload();
+               },3000);
             }
          },
          error: function(xhr, status, error) {
             console.error('Error:', error);
-            alert('An error occurred. Please try again later.');
+            // alert('An error occurred. Please try again later.');
+            var alert_title = "Failed";
+            var alert_message = "An error occurred. Please try again later.";
+
+            ToastAlert(alert_message, alert_title);
+            setTimeout(()=>{
+               window.location.reload();
+            },3000);
          }
       });
    });
