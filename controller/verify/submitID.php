@@ -16,7 +16,7 @@ function getFileExtension($filename) {
 }
 
 // Validate file types
-$allowedExtensions = array('png');
+$allowedExtensions = array('png', 'jpg', 'jpeg');
 $frontExtension = getFileExtension($frontImage['name']);
 $backExtension = getFileExtension($backImage['name']);
 

@@ -42,37 +42,37 @@
                   <div class="row">
                      <div class="col-sm-12">
                         <div class="button-content" id="verify">
-                           <h3 class="verify-title">Let's add your Government ID</h3>
-                           <p>We’ll need you to add an official government ID. This step helps make sure you’re really you.</p>
+                           <h3 class="verify-title skeleton">Let's add your Government ID</h3>
+                           <p class="skeleton">We’ll need you to add an official government ID. This step helps make sure you’re really you.</p>
                            <div class="verify-form">
                               <div class="row">
                                  <div class="col-sm-12 col-md-6 my-3">
                                     <div class="id-upload" id="front-id">
-                                       <input type="file" class="file-input" accept="image/png" hidden>
+                                       <input type="file" class="file-input skeleton" accept="image/png, image/jpeg" hidden>
                                        <div class="img-area" data-img="">
-                                          <i class='bx bx-cloud-upload icon'></i>
-                                          <h3>Upload Image</h3>
-                                          <p>Image size must be less than <span>2MB</span></p>
+                                          <i class='bx bx-cloud-upload icon skeleton'></i>
+                                          <h3 class=" skeleton">Upload Image</h3>
+                                          <p class=" skeleton">Image size must be less than <span>2MB</span></p>
                                        </div>
-                                       <button class="select-image">Upload your Front ID</button>
+                                       <button class="select-image skeleton">Upload your Front ID</button>
                                     </div>
                                  </div>
 
                                  <div class="col-sm-12 col-md-6 my-3">
                                     <div class="id-upload" id="back-id">
-                                       <input type="file" class="file-input" accept="image/png" hidden>
+                                       <input type="file" class="file-input skeleton" accept="image/png, image/jpeg" hidden>
                                        <div class="img-area" data-img="">
-                                          <i class='bx bx-cloud-upload icon'></i>
-                                          <h3>Upload Image</h3>
-                                          <p>Image size must be less than <span>2MB</span></p>
+                                          <i class='bx bx-cloud-upload icon skeleton'></i>
+                                          <h3 class=" skeleton">Upload Image</h3>
+                                          <p class=" skeleton">Image size must be less than <span>2MB</span></p>
                                        </div>
-                                       <button class="select-image">Upload your Back ID</button>
+                                       <button class="select-image skeleton">Upload your Back ID</button>
                                     </div>
                                  </div>
                               </div>
                            </div>
                            <div class="card-btn">
-                              <button class="a" id="submit">Submit Application</button>
+                              <button class="a skeleton" id="submit">Submit Application</button>
                            </div>
                         </div>
                      </div>
