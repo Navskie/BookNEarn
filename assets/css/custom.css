@@ -1454,10 +1454,6 @@ iframe {
    border-radius: 10px;
 }
 
-.card-personal {
-   padding: 0 30px;
-}
-
 .card-personal h3 {
    font-weight: 800;
 }
@@ -1707,4 +1703,50 @@ iframe {
 .balance .money {
    font-size: 28px;
    font-weight: 600;
+}
+
+
+/* Basic styling for table responsiveness */
+.table-responsive {
+   overflow-x: auto;
+}
+
+/* Stack table rows on smaller screens */
+@media (max-width: 768px) {
+   .table-responsive table {
+      width: 100%;
+      margin-bottom: 15px;
+      border-collapse: collapse;
+   }
+
+   .table-responsive thead {
+      display: none; /* Hide table header on small screens */
+   }
+
+   .table-responsive td, .table-responsive th {
+      display: block;
+      padding: .5em;
+      text-align: left;
+   }
+
+   .table-responsive td::before {
+      content: attr(data-label); /* Use data-label attribute for column headers */
+      font-weight: bold;
+      display: block;
+      text-transform: uppercase;
+   }
+}
+
+.bold {
+   font-weight: 700;
+}
+
+.table-number {
+   display: flex;
+   justify-content: space-between;
+   margin: 10px 0;
+}
+
+.table-number .showing {
+   font-style: italic;
 }

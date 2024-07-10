@@ -30,22 +30,12 @@
          <div class="container-profile">
             <div class="row">
                <div class="col-sm-12 col-md-3">
-                  <div class="card-profile">
-                     <div class="img">
-                        <img src="assets/img/profile/profile.jfif" class="img-fluid mb-3 profile-picture skeleton" alt="Profile Picture">
-                     </div>
-                     <div class="name">
-                        <span class="fullname skeleton">RONNEL NAVARRO</span>
-                        <span class="email skeleton">navarroronnel@gmail.com</span>
-                        <span class="role skeleton">not verified</span>
-                     </div>
-                     
-                  </div>
+                  <?php include 'controller/profile/profile.php' ?>
                </div>
                <div class="col-sm-12 col-md-9">
                <div class="card-personal">
                   <div class="card-btn">
-                     <a href="#" class="a">Edit Profile</a>
+                     <a href="profile-edit" class="a mb-3">Edit Profile</a>
                   </div>
                   <h3>About Ronnel</h3>
                   <div class="about-me">
@@ -55,6 +45,30 @@
                   <h3 class="dashboard-title">My Dashboard</h3>
                      <div class="dashboard">
                         <div class="row">
+                           <div class="col-sm-12 col-md-3 mb-3">
+                              <div class="dashboard-body" id="verify">
+                                 <div class="icon">
+                                    <i class='bx bx-badge-check'></i>
+                                 </div>
+                                 <div class="name">Verify Account</div>
+                              </div>
+                           </div>
+                           <div class="col-sm-12 col-md-3 mb-3">
+                              <div class="dashboard-body" id="wishlist">
+                                 <div class="icon">
+                                    <i class='bx bx-heart'></i>
+                                 </div>
+                                 <div class="name">Wishlist</div>
+                              </div>
+                           </div>
+                           <div class="col-sm-12 col-md-3 mb-3">
+                              <div class="dashboard-body" id="transaction">
+                                 <div class="icon">
+                                    <i class='bx bx-history'></i>
+                                 </div>
+                                 <div class="name">Activities</div>
+                              </div>
+                           </div>
                            <div class="col-sm-6 col-md-3 mb-3">
                               <div class="dashboard-body disabled" id="publish">
                                  <div class="icon">
@@ -77,30 +91,6 @@
                                     <i class='bx bx-message-rounded-dots'></i>
                                  </div>
                                  <div class="name">Message</div>
-                              </div>
-                           </div>
-                           <div class="col-sm-12 col-md-3 mb-3">
-                              <div class="dashboard-body" id="transaction">
-                                 <div class="icon">
-                                    <i class='bx bx-history'></i>
-                                 </div>
-                                 <div class="name">Activities</div>
-                              </div>
-                           </div>
-                           <div class="col-sm-12 col-md-3 mb-3">
-                              <div class="dashboard-body" id="wishlist">
-                                 <div class="icon">
-                                    <i class='bx bx-heart'></i>
-                                 </div>
-                                 <div class="name">Wishlist</div>
-                              </div>
-                           </div>
-                           <div class="col-sm-12 col-md-3 mb-3">
-                              <div class="dashboard-body" id="verify">
-                                 <div class="icon">
-                                    <i class='bx bx-badge-check'></i>
-                                 </div>
-                                 <div class="name">Verify Account</div>
                               </div>
                            </div>
                         </div>
@@ -187,33 +177,97 @@
                            <div class="button-content" id="wishlist-content">
                               <h3 class="verify-title">Wishlist</h3>
                               <p>
-                                 Verifying your account helps us ensure your identity and secure your information. By confirming your account, you gain access to additional features and enhanced security measures, ensuring a seamless and trusted experience. Follow the verification process to safeguard your account and enjoy full access to our platform's benefits.
+                                 List of wishlist.
                               </p>
-                              <div class="card-btn">
-                                 <a href="#" class="a">Verify Now</a>
+                              <div class="wishlist">
+                                 <div class="row">
+                                    <div class="col-md-3 col-sm-12">
+                                       <div class="shop-body">
+                                          <div class="img skeleton">
+                                          <img src="assets/img/publish/default.png" alt="This is Logo">
+                                          </div>
+                                          <div class="shop-content">
+                                          <span class="s-title skeleton">Sample</span>
+
+                                          <span class="shop-price">
+                                             <span class="s-ratings skeleton">Ratings <i class='bx bxs-star' ></i> 5</span>
+
+                                             <span class="s-price skeleton">₱1000</span>
+                                          </span>
+                                          <span class="shop-price">
+                                             <span class="s-ratings skeleton"></span>
+
+                                             <span class="s-price-taxes skeleton">Taxes +540</span>
+                                          </span>
+                                          </div>
+                                          <a href="#" class="btn btn-sm btn-primary mt-3">Book Now</a>
+                                       </div>
+                                    </div>
+                                 </div>
                               </div>
                            </div>
                            <div class="button-content" id="transaction-content">
                               <h3 class="verify-title">Activities</h3>
                               <p>
-                                 The contents include booking transaction, wallet transaction, etc.
+                                 The contents include booking transaction, wallet transaction, etc. (7 days)
                               </p>
-                              <div class="table-body">
-                                 <table class="table table-responsive table-hovered">
+                              <div class="row">
+                              <div class="col-12">
+                                 <table class="table table-responsive table-hover table-striped table-bordered">
                                     <thead>
-                                       <th>Transaction ID</th>
-                                       <th>Remarks</th>
-                                       <th>Amount</th>
-                                       <th>Status</th>
+                                          <tr>
+                                             <th>Transaction ID</th>
+                                             <th>Remarks</th>
+                                             <th>Amount</th>
+                                             <th>Status</th>
+                                          </tr>
                                     </thead>
                                     <tbody>
-                                       <td>BILL122816_4683</td>
-                                       <td>You have received amount of 720 from Success Booking</td>
-                                       <td>720</td>
-                                       <td>Success Booking</td>
+                                          <?php
+                                          $recordsPerPage = 10; // Number of records per page
+                                          $currentPage = isset($_GET['page']) ? $_GET['page'] : 1; // Current page number, default is 1
+                                          $startFrom = ($currentPage - 1) * $recordsPerPage; // Calculate starting point for fetching records
+
+                                          // Fetch records from database
+                                          $walletHistory_sql = mysqli_query($con, "SELECT * FROM `wallet_history` WHERE `generated_id` = '$generated_id' LIMIT $startFrom, $recordsPerPage");
+                                          while ($dataH = mysqli_fetch_assoc($walletHistory_sql)) {
+                                             echo '<tr>';
+                                             echo '<td class="bold">' . $dataH['billing_id'] . '</td>';
+                                             echo '<td>' . $dataH['remarks'] . '</td>';
+                                             echo '<td>' . $dataH['amount'] . '</td>';
+                                             echo '<td>' . $dataH['status'] . '</td>';
+                                             echo '</tr>';
+                                          }
+                                          ?>
                                     </tbody>
                                  </table>
-                                 
+
+                                    <?php
+                                       // Count total number of records
+                                       $totalRecords_sql = mysqli_query($con, "SELECT COUNT(*) AS totalRecords FROM `wallet_history` WHERE `generated_id` = '$generated_id'");
+                                       $totalRecords = mysqli_fetch_assoc($totalRecords_sql)['totalRecords'];
+
+                                       // Calculate total number of pages
+                                       $totalPages = ceil($totalRecords / $recordsPerPage);
+                                    ?>
+
+                                    <div class="table-number">
+                                       <div class="showing">
+                                          Showing <?php echo $totalRecords; ?> results
+                                       </div>
+                                       <div class="page">
+                                          <ul class="pagination">
+                                             <?php
+                                             // Generate pagination links
+                                             for ($i = 1; $i <= $totalPages; $i++) {
+                                                $activeClass = ($i == $currentPage) ? 'active' : '';
+                                                echo '<li class="page-item ' . $activeClass . '"><a class="page-link" href="?page=' . $i . '">' . $i . '</a></li>';
+                                             }
+                                             ?>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
                               </div>
                               <div class="card-btn">
                                  <a href="#" class="a">Request Activities</a>
@@ -222,10 +276,10 @@
                            <div class="button-content" id="publish-content">
                               <h3 class="verify-title">Publish</h3>
                               <p>
-                                 Verifying your account helps us ensure your identity and secure your information. By confirming your account, you gain access to additional features and enhanced security measures, ensuring a seamless and trusted experience. Follow the verification process to safeguard your account and enjoy full access to our platform's benefits.
+                                 Start to publish your first post.
                               </p>
                               <div class="card-btn">
-                                 <a href="#" class="a">Verify Now</a>
+                                 <a href="publish-start" class="a">Start</a>
                               </div>
                            </div>
                         </div>
