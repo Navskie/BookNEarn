@@ -17,7 +17,7 @@
     
     $token = $_SESSION['token'];
 
-    $sql_session = mysqli_query($con, "SELECT `fullname`, `generated_id` FROM `users` WHERE `_token` = '$token'");
+    $sql_session = mysqli_query($con, "SELECT `fullname`, `generated_id`, `password` FROM `users` WHERE `_token` = '$token'");
     if (mysqli_num_rows($sql_session) < 1)
     {
         $sql_session = mysqli_query($con, "SELECT `fullname` FROM `admin` WHERE `_token` = '$token'");
@@ -27,6 +27,7 @@
 
     $name = $session['fullname'];
     $generated_id = $session['generated_id'];
+    $password = $session['password'];
     $img = $session['img'];
     if ($img == '') {
         $img = 'default.png';
