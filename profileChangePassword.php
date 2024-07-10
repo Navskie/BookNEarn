@@ -97,6 +97,14 @@
             setTimeout(()=>{
                window.location.reload();
             },3000);
+         } else if (oldPassword == '' || newPassword == '' || confirmPassword == '') {
+            var alert_title = "Failed";
+            var alert_message = "All fields are required";
+
+            ToastAlert(alert_message, alert_title);
+            setTimeout(()=>{
+               window.location.reload();
+            },3000);
          }
 
          $.ajax({
