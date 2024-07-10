@@ -75,14 +75,11 @@ $(document).ready(function() {
          url: 'controller/verify/submitID',
          type: 'POST',
          data: formData,
-         processData: false, // Prevent jQuery from automatically processing the FormData object
-         contentType: false, // Prevent jQuery from setting contentType
-         dataType: 'json', // Expect JSON response from server
+         processData: false, 
+         contentType: false, 
+         dataType: 'json', 
          success: function(data) {
-            // Handle response from server
             if (data.success) {
-               // alert('ID submitted successfully!');
-               // console.log(data.token)
                var alert_title = "Success";
                var alert_message = "Application submitted";
 
@@ -102,7 +99,6 @@ $(document).ready(function() {
          },
          error: function(xhr, status, error) {
             console.error('Error:', error);
-            // alert('An error occurred. Please try again later.');
             var alert_title = "Failed";
             var alert_message = "An error occurred. Please try again later.";
 

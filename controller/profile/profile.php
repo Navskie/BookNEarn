@@ -1,10 +1,10 @@
 <div class="card-profile">
    <div class="img">
-      <img src="assets/img/profile/profile.jfif" class="img-fluid mb-3 profile-picture skeleton" alt="Profile Picture">
+      <img src="assets/img/profile/<?php echo $img ?>" class="img-fluid mb-3 profile-picture skeleton" alt="Profile Picture">
    </div>
    <div class="name">
-      <span class="fullname skeleton">RONNEL NAVARRO</span>
-      <span class="email skeleton">navarroronnel@gmail.com</span>
-      <span class="role skeleton">not verified</span>
+      <span class="fullname skeleton"><?php echo $fullname ?></span>
+      <span class="email skeleton"><?php echo $emailAddress ?></span>
+      <span class="role skeleton"><?php echo $accVerify ?></span>
    </div>
 </div>

@@ -1411,6 +1411,7 @@ iframe {
 .img img {
    width: 200px;
    height: 200px;
+   object-fit: cover;
 }
 
 .name {
@@ -1424,6 +1425,7 @@ iframe {
 .name .fullname {
    font-size: 18px;
    font-weight: 600;
+   text-transform: uppercase;
 }
 
 .name .email {
@@ -1749,4 +1751,8 @@ iframe {
 
 .table-number .showing {
    font-style: italic;
+}
+
+.profile-picture {
+   border-radius: 50%;
 }

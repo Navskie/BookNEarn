@@ -2,8 +2,6 @@
 <html lang="en">
 <head>
    <?php include_once 'inc/header.php' ?>
-   <!-- Bootstrap Selectpicker CSS -->
-   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta3/css/bootstrap-select.min.css" rel="stylesheet">
 </head>
 <body>
    <!-- Top Navigation -->
@@ -15,11 +13,9 @@
    <!-- Navigation END -->
 
    <?php
-      // Assuming $token is defined somewhere else in your PHP code
-      // Checking if $token is empty to redirect to login page
       if ($token == "") {
          echo "<script>window.location.href = 'login';</script>";
-         exit; // Exit to prevent further execution
+         exit;
       }
    ?>
 
@@ -37,9 +33,45 @@
                         <div class="button-content" id="verify">
                            <h3 class="verify-title skeleton">Profile Settings</h3>
                            <p class=" skeleton">Manage your account</p>
-                           
+                           <div class="row">
+                              <div class="col-md-3 col-sm-12">
+                              <div id="front-id">
+                                 <input type="file" class="file-input" id="file" accept="image/*" hidden>
+                                 <div class="img-area" data-img="">
+                                    <i class='bx bx-cloud-upload icon'></i>
+                                    <h3>Upload Image</h3>
+                                    <p class="text-center">Filesize must be less than <span>2MB</span></p>
+                                 </div>
+                                 <button class="select-image">Upload Profile</button>
+                              </div>
+
+                              </div>
+                              <div class="col-sm-12 col-md-9">
+                                 <div class="row">
+                                    <div class="col-md-6 col-sm-12 mb-3">
+                                       <div class="form-group">
+                                          <label for="">Full Name</label>
+                                          <input type="text" class="form-control shadow-none rounded-0" id="fullName">
+                                       </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 mb-3">
+                                       <div class="form-group">
+                                          <label for="">Mobile Number</label>
+                                          <input type="text" id="mobileNumber" class="form-control shadow-none rounded-0">
+                                       </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 mb-3">
+                                       <div class="form-group">
+                                          <label for="">About you</label>
+                                          <textarea id="bio" class="form-control shadow-none rounded-0"></textarea>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
                            <div class="card-btn">
-                              <a href="profile" class="a skeleton mt-3">Save</a>
+                              <a href="profileChangePassword" class="a skeleton mt-3 mx-3">Change Password</a>
+                              <button id="profileEdit" class="a skeleton mt-3">Save</button>
                            </div>
                         </div>
                      </div>
@@ -54,12 +86,5 @@
    <?php include_once 'inc/footer.php' ?>
 </body>
 <?php include_once 'inc/footer-link.php' ?>
-<!-- Bootstrap Selectpicker JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta3/js/bootstrap-select.min.js"></script>
-
-<script>
-$(document).ready(function() {
-  $('.selectpicker').selectpicker();
-});
-</script>
+<script src="assets/js/profile/editProfile.js"></script>
 </html>

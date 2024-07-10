@@ -39,7 +39,7 @@
                   </div>
                   <h3>About Ronnel</h3>
                   <div class="about-me">
-                     <p>Write Something about you...</p>
+                     <p><?php echo $Profilebio ?></p>
                   </div>
                   <hr>
                   <h3 class="dashboard-title">My Dashboard</h3>
