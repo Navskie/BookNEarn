@@ -15,11 +15,30 @@
    <!-- Navigation END -->
 
    <?php
-      // Assuming $token is defined somewhere else in your PHP code
-      // Checking if $token is empty to redirect to login page
       if ($token == "") {
          echo "<script>window.location.href = 'login';</script>";
          exit; // Exit to prevent further execution
+      }
+   ?>
+
+   <?php 
+      $inventory = $title_sub = $description_sub = $address_sub = $province = $city = $maxAdult = $minAdult = $petStatus = '';
+
+      if($_SESSION['publishON'] == 'on') {
+         $unique_id = $_SESSION['pubUNIQ'];
+
+         $publish_sql = mysqli_query($con, "SELECT * FROM publish WHERE unique_id = '$unique_id'");
+         $publish_data = mysqli_fetch_array($publish_sql);
+
+         $inventory = $publish_data['qty'];
+         $title_sub = $publish_data['title'];
+         $description_sub = $publish_data['description'];
+         $address_sub = $publish_data['address'];
+         $province = $publish_data['province'];
+         $city = $publish_data['city'];
+         $maxAdult = $publish_data['max_adult'];
+         $minAdult = $publish_data['min_adult'];
+         $petStatus = $publish_data['pet'];
       }
    ?>
 
@@ -40,33 +59,33 @@
                            <div class="row">
                               <div class="col-md-6 col-sm-12 mb-3">
                                  <div class="form-group">
-                                    <label for="">How many cabin/rooms?</label>
-                                    <input type="text" class="form-control shadow-none">
+                                    <label for="">* How many cabin/rooms?</label>
+                                    <input type="text" class="form-control shadow-none" id="inventory" value="<?php echo $inventory ?>">
                                  </div>
                               </div>
                               <div class="col-md-6 col-sm-12 mb-3">
                                  <div class="form-group">
-                                    <label for="">Title</label>
-                                    <input type="text" class="form-control shadow-none">
+                                    <label for="">* Title</label>
+                                    <input type="text" class="form-control shadow-none" id="title" value="<?php echo $title_sub ?>">
                                  </div>
                               </div>
                               <div class="col-md-6 col-sm-12 mb-3">
                                  <div class="form-group">
-                                    <label for="">Description</label>
-                                    <textarea name="" id="" class="form-control shadow-none"></textarea>
+                                    <label for="">* Description</label>
+                                    <textarea name="" class="form-control shadow-none" id="description"><?php echo $description_sub ?></textarea>
                                  </div>
                               </div>
                               <div class="col-md-6 col-sm-12 mb-3">
                                  <div class="form-group">
-                                    <label for="">Address</label>
-                                    <textarea name="" id="" class="form-control shadow-none"></textarea>
+                                    <label for="">* Address</label>
+                                    <textarea name="" class="form-control shadow-none" id="address"><?php echo $address_sub ?></textarea>
                                  </div>
                               </div>
                               <div class="col-md-6 col-sm-12 mb-3">
                                  <div class="form-group">
-                                    <label for="city">Province</label>
-                                    <select class="selectpicker form-control shadow-none" data-live-search="true">
-                                       <option>Select Province</option>
+                                    <label for="city">* Province</label>
+                                    <select class="selectpicker form-control shadow-none" data-live-search="true" id="province">
+                                       <option value="<?php echo$province ?>"><?php echo$province ?></option>
                                        <?php
                                           $province_sql = mysqli_query($con, "SELECT provDesc FROM refprovince");
                                           foreach ($province_sql as $data_province) {
@@ -78,9 +97,9 @@
                               </div>
                               <div class="col-md-6 col-sm-12 mb-3">
                                  <div class="form-group">
-                                    <label for="city">City</label>
-                                    <select class="selectpicker form-control shadow-none" data-live-search="true">
-                                       <option>Select City</option>
+                                    <label for="city">* City</label>
+                                    <select class="selectpicker form-control shadow-none" data-live-search="true" id="city">
+                                       <option value="<?php echo $city ?>"><?php echo $city ?></option>
                                        <?php
                                           $city_sql = mysqli_query($con, "SELECT citymunDesc FROM refcitymun");
                                           foreach ($city_sql as $data_city) {
@@ -90,17 +109,24 @@
                                     </select>
                                  </div>
                               </div>
-                              <div class="col-md-6 col-sm-12 mb-3">
+                              <div class="col-md-3 col-sm-12 mb-3">
                                  <div class="form-group">
-                                    <label for="">Maximum Adult</label>
-                                    <input type="text" class="form-control shadow-none">
+                                    <label for="">* Minimum Adult</label>
+                                    <input type="text" class="form-control shadow-none" id="minAdult" value="<?php echo $minAdult ?>">
+                                 </div>
+                              </div>
+                              <div class="col-md-3 col-sm-12 mb-3">
+                                 <div class="form-group">
+                                    <label for="">* Maximum Adult</label>
+                                    <input type="text" class="form-control shadow-none" id="maxAdult" value="<?php echo $maxAdult ?>">
                                  </div>
                               </div>
                               <div class="col-md-6 col-sm-12 mb-3">
                                  <div class="form-group">
-                                    <label for="">Pets</label>
-                                    <select name="" id="" class="form-control shadow-none">
-                                       <option value="">Select Option</option>
+                                    <label for="">* Pets</label>
+                                    <select name="" id="petStatus" class="form-control shadow-none" id="petStatus">
+                                       <!-- <option value="">Select Option</option> -->
+                                       <option value="<?php echo $petStatus ?>"><?php echo $petStatus ?></option>
                                        <option value="Allowed">Allowed</option>
                                        <option value="Not Allowed">Not Allowed</option>
                                     </select>
@@ -108,7 +134,7 @@
                               </div>
                            </div>
                            <div class="card-btn">
-                              <a href="publish-amenities" class="a skeleton">Continue</a>
+                              <button id="publishDetails" class="a skeleton">Continue</button>
                            </div>
                         </div>
                      </div>
@@ -125,7 +151,7 @@
 <?php include_once 'inc/footer-link.php' ?>
 <!-- Bootstrap Selectpicker JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta3/js/bootstrap-select.min.js"></script>
-
+<script src="assets/js/publish/details.js"></script>
 <script>
 $(document).ready(function() {
   $('.selectpicker').selectpicker();

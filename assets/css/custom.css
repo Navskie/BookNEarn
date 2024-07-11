@@ -1756,3 +1756,16 @@ iframe {
 .profile-picture {
    border-radius: 50%;
 }
+
+.ame-icon i {
+   font-size: 40px;
+}
+
+.ame-icon {
+   display: flex;
+   flex-wrap: wrap;
+   align-items: center;
+   justify-content: center;
+   /* flex-direction: column; */
+   gap: 10px;
+}

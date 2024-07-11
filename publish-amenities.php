@@ -15,11 +15,9 @@
    <!-- Navigation END -->
 
    <?php
-      // Assuming $token is defined somewhere else in your PHP code
-      // Checking if $token is empty to redirect to login page
       if ($token == "") {
          echo "<script>window.location.href = 'login';</script>";
-         exit; // Exit to prevent further execution
+         exit;
       }
    ?>
 
@@ -38,23 +36,34 @@
                            <h3 class="verify-title skeleton">Create Post</h3>
                            <p class=" skeleton">Add amenities for your post.</p>
                            <div class="row">
-                     
                               <div class="col-md-6 col-sm-12 mb-3">
                                  <div class="form-group">
-                                    <label for="city">Amenities</label>
-                                    <select class="selectpicker form-control shadow-none mb-3" data-live-search="true">
-                                       <option>Free Wi-Fi</option>
-                                       <option>Breakfast Included</option>
-                                       <option>Swimming Pool</option>
-                                       <option>Fitness Center</option>
-                                       <option>Spa & Wellness Center</option>
-                                       <option>Airport Shuttle</option>
-                                       <option>Pet Friendly</option>
+                                    <label for="amenities">Amenities</label>
+                                    <select class="selectpicker form-control shadow-none mb-3" id="amenities" data-live-search="true">
+                                       <option value="">Select Icon</option>
+                                       <option value="bx bx-wifi-2">Free Wi-Fi</option>
+                                       <option value="bx bx-bowl-rice">Breakfast Included</option>
+                                       <option value="bx bx-swim">Swimming Pool</option>
+                                       <option value="bx bx-dumbbell">Fitness Center</option>
+                                       <option value="bx bxs-cat">Pet Friendly</option>
                                     </select>
-                                    <button class="btn btn-dark">Add</button>
+                                    <button class="btn btn-dark" id="addAme">Add</button>
+                                 </div>
+                                 <hr>
+                                 <div class="my-3">
+                                    <div class="ame-icon">
+                                    <?php 
+                                       $ameUNIQ = $_SESSION['pubUNIQ'];
+                                       $amenities_loop = mysqli_query($con, "SELECT * FROM amenities WHERE unique_id = '$ameUNIQ'");
+                                       foreach ($amenities_loop as $ame_data) {
+                                    ?>
+                                    
+                                       <i class='<?php echo $ame_data['icon'] ?>'></i>
+                                    
+                                    <?php } ?>
+                                    </div>
                                  </div>
                               </div>
-                              
                            </div>
                            <div class="card-btn">
                               <a href="publish-price" class="a skeleton mt-4">Continue</a>
@@ -74,7 +83,7 @@
 <?php include_once 'inc/footer-link.php' ?>
 <!-- Bootstrap Selectpicker JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta3/js/bootstrap-select.min.js"></script>
-
+<script src="assets/js/publish/amenities.js"></script>
 <script>
 $(document).ready(function() {
   $('.selectpicker').selectpicker();
