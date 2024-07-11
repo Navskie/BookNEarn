@@ -35,6 +35,10 @@
                   <div class="row">
                      <div class="col-sm-12">
                         <div class="button-content" id="verify">
+                           <div class="backgo">
+                              <div class="left"><a href="publish-price"><i class='bx bx-chevron-left' ></i></a></div>
+                              <div class="right"></div>
+                           </div>
                            <h3 class="verify-title skeleton">Create Post</h3>
                            <p class=" skeleton">Add Image for your post.</p>
                            

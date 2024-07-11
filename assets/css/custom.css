@@ -1490,10 +1490,6 @@ iframe {
    font-size: 22px;
 }
 
-.button-content {
-   padding-top: 35px;
-}
-
 
 
 
@@ -1768,4 +1764,15 @@ iframe {
    justify-content: center;
    /* flex-direction: column; */
    gap: 10px;
+}
+
+.backgo {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.left i, .right i {
+   font-size: 30px;
+   color: #333;
 }
