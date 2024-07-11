@@ -35,15 +35,15 @@
                            <p class=" skeleton">Manage your account</p>
                            <div class="row">
                               <div class="col-md-3 col-sm-12">
-                              <div id="front-id">
-                                 <input type="file" class="file-input" id="file" accept="image/*" hidden>
-                                 <div class="img-area" data-img="">
-                                    <i class='bx bx-cloud-upload icon'></i>
-                                    <h3>Upload Image</h3>
-                                    <p class="text-center">Filesize must be less than <span>2MB</span></p>
+                                 <div id="front-id">
+                                    <input type="file" class="file-input" id="file" accept="image/*" hidden>
+                                    <div class="img-area" data-img="">
+                                       <i class='bx bx-cloud-upload icon'></i>
+                                       <h3>Upload Image</h3>
+                                       <p class="text-center">Filesize must be less than <span>2MB</span></p>
+                                    </div>
+                                    <button class="select-image">Upload Profile</button>
                                  </div>
-                                 <button class="select-image">Upload Profile</button>
-                              </div>
 
                               </div>
                               <div class="col-sm-12 col-md-9">

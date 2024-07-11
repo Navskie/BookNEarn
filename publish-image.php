@@ -2,8 +2,6 @@
 <html lang="en">
 <head>
    <?php include_once 'inc/header.php' ?>
-   <!-- Bootstrap Selectpicker CSS -->
-   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta3/css/bootstrap-select.min.css" rel="stylesheet">
 </head>
 <body>
    <!-- Top Navigation -->
@@ -15,11 +13,9 @@
    <!-- Navigation END -->
 
    <?php
-      // Assuming $token is defined somewhere else in your PHP code
-      // Checking if $token is empty to redirect to login page
       if ($token == "") {
          echo "<script>window.location.href = 'login';</script>";
-         exit; // Exit to prevent further execution
+         exit;
       }
    ?>
 
@@ -41,7 +37,49 @@
                            </div>
                            <h3 class="verify-title skeleton">Create Post</h3>
                            <p class=" skeleton">Add Image for your post.</p>
-                           
+                           <div class="row">
+                              <div class="col-md-4 col-sm-12 mb-3">
+                                 <div id="front-id">
+                                    <input type="file" class="file-input" id="file" accept="image/*" hidden>
+                                    <div class="img-area" data-img="">
+                                       <i class='bx bx-cloud-upload icon'></i>
+                                       <h3>Upload Image</h3>
+                                       <p class="text-center">Filesize must be less than <span>2MB</span></p>
+                                       <p class="text-center">Maximum of <span>5</span> images</p>
+                                    </div>
+                                    <button class="select-image">Upload Image</button>
+                                 </div>
+                                 <button class="btn btn-dark form-control shadow-none mt-3" id="saveIMG">Save</button>
+                              </div>
+                              <div class="col-md-8 col-sm-12 mb-3">
+                                 <h5>Please choose your main image.</h5>
+                                 <hr>
+                                 <div class="row">
+                                    <?php
+                                       $unique_id = $_SESSION['pubUNIQ'];
+
+                                       $sql = mysqli_query($con, "SELECT * FROM publish_img WHERE unique_id = '$unique_id'");
+                                       $disabledMAIN = mysqli_query($con, "SELECT * FROM publish_img WHERE unique_id = '$unique_id' AND `status` = 'main'");
+                                       foreach ($sql as $data) {
+                                    ?>
+                                    <div class="col-md-6 col-sm-12">
+                                       
+                                       <div class="row">
+                                          <div class="col-md-8 col-sm-12 mb-3">
+                                             <img src="assets/img/publish/<?php echo $data['filename'] ?>" alt="IMG" class="img-fluid">
+                                          </div>
+                                          <div class="col-md-4 col-sm-12 mb-3">
+                                                <a href="controller/publish/imageDELETE?id=<?php echo $data['id'] ?>&&img=<?php echo $data['filename'] ?>" class="btn btn-danger mb-3">Delete</a>
+                                             <?php if (mysqli_num_rows($disabledMAIN) < 1) { ?>
+                                                <a href="controller/publish/imageMAIN?id=<?php echo $data['id'] ?>" class="btn btn-primary mb-3">Main</a>
+                                             <?php } ?>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <?php } ?>
+                                 </div>
+                              </div>
+                           </div>
                            <div class="card-btn">
                               <a href="profile" class="a skeleton mt-3">Publish</a>
                            </div>
@@ -58,12 +96,5 @@
    <?php include_once 'inc/footer.php' ?>
 </body>
 <?php include_once 'inc/footer-link.php' ?>
-<!-- Bootstrap Selectpicker JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta3/js/bootstrap-select.min.js"></script>
-
-<script>
-$(document).ready(function() {
-  $('.selectpicker').selectpicker();
-});
-</script>
+<script src="assets/js/publish/image.js"></script>
 </html>
