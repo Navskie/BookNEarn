@@ -37,7 +37,7 @@
                   <div class="card-btn">
                      <a href="profile-edit" class="a mb-3">Edit Profile</a>
                   </div>
-                  <h3>About Ronnel</h3>
+                  <h3>About <?php echo $fullname ?></h3>
                   <div class="about-me">
                      <p><?php echo $Profilebio ?></p>
                   </div>
@@ -53,6 +53,9 @@
                                  <div class="name">Verify Account</div>
                               </div>
                            </div>
+                           <?php 
+                              if ($accVerify == 'Verified') {
+                           ?>
                            <div class="col-sm-12 col-md-3 mb-3">
                               <div class="dashboard-body" id="wishlist">
                                  <div class="icon">
@@ -69,6 +72,29 @@
                                  <div class="name">Activities</div>
                               </div>
                            </div>
+                           
+                           <div class="col-sm-6 col-md-3 mb-3">
+                              <div class="dashboard-body" id="wallet">
+                                 <div class="icon">
+                                    <i class='bx bx-wallet'></i>
+                                 </div>
+                                 <div class="name">Wallet</div>
+                              </div>
+                           </div>
+                           <div class="col-sm-12 col-md-3 mb-3">
+                              <div class="dashboard-body" id="message">
+                                 <div class="icon">
+                                    <i class='bx bx-message-rounded-dots'></i>
+                                 </div>
+                                 <div class="name">Message</div>
+                              </div>
+                           </div>
+                           <?php 
+                              }
+                           ?>
+                           <?php 
+                              if ($role == 'host' && $accVerify == 'Verified') {
+                           ?>
                            <div class="col-sm-6 col-md-3 mb-3">
                               <div class="dashboard-body disabled" id="publish">
                                  <div class="icon">
@@ -77,22 +103,9 @@
                                  <div class="name">Publish</div>
                               </div>
                            </div>
-                           <div class="col-sm-6 col-md-3 mb-3">
-                              <div class="dashboard-body disabled" id="wallet">
-                                 <div class="icon">
-                                    <i class='bx bx-wallet'></i>
-                                 </div>
-                                 <div class="name">Wallet</div>
-                              </div>
-                           </div>
-                           <div class="col-sm-12 col-md-3 mb-3">
-                              <div class="dashboard-body disabled" id="message">
-                                 <div class="icon">
-                                    <i class='bx bx-message-rounded-dots'></i>
-                                 </div>
-                                 <div class="name">Message</div>
-                              </div>
-                           </div>
+                           <?php 
+                              }
+                           ?>
                         </div>
                      </div>
                      <div class="row">
