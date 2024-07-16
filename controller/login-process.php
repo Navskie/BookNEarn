@@ -16,12 +16,11 @@
                $data_role = $data['role'];
                $data_token = $data['_token'];
 
-               if ($data_role == 'host') 
-               {
-                  echo "user success";
+               echo "user success";
 
-                  $_SESSION['token'] = $data_token;
-               }
+               $_SESSION['token'] = $data_token;
+               $_SESSION['role'] = $data_role;
+               
             } else {
                $credentials = mysqli_query($con, "SELECT * FROM `admin` WHERE `email` = '$email' AND `password` = '$password'");
                $data = mysqli_fetch_array($credentials);
