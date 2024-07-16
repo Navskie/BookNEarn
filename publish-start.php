@@ -23,7 +23,8 @@
 
    <?php 
       $inventory = $title_sub = $description_sub = $address_sub = $province = $city = $maxAdult = $minAdult = $petStatus = '';
-
+      // unset($_SESSION['pubUNIQ']);
+      // unset($_SESSION['publishON']);
       if($_SESSION['publishON'] == 'on') {
          $unique_id = $_SESSION['pubUNIQ'];
 

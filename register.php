@@ -25,14 +25,14 @@
 
                   <div class="login-form">
                      <form id="form_register" enctype="multipart/form-data">
-                           <div class="frm-group">
-                              <label for="" class="label-form skeleton"><i class='bx bx-envelope'></i></label>
-                              <input type="text" class="input-form skeleton" placeholder="Enter your Email" name="email" autocomplete="OFF">
-                           </div>
+                        <div class="frm-group">
+                           <label for="" class="label-form skeleton"><i class='bx bx-envelope'></i></label>
+                           <input type="text" class="input-form skeleton" placeholder="Enter your Email" name="email" autocomplete="OFF">
+                        </div>
                   </div>
 
                   <div class="login-btn">
-                           <button class="btn-login skeleton" id="thisisbutton">Sign Up <i class='bx bx-arrow-from-left'></i></button>
+                        <button class="btn-login skeleton" id="thisisbutton">Sign Up <i class='bx bx-arrow-from-left'></i></button>
                      </form>
                   </div>
                </div>

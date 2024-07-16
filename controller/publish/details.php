@@ -22,8 +22,8 @@
       $numbers = str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT);
       $unique_id = $letters . $numbers;
 
-      $sql = "INSERT INTO `publish`(`unique_id`, `title`, `description`, `province`, `city`, `address`, `qty`, `min_adult`, `max_adult`, `pet`) 
-            VALUES ('$unique_id','$title','$description','$province','$city','$address','$inventory','$minAdult','$maxAdult','$petStatus')";
+      $sql = "INSERT INTO `publish`(`unique_id`, `creator`,`title`, `description`, `province`, `city`, `address`, `qty`, `min_adult`, `max_adult`, `pet`) 
+            VALUES ('$unique_id', '$token','$title','$description','$province','$city','$address','$inventory','$minAdult','$maxAdult','$petStatus')";
       $execute = mysqli_query($con, $sql);
 
       if (!$execute) {
@@ -36,7 +36,7 @@
    } else {
       $sql = "UPDATE `publish` SET `title` = '$title', `description` = '$description', `province` = '$province', `city` = '$city', 
             `address`= '$address', `qty` = '$inventory', `min_adult` = '$minAdult', `max_adult` = '$maxAdult', `pet` = '$petStatus' 
-            WHERE `unique_id` = '$unique_id'";
+            WHERE `unique_id` = '$unique_id' AND `creator` = '$token'";
       $execute = mysqli_query($con, $sql);
 
       if (!$execute) {

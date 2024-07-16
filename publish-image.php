@@ -32,7 +32,7 @@
                      <div class="col-sm-12">
                         <div class="button-content" id="verify">
                            <div class="backgo">
-                              <div class="left"><a href="publish-price"><i class='bx bx-chevron-left' ></i></a></div>
+                              <div class="left"><a href="publish-price"><i class='bx bx-chevron-left'></i></a></div>
                               <div class="right"></div>
                            </div>
                            <h3 class="verify-title skeleton">Create Post</h3>
@@ -75,13 +75,14 @@
                                              <?php } ?>
                                           </div>
                                        </div>
+                                       
                                     </div>
                                     <?php } ?>
                                  </div>
                               </div>
                            </div>
                            <div class="card-btn">
-                              <a href="profile" class="a skeleton mt-3">Publish</a>
+                              <button id="postPublish" class="a skeleton mt-3">Publish</button>
                            </div>
                         </div>
                      </div>
@@ -97,4 +98,5 @@
 </body>
 <?php include_once 'inc/footer-link.php' ?>
 <script src="assets/js/publish/image.js"></script>
+<script src="assets/js/publish/post.js"></script>
 </html>

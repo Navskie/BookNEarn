@@ -9,7 +9,7 @@
       <!-- Top Navigation END -->
 
       <!-- Navigation -->
-      <?php include_once 'inc/navigation.php'; echo $generated_id; ?>
+      <?php include_once 'inc/navigation.php'; ?>
       <!-- Navigation END -->
 
       <!-- Page Content -->
