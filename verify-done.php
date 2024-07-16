@@ -34,6 +34,9 @@
                      <div class="col-sm-12">
                         <div class="button-content" id="verify">
                            <h3 class="verify-title skeleton">Thank you!</h3>
+                           <div class="verified-img">
+                              <img src="assets/img/verifying.jpg" alt="IMG">
+                           </div>
                            <p class=" skeleton">Thank you for submitting your verification information successfully. Please note that it may take 3-5 business days to review and verify your credentials. We appreciate your patience.</p>
                            <div class="card-btn">
                               <a href="profile" class="a skeleton">Back to Profile</a>
