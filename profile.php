@@ -115,8 +115,8 @@
                               <p class="skeleton">
                                  Verifying your account helps us ensure your identity and secure your information. By confirming your account, you gain access to additional features and enhanced security measures, ensuring a seamless and trusted experience. Follow the verification process to safeguard your account and enjoy full access to our platform's benefits.
                               </p>
-                              <div class="card-btn">
-                                 <a href="profile-verify skeleton" class="a">Verify Now</a>
+                              <div class="card-btn skeleton">
+                                 <a href="profile-verify" class="a">Verify Now</a>
                               </div>
                            </div>
                            <div class="button-content" id="wallet-content">
