@@ -34,19 +34,19 @@
                </div>
                <div class="col-sm-12 col-md-9">
                <div class="card-personal">
-                  <div class="card-btn">
+                  <div class="card-btn skeleton">
                      <a href="profile-edit" class="a mb-3">Edit Profile</a>
                   </div>
-                  <h3>About <?php echo $fullname ?></h3>
-                  <div class="about-me">
+                  <h3 class="skeleton">About <?php echo $fullname ?></h3>
+                  <div class="about-me skeleton">
                      <p><?php echo $Profilebio ?></p>
                   </div>
                   <hr>
-                  <h3 class="dashboard-title">My Dashboard</h3>
+                  <h3 class="dashboard-title skeleton">My Dashboard</h3>
                      <div class="dashboard">
                         <div class="row">
                            <div class="col-sm-12 col-md-3 mb-3">
-                              <div class="dashboard-body" id="verify">
+                              <div class="dashboard-body skeleton" id="verify">
                                  <div class="icon">
                                     <i class='bx bx-badge-check'></i>
                                  </div>
@@ -57,7 +57,7 @@
                               if ($accVerify == 'Verified') {
                            ?>
                            <div class="col-sm-12 col-md-3 mb-3">
-                              <div class="dashboard-body" id="wishlist">
+                              <div class="dashboard-body skeleton" id="wishlist">
                                  <div class="icon">
                                     <i class='bx bx-heart'></i>
                                  </div>
@@ -65,7 +65,7 @@
                               </div>
                            </div>
                            <div class="col-sm-12 col-md-3 mb-3">
-                              <div class="dashboard-body" id="transaction">
+                              <div class="dashboard-body skeleton" id="transaction">
                                  <div class="icon">
                                     <i class='bx bx-history'></i>
                                  </div>
@@ -74,7 +74,7 @@
                            </div>
                            
                            <div class="col-sm-6 col-md-3 mb-3">
-                              <div class="dashboard-body" id="wallet">
+                              <div class="dashboard-body skeleton" id="wallet">
                                  <div class="icon">
                                     <i class='bx bx-wallet'></i>
                                  </div>
@@ -82,7 +82,7 @@
                               </div>
                            </div>
                            <div class="col-sm-12 col-md-3 mb-3">
-                              <div class="dashboard-body" id="message">
+                              <div class="dashboard-body skeleton" id="message">
                                  <div class="icon">
                                     <i class='bx bx-message-rounded-dots'></i>
                                  </div>
@@ -96,7 +96,7 @@
                               if ($role == 'host' && $accVerify == 'Verified') {
                            ?>
                            <div class="col-sm-6 col-md-3 mb-3">
-                              <div class="dashboard-body disabled" id="publish">
+                              <div class="dashboard-body skeleton" id="publish">
                                  <div class="icon">
                                     <i class='bx bx-cloud-upload'></i>
                                  </div>
@@ -111,25 +111,25 @@
                      <div class="row">
                         <div class="col-sm-12">
                            <div class="button-content" id="verify-content" style="display: block;">
-                              <h3 class="verify-title">Verify Your Account</h3>
-                              <p>
+                              <h3 class="verify-title skeleton">Verify Your Account</h3>
+                              <p class="skeleton">
                                  Verifying your account helps us ensure your identity and secure your information. By confirming your account, you gain access to additional features and enhanced security measures, ensuring a seamless and trusted experience. Follow the verification process to safeguard your account and enjoy full access to our platform's benefits.
                               </p>
                               <div class="card-btn">
-                                 <a href="profile-verify" class="a">Verify Now</a>
+                                 <a href="profile-verify skeleton" class="a">Verify Now</a>
                               </div>
                            </div>
                            <div class="button-content" id="wallet-content">
                               <?php 
                                  include_once 'controller/wallet/fetch.php';
                               ?>
-                              <h3 class="verify-title">Wallet</h3>
-                              <p>
+                              <h3 class="verify-title skeleton">Wallet</h3>
+                              <p class="skeleton">
                                  Withdrawals can only be made from Mondays through Wednesdays, and you can only withdraw once per week.
                               </p>
                               <div class="row">
                                  <div class="col-sm-12 col-md-4 mb-3">
-                                    <div class="wallet bg-success">
+                                    <div class="wallet bg-success skeleton">
                                        <div class="top">
                                           <div class="top-icon">
                                              <i class='bx bxl-mastercard' ></i>
@@ -144,7 +144,7 @@
                                     </div>
                                  </div>
                                  <div class="col-sm-12 col-md-4 mb-3">
-                                    <div class="wallet bg-danger">
+                                    <div class="wallet bg-danger skeleton">
                                        <div class="top">
                                           <div class="top-icon">
                                              <i class='bx bxl-mastercard' ></i>
@@ -159,7 +159,7 @@
                                     </div>
                                  </div>
                                  <div class="col-sm-12 col-md-4 mb-3">
-                                    <div class="wallet bg-primary">
+                                    <div class="wallet bg-primary skeleton">
                                        <div class="top">
                                           <div class="top-icon">
                                              <i class='bx bxl-mastercard' ></i>
@@ -179,20 +179,20 @@
                               </div>
                            </div>
                            <div class="button-content" id="message-content">
-                              <h3 class="verify-title">Message</h3>
-                              <p>
+                              <h3 class="verify-title skeleton">Message</h3>
+                              <p class="skeleton">
                                  Verifying your account helps us ensure your identity and secure your information. By confirming your account, you gain access to additional features and enhanced security measures, ensuring a seamless and trusted experience. Follow the verification process to safeguard your account and enjoy full access to our platform's benefits.
                               </p>
-                              <div class="card-btn">
+                              <div class="card-btn skeleton">
                                  <a href="#" class="a">Verify Now</a>
                               </div>
                            </div>
                            <div class="button-content" id="wishlist-content">
-                              <h3 class="verify-title">My Bookings</h3>
-                              <p>
+                              <h3 class="verify-title skeleton">My Bookings</h3>
+                              <p class="skeleton">
                                  List of Booking.
                               </p>
-                              <div class="wishlist">
+                              <div class="wishlist skeleton">
                                  <div class="row">
                                     <div class="col-md-3 col-sm-12">
                                        <?php
@@ -259,13 +259,13 @@
                               </div>
                            </div>
                            <div class="button-content" id="transaction-content">
-                              <h3 class="verify-title">Activities</h3>
-                              <p>
+                              <h3 class="verify-title skeleton">Activities</h3>
+                              <p class="skeleton">
                                  The contents include booking transaction, wallet transaction, etc. (7 days)
                               </p>
                               <div class="row">
                               <div class="col-12">
-                                 <table class="table table-responsive table-hover table-striped table-bordered">
+                                 <table class="table table-responsive table-hover table-striped table-bordered skeleton">
                                     <thead>
                                           <tr>
                                              <th>Transaction ID</th>
@@ -321,13 +321,13 @@
                                     </div>
                                  </div>
                               </div>
-                              <div class="card-btn">
+                              <div class="card-btn skeleton">
                                  <a href="#" class="a">Request Activities</a>
                               </div>
                            </div>
                            <div class="button-content" id="publish-content">
-                              <h3 class="verify-title">Publish</h3>
-                              <p>
+                              <h3 class="verify-title skeleton">Publish</h3>
+                              <p class="skeleton">
                                  Start to publish your first post.
                               </p>
                               <div class="card-btn">
