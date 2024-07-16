@@ -12,7 +12,7 @@ $(document).ready(function() {
 
       // Validate file type
       const fileType = image.type.split('/')[1]; // Get file extension
-      if (fileType !== 'jpg' || fileType !== 'png') {
+      if (fileType !== 'jpeg' && fileType !== 'jpg' && fileType !== 'png') {
          var alert_title = "Failed";
          var alert_message = "Please select a JPG or PNG file.";
 
