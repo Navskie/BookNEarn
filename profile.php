@@ -58,7 +58,7 @@
                                  <div class="icon">
                                     <i class='bx bx-heart'></i>
                                  </div>
-                                 <div class="name">Wishlist</div>
+                                 <div class="name">Booking</div>
                               </div>
                            </div>
                            <div class="col-sm-12 col-md-3 mb-3">
