@@ -21,8 +21,11 @@
       <?php
          if ($token == "")
          {
-               echo "<script>window.location.href = 'login';</script>";
+            echo "<script>window.location.href = 'login';</script>";
          }
+
+         $verified_apply = mysqli_query($con, "SELECT * FROM verified WHERE token = '$token'");
+         $verified_apply_num = mysqli_num_rows($verified_apply);  
       ?>
 
       <!-- Page Content -->
@@ -116,7 +119,17 @@
                                  Verifying your account helps us ensure your identity and secure your information. By confirming your account, you gain access to additional features and enhanced security measures, ensuring a seamless and trusted experience. Follow the verification process to safeguard your account and enjoy full access to our platform's benefits.
                               </p>
                               <div class="card-btn skeleton">
+                                 <?php 
+                                    if ($verified_apply_num < 1) {
+                                 ?>
                                  <a href="profile-verify" class="a">Verify Now</a>
+                                 <?php 
+                                    } else {
+                                 ?>
+                                 <a href="verify-done" class="a">On Going</a>
+                                 <?php 
+                                    }
+                                 ?>
                               </div>
                            </div>
                            <div class="button-content" id="wallet-content">
