@@ -1,5 +1,5 @@
 <div class="card-profile">
-   <div class="img">
+   <div class="img-profile">
       <img src="assets/img/profile/<?php echo $img ?>" class="img-fluid mb-3 profile-picture skeleton" alt="Profile Picture">
    </div>
    <div class="name">
