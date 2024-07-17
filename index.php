@@ -121,11 +121,11 @@
          </div> -->
          <h6 class="text-center">Check Availability</h6>
          <div class="row">
-            <div class="col-sm-12 col-md-6">
-               <button class="btn btn-primary form-control">Check for Daily</button>
+            <div class="col-sm-12 col-md-6 mb-3">
+               <button class="btn btn-primary form-control">Stays</button>
             </div>
-            <div class="col-sm-12 col-md-6">
-               <button class="btn btn-primary form-control">Check for Hourly</button>
+            <div class="col-sm-12 col-md-6 mb-3">
+               <button class="btn btn-primary form-control">Experience</button>
             </div>
          </div>
       </form>
@@ -144,9 +144,14 @@
       $sum_publish = 5 - $number_publish;
       foreach ($get_host as $hostData) {
          $img_host = $hostData['img'];
+         $host_token = $hostData['_token'];
          if ($img_host == '') {
             $img_host = 'default.png';
          }
+
+         $postUser = mysqli_query($con, "SELECT * FROM `publish` WHERE `creator` = '$host_token'");
+
+         if (mysqli_num_rows($postUser) > 0) {
    ?>
    <div class="shop-body">
       <div class="img skeleton">
@@ -169,6 +174,7 @@
       <a href="post-index?id=<?php echo $hostData['_token'] ?>" class="btn btn-sm btn-primary mt-3">See More</a>
    </div>
    <?php
+         }
       }
       if ($number_publish < 6) {  
          for ($i = 1; $i <= $sum_publish; $i++) {
