@@ -130,7 +130,8 @@
 
 <section class="container-shop pt-3">
    <?php 
-      $get_publish = mysqli_query($con, "SELECT * FROM `publish` WHERE `visible` = 'ON' AND `status` = 'Publish' ORDER BY id DESC");
+      $newTOken = $_GET['id'];
+      $get_publish = mysqli_query($con, "SELECT * FROM `publish` WHERE `visible` = 'ON' AND `status` = 'Publish'AND `creator` = '$newTOken' ORDER BY id DESC");
       $number_publish = mysqli_num_rows($get_publish);
       $sum_publish = 5 - $number_publish;
       foreach ($get_publish as $data) {

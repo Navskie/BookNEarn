@@ -130,90 +130,34 @@
 
 <section class="container-shop pt-3">
    <?php 
-      $get_publish = mysqli_query($con, "SELECT * FROM `publish` WHERE `visible` = 'ON' AND `status` = 'Publish' ORDER BY id DESC");
-      $number_publish = mysqli_num_rows($get_publish);
+      $get_host = mysqli_query($con, "SELECT * FROM `users` WHERE `role` = 'host'");
+      $number_publish = mysqli_num_rows($get_host);
       $sum_publish = 5 - $number_publish;
-      foreach ($get_publish as $data) {
-         $creator = $data['creator'];
-         $unique_id = $data['unique_id'];
-         $title = $data['title'];
-         $type = $data['type'];
-         $desc_text = $data['description'];
-         $max_length = 70; // Maximum length you want
-         $desc = (strlen($desc_text) > $max_length) ? preg_replace('/\s+?(\S+)?$/', '', substr($desc_text, 0, $max_length)) . '...' : $desc_text;
-
-         // image
-         $get_img = mysqli_query($con, "SELECT `filename` FROM `publish_img` WHERE `status` = 'main' AND unique_id = '$unique_id'");
-         $get_img_fetch = mysqli_fetch_array($get_img);
-         $filename = $get_img_fetch['filename'];
-
-         // creator
-         $get_creator = mysqli_query($con, "SELECT * FROM users WHERE _token = '$creator'");
-         $get_creator_fetch = mysqli_fetch_array($get_creator);
-         $fullname = $get_creator_fetch['fullname'];
-         $email = $get_creator_fetch['email'];
-         $img = $get_creator_fetch['img'];
-         if ($fullname == "") {
-            $fullname = "Administrator";
-            $email = "admin@gmail.com";
-            $img = "default.png";
+      foreach ($get_host as $hostData) {
+         $img_host = $hostData['img'];
+         if ($img_host == '') {
+            $img_host = 'default.png';
          }
-
-         // PRICE
-         $get_price_sql = mysqli_query($con, "SELECT * FROM price WHERE unique_id = '$unique_id'");
-         $price_data = mysqli_fetch_array($get_price_sql);
-
-         $price = $price_data['price'];
-         
-
-         if ($type === 'Daily') {
-            $link = 'booknow-daily';
-         } else {
-            $link = 'booknow-hourly';
-         }
-         
-
    ?>
    <div class="shop-body">
       <div class="img skeleton">
-      <img src="assets/img/publish/<?php echo $filename ?>" alt="This is Logo">
+      <img src="assets/img/profile/<?php echo $img_host ?>" alt="This is Logo">
       </div>
       <div class="shop-content">
-      <span class="s-title skeleton"><?php echo $title ?></span>
+      <span class="s-title skeleton"><?php echo $hostData['fullname'] ?></span>
 
       <span class="shop-short-desc skeleton">
-         <?php echo $desc ?>
+         <?php echo $hostData['bio'] ?>
       </span>
 
       <span class="shop-price">
-         <span class="s-ratings skeleton">Ratings <i class='bx bxs-star' ></i> 5</span>
+         <span class="s-ratings skeleton py-1 px-2 rounded-circle"></span>
 
-         <span class="s-price skeleton">₱<?php echo $price ?></span>
-      </span>
-      <span class="shop-price">
-         <span class="s-ratings skeleton"></span>
-
-         <span class="s-price-taxes skeleton">Taxes +<?php echo $price * 0.12; ?></span>
+         <span class="s-price skeleton"></span>
       </span>
       </div>
-      <hr>
-      <div class="tag">Posted by</div>
-      <div class="shop-posted">
-            <div class="profile">
-            <div class="profile-img skeleton">
-               <img src="assets/img/profile/<?php echo $img ?>" alt="Profile">
-            </div>
-            <div class="profile-info skeleton">
-               <span class="name"><?php echo $fullname ?></span>
-               <span class="status">Verified <i class='bx bxs-certification status-icon'></i></span>
-            </div>
-            </div>
-
-            <div class="posted-date skeleton">
-            <i class='bx bx-time-five'></i> &nbsp;2 days
-            </div>
-      </div>
-      <a href="<?php echo $link ?>?unique_id=<?php echo $unique_id ?>" class="btn btn-sm btn-primary mt-3">Book Now</a>
+      
+      <a href="post-index?id=<?php echo $hostData['_token'] ?>" class="btn btn-sm btn-primary mt-3">See More</a>
    </div>
    <?php
       }
