@@ -22,7 +22,7 @@
                $_SESSION['role'] = $data_role;
                
             } else {
-               $credentials = mysqli_query($con, "SELECT * FROM `admin` WHERE `email` = '$email' AND `password` = '$password'");
+               $credentials = mysqli_query($con, "SELECT * FROM `admin` WHERE `email` = '$email' AND `password` = '$passwords'");
                $data = mysqli_fetch_array($credentials);
 
                if (mysqli_num_rows($credentials) > 0)

@@ -232,4 +232,59 @@
 <?php include_once 'inc/footer.php' ?>
 </body>
 <?php include_once 'inc/footer-link.php' ?>
+<script>
+
+   function DatePicker() {
+      var StartDate;
+      var EndDate;
+
+      $('#startDate').datepicker({
+         dateFormat: 'yy-mm-dd',
+         minDate: 0
+      });
+
+      $('#endDate').datepicker({
+         dateFormat: 'yy-mm-dd',
+      });
+
+      $('#startDate').change(function() {
+         StartDate = $(this).datepicker('getDate');
+         $('#endDate').datepicker('option', 'minDate', StartDate)
+      });
+
+      $('#endDate').change(function() {
+         EndDate = $(this).datepicker('getDate');
+         $('#startDate').datepicker('option', 'maxDate', EndDate)
+      });
+   }
+
+   DatePicker();
+
+</script>
+<script type="text/javascript">
+   $(document).ready(function () {
+      $("#destination").keyup(function() {
+         var searchText = $(this).val(); 
+         if (searchText != '') {
+         $.ajax({
+            url: 'controller/search.php',
+            method: 'POST',
+            data: {query:searchText},
+            success: function(response) {
+               $("#show_menu").html(response);
+               console.log(response);
+            }
+         })
+         }
+         else
+         {
+         $("#show_menu").html('');
+         }
+      })
+      $(document).on('click', 'a', function () {
+         $("#destination").val($(this).text());
+         $("#show_menu").html(''); 
+      })
+   })
+</script>
 </html>
