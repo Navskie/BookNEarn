@@ -11,126 +11,32 @@
 <!-- Navigation -->
 <?php include_once 'inc/navigation.php' ?>
 <!-- Navigation END -->
+<?php 
+   $newTOken = $_GET['id'];
 
+   $get_informaion = mysqli_query($con, "SELECT * FROM users WHERE _token = '$id'");
+   $get_informaion_data = mysqli_fetch_array($get_informaion);
+
+   $newFullName = $get_informaion_data['fullname'];
+   $newBio = $get_informaion_data['bio'];
+?>
 <!-- Page Content -->
 <section class="container">
    <div class="row filter-body">
       <div class="col-md-3 col-sm-12"></div>
 
-      <div class="col-md-6 col-sm-12 filter-content">
-      <form id="filter_form">
-         <div class="row">
-
-
-
-            <div class="col-12">
-            <div class="filter-header">
-                     <span class="header-head">Search Destination</span>
-                     <span>
-                     <i class='bx bx-paper-plane'></i>
-                     </span>
-            </div>
-            <hr class="hr">
-            </div>
-
-
-
-            <div class="col-sm-12 col-lg-4">
-            <div class="">
-               <div class="form-group mb-2">
-                  <input type="text" class="form-control input" autocomplete="OFF" id="destination">
-                  <div class="label">Destination *</div>
-                  <div class="show-list" id="show_menu">
-                  </div>
-               </div>
-            </div>
-            </div>
-
-
-
-            <div class="col-sm-12 col-lg-4">
-            <div class="">
-               <div class="form-group mb-2">
-                  <input type="text" class="form-control input" id="startDate" autocomplete="OFF">
-                  <div class="label">Check In</div>
-               </div>
-            </div>
-            </div>
-
-
-
-            <div class="col-sm-12 col-lg-4">
-            <div class="">
-               <div class="form-group mb-2">
-                  <input type="text" class="form-control input" id="endDate" autocomplete="OFF">
-                  <div class="label">Check Out</div>
-               </div>
-            </div>
-            </div>
-
-
-
-            <div class="col-4 col-lg-3">
-            <div class="hidden">
-               <div class="form-group mb-2">
-                  <label for="" class="filter-label">Ages 13 or above</label>
-                  <input type="text" class="form-control input" autocomplete="OFF">
-                  <div class="label">Adult</div>
-               </div>
-            </div>
-            </div>
-
-
-
-            <div class="col-4 col-lg-3">
-            <div class="hidden">
-               <div class="form-group">
-                  <label for="" class="filter-label">Ages 12 or below</label>
-                  <input type="text" class="form-control input" autocomplete="OFF">
-                  <div class="label">Child</div>
-               </div>
-            </div>
-            </div>
-
-
-
-            <div class="col-4 col-lg-3">
-            <div class="hidden">
-               <div class="form-group">
-                  <label for="" class="filter-label">Number of Pet</label>
-                  <input type="text" class="form-control input" autocomplete="OFF">
-                  <div class="label">Pet</div>
-               </div>
-            </div>
-            </div>
-
-
-
-            <div class="col-sm-12 col-lg-3">
-            <div class="hidden">
-               <div class="form-group">
-                  <label for="" class="filter-label"></label>
-                  <button class="btn-submit">Search</button>
-                  <!-- <div class="label">Pet</div> -->
-               </div>
-            </div>
-            </div>
-
-
-
-         </div>
-      </form>
+      <div class="col-md-3 col-sm-12">
+         <h5><?php echo $newFullName ?></h5>
+         <p><?php echo $newBio ?></p>
       </div>
-
-      <div class="col-md-3 col-sm-12"></div>
-      </div>
+   </div>
 </section>
 
 <hr>
 
 <section class="container-shop pt-3">
    <?php 
-      $newTOken = $_GET['id'];
+
       $get_publish = mysqli_query($con, "SELECT * FROM `publish` WHERE `visible` = 'ON' AND `status` = 'Publish'AND `creator` = '$newTOken' ORDER BY id DESC");
       $number_publish = mysqli_num_rows($get_publish);
       $sum_publish = 5 - $number_publish;

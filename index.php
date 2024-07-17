@@ -19,7 +19,7 @@
 
       <div class="col-md-6 col-sm-12 filter-content">
       <form id="filter_form">
-         <div class="row">
+         <!-- <div class="row">
 
 
 
@@ -111,13 +111,22 @@
                <div class="form-group">
                   <label for="" class="filter-label"></label>
                   <button class="btn-submit">Search</button>
-                  <!-- <div class="label">Pet</div> -->
+                  
                </div>
             </div>
             </div>
 
 
 
+         </div> -->
+         <h6 class="text-center">Check Availability</h6>
+         <div class="row">
+            <div class="col-sm-12 col-md-6">
+               <button class="btn btn-primary form-control">Check for Daily</button>
+            </div>
+            <div class="col-sm-12 col-md-6">
+               <button class="btn btn-primary form-control">Check for Hourly</button>
+            </div>
          </div>
       </form>
       </div>
