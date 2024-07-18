@@ -88,7 +88,7 @@
 
             <div class="col-12" id="experienceSection">
                <div class="row">
-                  <div class="col-sm-12 col-lg-4">
+                  <div class="col-sm-12 col-lg-3">
                      <div class="">
                         <div class="form-group mb-2">
                            <input type="text" class="form-control input" autocomplete="OFF" id="destination">
@@ -99,7 +99,7 @@
                      </div>
                   </div>
 
-                  <div class="col-sm-12 col-lg-4">
+                  <div class="col-sm-12 col-lg-3">
                      <div class="">
                         <div class="form-group mb-2">
                            <input type="text" class="form-control input" id="startDate" autocomplete="OFF">
@@ -108,11 +108,20 @@
                      </div>
                   </div>
 
-                  <div class="col-sm-12 col-lg-4">
+                  <div class="col-sm-12 col-lg-3">
                      <div class="">
                         <div class="form-group mb-2">
                            <input type="text" class="form-control input" id="endDate" autocomplete="OFF">
-                           <div class="label">Time</div>
+                           <div class="label">From</div>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div class="col-sm-12 col-lg-3">
+                     <div class="">
+                        <div class="form-group mb-2">
+                           <input type="text" class="form-control input" id="endDate" autocomplete="OFF">
+                           <div class="label">To</div>
                         </div>
                      </div>
                   </div>
