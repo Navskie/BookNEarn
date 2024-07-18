@@ -18,6 +18,35 @@
         background-color: #f8f9fa; /* Change to your desired inactive color */
         color: #495057; /* Text color */
     }
+    /* Autocomplete styles */
+    .autocomplete-results {
+            position: absolute;
+            width: 200px; /* Fixed width for autocomplete results */
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            background-color: #fff;
+            z-index: 1000;
+            display: none;
+        }
+
+        .autocomplete-results ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            width: 100%; /* Full width of parent */
+        }
+
+        .autocomplete-results li {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .autocomplete-results li:hover {
+            background-color: #f0f0f0;
+        }
 </style>
 
 </head>
@@ -58,10 +87,9 @@
                   <div class="col-sm-12 col-lg-4">
                      <div class="">
                         <div class="form-group mb-2">
-                           <input type="text" class="form-control input" autocomplete="OFF" id="destination">
+                           <input type="text" class="form-control input" autocomplete="off" id="stayDestination">
                            <div class="label">Destination *</div>
-                           <div class="show-list" id="show_menu">
-                           </div>
+                           <div class="autocomplete-results" id="stayAutocompleteResults"></div>
                         </div>
                      </div>
                   </div>
@@ -91,10 +119,9 @@
                   <div class="col-sm-12 col-lg-3">
                      <div class="">
                         <div class="form-group mb-2">
-                           <input type="text" class="form-control input" autocomplete="OFF" id="destination">
+                           <input type="text" class="form-control input" autocomplete="off" id="experienceDestination">
                            <div class="label">Destination *</div>
-                           <div class="show-list" id="show_menu">
-                           </div>
+                           <div class="autocomplete-results" id="experienceAutocompleteResults"></div>
                         </div>
                      </div>
                   </div>
@@ -102,7 +129,7 @@
                   <div class="col-sm-12 col-lg-3">
                      <div class="">
                         <div class="form-group mb-2">
-                           <input type="text" class="form-control input" id="startDate" autocomplete="OFF">
+                           <input type="text" class="form-control input" id="startDate2" autocomplete="OFF">
                            <div class="label">Check In</div>
                         </div>
                      </div>
@@ -111,7 +138,7 @@
                   <div class="col-sm-12 col-lg-3">
                      <div class="">
                         <div class="form-group mb-2">
-                           <input type="text" class="form-control input" id="endDate" autocomplete="OFF">
+                           <input type="text" class="form-control input" id="" autocomplete="OFF">
                            <div class="label">From</div>
                         </div>
                      </div>
@@ -120,7 +147,7 @@
                   <div class="col-sm-12 col-lg-3">
                      <div class="">
                         <div class="form-group mb-2">
-                           <input type="text" class="form-control input" id="endDate" autocomplete="OFF">
+                           <input type="text" class="form-control input" id="" autocomplete="OFF">
                            <div class="label">To</div>
                         </div>
                      </div>
@@ -232,4 +259,35 @@
 </body>
 <?php include_once 'inc/footer-link.php' ?>
 <script src="assets/js/index.js"></script>
+<script>
+   $.noConflict();
+   $(document).ready(function() {
+      var StartDate;
+      var EndDate;
+
+      $('#startDate2').datepicker({
+         dateFormat: 'yy-mm-dd',
+         minDate: 0
+      });
+
+      $('#startDate').datepicker({
+         dateFormat: 'yy-mm-dd',
+         minDate: 0
+      });
+
+      $('#endDate').datepicker({
+         dateFormat: 'yy-mm-dd',
+      });
+
+      $('#startDate').change(function() {
+         StartDate=$(this).datepicker('getDate');
+         $('#endDate').datepicker('option', 'minDate', StartDate)
+      });
+
+      $('#endDate').change(function() {
+         EndDate=$(this).datepicker('getDate');
+         $('#startDate').datepicker('option', 'maxDate', EndDate)
+      });
+   });
+</script>
 </html>
