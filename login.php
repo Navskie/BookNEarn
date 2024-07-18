@@ -55,4 +55,5 @@
    <?php include_once 'inc/footer.php' ?>
 </body>
 <?php include_once 'inc/footer-link.php' ?>
+<script src="assets/js/login.js"></script>
 </html>

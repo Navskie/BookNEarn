@@ -2,6 +2,24 @@
 <html lang="en">
 <head>
 <?php include_once 'inc/header.php' ?>
+<style>
+
+   .hidden {
+      display: none;
+   }
+
+   .btn-stay.active, .btn-experience.active {
+        background-color: #007bff; /* Change to your desired active color */
+        color: #fff; /* Text color */
+    }
+
+    /* Inactive state (default) */
+    .btn-stay, .btn-experience {
+        background-color: #f8f9fa; /* Change to your desired inactive color */
+        color: #495057; /* Text color */
+    }
+</style>
+
 </head>
 <body>
 <!-- Top Navigation -->
@@ -19,114 +37,127 @@
 
       <div class="col-md-6 col-sm-12 filter-content">
       <form id="filter_form">
-         <!-- <div class="row">
+         <div class="row">
 
 
 
             <div class="col-12">
-            <div class="filter-header">
-                     <span class="header-head">Search Destination</span>
-                     <span>
-                     <i class='bx bx-paper-plane'></i>
-                     </span>
+               <div class="filter-header">
+                  <div class="stays">
+                     <button class="btn-stay active">Stay</button>
+                  </div>
+                  <div class="experience">
+                     <button class="btn-experience">Experience</button>
+                  </div>
+               </div>
+               <hr class="hr">
             </div>
-            <hr class="hr">
-            </div>
 
+            <div class="col-12" id="staySection">
+               <div class="row">
+                  <div class="col-sm-12 col-lg-4">
+                     <div class="">
+                        <div class="form-group mb-2">
+                           <input type="text" class="form-control input" autocomplete="OFF" id="destination">
+                           <div class="label">Destination *</div>
+                           <div class="show-list" id="show_menu">
+                           </div>
+                        </div>
+                     </div>
+                  </div>
 
+                  <div class="col-sm-12 col-lg-4">
+                     <div class="">
+                        <div class="form-group mb-2">
+                           <input type="text" class="form-control input" id="startDate" autocomplete="OFF">
+                           <div class="label">Check In</div>
+                        </div>
+                     </div>
+                  </div>
 
-            <div class="col-sm-12 col-lg-4">
-            <div class="">
-               <div class="form-group mb-2">
-                  <input type="text" class="form-control input" autocomplete="OFF" id="destination">
-                  <div class="label">Destination *</div>
-                  <div class="show-list" id="show_menu">
+                  <div class="col-sm-12 col-lg-4">
+                     <div class="">
+                        <div class="form-group mb-2">
+                           <input type="text" class="form-control input" id="endDate" autocomplete="OFF">
+                           <div class="label">Check Out</div>
+                        </div>
+                     </div>
                   </div>
                </div>
             </div>
-            </div>
 
+            <div class="col-12" id="experienceSection">
+               <div class="row">
+                  <div class="col-sm-12 col-lg-4">
+                     <div class="">
+                        <div class="form-group mb-2">
+                           <input type="text" class="form-control input" autocomplete="OFF" id="destination">
+                           <div class="label">Destination *</div>
+                           <div class="show-list" id="show_menu">
+                           </div>
+                        </div>
+                     </div>
+                  </div>
 
+                  <div class="col-sm-12 col-lg-4">
+                     <div class="">
+                        <div class="form-group mb-2">
+                           <input type="text" class="form-control input" id="startDate" autocomplete="OFF">
+                           <div class="label">Check In</div>
+                        </div>
+                     </div>
+                  </div>
 
-            <div class="col-sm-12 col-lg-4">
-            <div class="">
-               <div class="form-group mb-2">
-                  <input type="text" class="form-control input" id="startDate" autocomplete="OFF">
-                  <div class="label">Check In</div>
+                  <div class="col-sm-12 col-lg-4">
+                     <div class="">
+                        <div class="form-group mb-2">
+                           <input type="text" class="form-control input" id="endDate" autocomplete="OFF">
+                           <div class="label">Time</div>
+                        </div>
+                     </div>
+                  </div>
                </div>
             </div>
-            </div>
-
-
-
-            <div class="col-sm-12 col-lg-4">
-            <div class="">
-               <div class="form-group mb-2">
-                  <input type="text" class="form-control input" id="endDate" autocomplete="OFF">
-                  <div class="label">Check Out</div>
-               </div>
-            </div>
-            </div>
-
-
 
             <div class="col-4 col-lg-3">
-            <div class="hidden">
-               <div class="form-group mb-2">
-                  <label for="" class="filter-label">Ages 13 or above</label>
-                  <input type="text" class="form-control input" autocomplete="OFF">
-                  <div class="label">Adult</div>
+               <div class="hidden">
+                  <div class="form-group mb-2">
+                     <label for="" class="filter-label">Ages 13 or above</label>
+                     <input type="text" class="form-control input" autocomplete="OFF">
+                     <div class="label">Adult</div>
+                  </div>
                </div>
             </div>
-            </div>
-
-
 
             <div class="col-4 col-lg-3">
-            <div class="hidden">
-               <div class="form-group">
-                  <label for="" class="filter-label">Ages 12 or below</label>
-                  <input type="text" class="form-control input" autocomplete="OFF">
-                  <div class="label">Child</div>
+               <div class="hidden">
+                  <div class="form-group">
+                     <label for="" class="filter-label">Ages 12 or below</label>
+                     <input type="text" class="form-control input" autocomplete="OFF">
+                     <div class="label">Child</div>
+                  </div>
                </div>
             </div>
-            </div>
-
-
 
             <div class="col-4 col-lg-3">
-            <div class="hidden">
-               <div class="form-group">
-                  <label for="" class="filter-label">Number of Pet</label>
-                  <input type="text" class="form-control input" autocomplete="OFF">
-                  <div class="label">Pet</div>
+               <div class="hidden">
+                  <div class="form-group">
+                     <label for="" class="filter-label">Number of Pet</label>
+                     <input type="text" class="form-control input" autocomplete="OFF">
+                     <div class="label">Pet</div>
+                  </div>
                </div>
             </div>
-            </div>
-
-
 
             <div class="col-sm-12 col-lg-3">
-            <div class="hidden">
-               <div class="form-group">
-                  <label for="" class="filter-label"></label>
-                  <button class="btn-submit">Search</button>
-                  
+               <div class="hidden">
+                  <div class="form-group">
+                     <label for="" class="filter-label"></label>
+                     <button class="btn-submit">Search</button>
+                  </div>
                </div>
             </div>
-            </div>
 
-
-
-         </div> -->
-         <h6 class="text-center">Check Availability</h6>
-         <div class="row">
-            <div class="col-sm-12 col-md-6 mb-3">
-               <button class="btn btn-primary form-control">Stays</button>
-            </div>
-            <div class="col-sm-12 col-md-6 mb-3">
-               <button class="btn btn-primary form-control">Experience</button>
-            </div>
          </div>
       </form>
       </div>
@@ -139,7 +170,7 @@
 
 <section class="container-shop pt-3">
    <?php 
-      $get_host = mysqli_query($con, "SELECT * FROM `users` WHERE `role` = 'host'");
+      $get_host = mysqli_query($con, "SELECT * FROM `users` INNER JOIN `publish` ON creator = _token WHERE `role` = 'host' GROUP BY generated_id");
       $number_publish = mysqli_num_rows($get_host);
       $sum_publish = 5 - $number_publish;
       foreach ($get_host as $hostData) {
@@ -191,4 +222,29 @@
 <?php include_once 'inc/footer.php' ?>
 </body>
 <?php include_once 'inc/footer-link.php' ?>
+<script>
+   $(document).ready(function() {
+      // Initialize by hiding the Experience section
+      $('#experienceSection').addClass('hidden');
+
+      // Button click handlers
+      $('.btn-stay').click(function(e) {
+         e.preventDefault();
+         $('#staySection').removeClass('hidden');
+         $('#experienceSection').addClass('hidden');
+         // Toggle active class for Stay button
+         $('.btn-stay').addClass('active');
+         $('.btn-experience').removeClass('active');
+      });
+
+      $('.btn-experience').click(function(e) {
+         e.preventDefault();
+         $('#experienceSection').removeClass('hidden');
+         $('#staySection').addClass('hidden');
+         // Toggle active class for Experience button
+         $('.btn-experience').addClass('active');
+         $('.btn-stay').removeClass('active');
+      });
+   });
+</script>
 </html>

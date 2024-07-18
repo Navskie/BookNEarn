@@ -44,8 +44,8 @@
          $mail->isSMTP();
          $mail->Host = "mail.smtp2go.com";
          $mail->SMTPAuth = true;
-         $mail->Username = "upticorporationph.com";
-         $mail->Password = "Navs2018";
+         $mail->Username = "booknearn";
+         $mail->Password = "@User2022";
          $mail->SMTPSecure = "tls";
          $mail->Port = "2525";
          $mail->From = "booknearn@upticorporationph.com";

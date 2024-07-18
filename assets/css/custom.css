@@ -341,8 +341,22 @@ ul {
 .filter-header 
 {
    display: flex;
-   justify-content: space-between;
+   justify-content: center;
    align-items: center;
+   gap: 20px;
+   padding-bottom: 15px;
+}
+
+.stays .btn-stay {
+   border: none;
+   padding: 12px 16px;
+   border-radius: 15px;
+}
+
+.experience .btn-experience {
+   border: none;
+   padding: 12px 16px;
+   border-radius: 15px;
 }
 
 .filter-header i 
