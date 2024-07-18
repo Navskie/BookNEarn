@@ -22,12 +22,6 @@
       $("#title").html(title);
       $("#message").html(message);
 
-      // if (title === 'success') {
-      //     progress.style.background = "#4070f4";
-      // } else {
-      //     progress.style.background:before = "#c41616";
-      // }
-
       setTimeout(()=> {
          myToast.classList.remove("active");
          myToast.style.display = 'none';
@@ -82,37 +76,6 @@
       });
    }
 
-   function Search() 
-   {
-      aData = {}
-      $("#destination").autocomplete({
-         source: function(request, response) {
-               $.ajax({
-                  url: 'controller/search.php',
-                  type: 'GET',
-                  dataType: 'json',
-                  success: function(data) {
-                     aData = $.map(data, function(value, key) {
-                           return {
-                              id: value.id,
-                              label: value.place
-                           }
-                     });
-                     console.log(aData);
-
-                     var results = $.ui.autocomplete.filter(aData, request.term);
-                     response(results);
-
-                  }
-               });
-         }
-      });
-   }
-
-   // ToastAlert();
-   // ShowPassword();
    FloatNavbar();
-   // DatePicker();
    Loader();
    Filter();
-   Search();

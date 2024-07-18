@@ -97,6 +97,7 @@
    <?php include_once 'inc/footer.php' ?>
 </body>
 <?php include_once 'inc/footer-link.php' ?>
+<script src="assets/js/image1.js"></script>
 <script src="assets/js/publish/image.js"></script>
 <script src="assets/js/publish/post.js"></script>
 </html>

@@ -4,15 +4,10 @@
    <?php include_once 'inc/header.php'; ?>
 </head>
 <body>
-   <!-- Top Navigation -->
    <?php include_once 'inc/top-navigation.php'; ?>
-   <!-- Top Navigation END -->
 
-   <!-- Navigation -->
    <?php include_once 'inc/navigation.php'; ?>
-   <!-- Navigation END -->
 
-   <!-- Page Content -->
    <section class="container">
       <div class="login-body">
             <div class="login-content">
@@ -36,7 +31,6 @@
                </div>
 
                <div class="login-btn">
-                  <!-- <span class="create skeleton">Create an account?</span> -->
                   <button type="submit" class="btn-login skeleton"  id="personal_button">Submit <i class='bx bx-arrow-from-left'></i></button>
                   </form>
                </div>

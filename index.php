@@ -222,29 +222,5 @@
 <?php include_once 'inc/footer.php' ?>
 </body>
 <?php include_once 'inc/footer-link.php' ?>
-<script>
-   $(document).ready(function() {
-      // Initialize by hiding the Experience section
-      $('#experienceSection').addClass('hidden');
-
-      // Button click handlers
-      $('.btn-stay').click(function(e) {
-         e.preventDefault();
-         $('#staySection').removeClass('hidden');
-         $('#experienceSection').addClass('hidden');
-         // Toggle active class for Stay button
-         $('.btn-stay').addClass('active');
-         $('.btn-experience').removeClass('active');
-      });
-
-      $('.btn-experience').click(function(e) {
-         e.preventDefault();
-         $('#experienceSection').removeClass('hidden');
-         $('#staySection').addClass('hidden');
-         // Toggle active class for Experience button
-         $('.btn-experience').addClass('active');
-         $('.btn-stay').removeClass('active');
-      });
-   });
-</script>
+<script src="assets/js/index.js"></script>
 </html>
