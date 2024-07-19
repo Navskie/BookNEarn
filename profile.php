@@ -26,6 +26,8 @@
 
          $verified_apply = mysqli_query($con, "SELECT * FROM verified WHERE token = '$token'");
          $verified_apply_num = mysqli_num_rows($verified_apply);  
+
+         $postList = mysqli_query($con, "SELECT * FROM publish WHERE creator = '$token'");
       ?>
 
       <!-- Page Content -->
@@ -343,6 +345,49 @@
                               <p class="skeleton">
                                  Start to publish your first post.
                               </p>
+                              <div class="row">
+                                 <?php 
+                                    foreach ($postList as $postData) {
+                                       $unique_id = $postData['unique_id'];
+                                       $status = $postData['status'];
+                                       $imgList = mysqli_query($con, "SELECT * FROM publish_img WHERE unique_id = '$unique_id' AND `status` = 'main'");
+                                       $imgData = mysqli_fetch_array($imgList);
+                                 ?>
+                                 <div class="col-sm-12 col-md-4">
+                                    <div class="post-list">
+                                       <div class="post-img mb-3">
+                                          <img src="assets/img/publish/<?php echo $imgData['filename'] ?>" alt="IMG">
+                                       </div>
+                                       <div class="post-title">
+                                          <?php echo $postData['title'] ?>
+                                       </div>
+                                       <div class="post-desc mb-3">
+                                          <?php echo $postData['description'] ?>
+                                       </div>
+                                       <div class="post-btn mb-3">
+                                          <div class="post-status">
+                                             <?php 
+                                                if ($status == 'Pending') {
+                                                   echo '<span class="badge bg-secondary">Pending</span>';
+                                                } elseif ($status == 'Unpublish') {
+                                                   echo '<span class="badge bg-warning">Unpublish</span>';
+                                                } elseif ($status == 'Publish') {
+                                                   echo '<span class="badge bg-success">Publish</span>';
+                                                } elseif ($status == 'Reject') {
+                                                   echo '<span class="badge bg-danger">Reject</span>';
+                                                }
+                                             ?>
+                                          </div>
+                                          <div>
+                                             <a href="publish-edit?unique_id=<?php echo $unique_id ?>" class="btn btn-primary shadow-none form-control">Edit Post</a>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <?php 
+                                    }
+                                 ?>
+                              </div>
                               <div class="card-btn">
                                  <a href="publish-start" class="a">Start</a>
                               </div>

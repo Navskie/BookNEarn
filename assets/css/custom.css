@@ -1798,3 +1798,35 @@ iframe {
    height: 200px;
    object-fit: cover;
 }
+
+.post-list {
+   display: flex;
+   flex-direction: column;
+   padding: 15px;
+}
+
+.post-list .post-img img {
+   width: 100%;
+   object-fit: cover;
+}
+
+.post-btn {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.post-desc {
+   font-size: 12px;
+}
+
+.image-btn {
+   display: flex;
+   justify-content:space-between;
+   align-items: center;
+}
+
+.postIMG_edit {
+   width: 100%;
+   object-fit: cover;
+}
