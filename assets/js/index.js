@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
 
   // Autocomplete for stay section
@@ -60,21 +61,57 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
-   $('#experienceSection').addClass('hidden');
+   $('#experienceSection').addClass('hiddens');
 
    $('.btn-stay').click(function(e) {
       e.preventDefault();
-      $('#staySection').removeClass('hidden');
-      $('#experienceSection').addClass('hidden');
+      $('#staySection').removeClass('hiddens');
+      $('#experienceSection').addClass('hiddens');
       $('.btn-stay').addClass('active');
       $('.btn-experience').removeClass('active');
    });
 
    $('.btn-experience').click(function(e) {
       e.preventDefault();
-      $('#experienceSection').removeClass('hidden');
-      $('#staySection').addClass('hidden');
+      $('#experienceSection').removeClass('hiddens');
+      $('#staySection').addClass('hiddens');
       $('.btn-experience').addClass('active');
       $('.btn-stay').removeClass('active');
    });
+});
+
+$(document).ready(function() {
+
+   var destination = document.getElementById("stayDestination");
+   var expDestination = document.getElementById("experienceDestination");
+   const show = document.querySelectorAll(".hidden");
+
+   destination.addEventListener('input', function() {
+      if (destination.value.trim() !== '') {
+         for (let i = 0; i < show.length; i++) {
+            show[i].classList.add("showing");
+            show[i].classList.remove("hidden");
+         }
+      } else {
+         for (let i = 0; i < show.length; i++) {
+            show[i].classList.remove("showing");
+            show[i].classList.add("hidden");
+         }
+      }
+   });
+
+   expDestination.addEventListener('input', function() {
+      if (expDestination.value.trim() !== '') {
+         for (let i = 0; i < show.length; i++) {
+            show[i].classList.add("showing");
+            show[i].classList.remove("hidden");
+         }
+      } else {
+         for (let i = 0; i < show.length; i++) {
+            show[i].classList.remove("showing");
+            show[i].classList.add("hidden");
+         }
+      }
+   });
+   
 });

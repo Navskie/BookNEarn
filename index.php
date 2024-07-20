@@ -4,7 +4,7 @@
 <?php include_once 'inc/header.php' ?>
 <style>
 
-   .hidden {
+   .hiddens {
       display: none;
    }
 
@@ -265,7 +265,7 @@
 <?php include_once 'inc/footer.php' ?>
 </body>
 <?php include_once 'inc/footer-link.php' ?>
-<script src="assets/js/index.js"></script>
+
 <script>
    $.noConflict();
    $(document).ready(function() {
@@ -297,4 +297,5 @@
       });
    });
 </script>
+<script src="assets/js/index.js"></script>
 </html>
