@@ -638,7 +638,7 @@
             let pet = $('#pet').val();
 
             let petSelect = "<?php echo $petBool ?>";
-            petPrice = <?php echo $pet ?>;
+            petPrice = <?php echo $pet ?> * daysDifference;
 
             if (petSelect === 'Allowed') {
                totalPet = pet * petPrice;

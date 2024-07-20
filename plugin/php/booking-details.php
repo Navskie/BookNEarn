@@ -7,6 +7,7 @@
    $desc = $details_data['description'];
    $map = $details_data['google_map'];
    $type = $details_data['type'];
+   $qty = $details_data['qty'];
    $adultMin = $details_data['min_adult'];
    $adultMax = $details_data['max_adult'];
    $petBool = $details_data['pet'];
