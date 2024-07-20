@@ -212,6 +212,13 @@
       foreach ($get_host as $hostData) {
          $img_host = $hostData['img'];
          $host_token = $hostData['_token'];
+         $bio = $hostData['bio'];
+         if (strlen($bio) > 100) {
+            $limited_text = substr($bio, 0, 100) . "...";
+        } else {
+            $limited_text = $bio;
+        }
+
          if ($img_host == '') {
             $img_host = 'default.png';
          }
@@ -228,7 +235,7 @@
       <span class="s-title skeleton"><?php echo $hostData['fullname'] ?></span>
 
       <span class="shop-short-desc skeleton">
-         <?php echo $hostData['bio'] ?>
+         <?php echo $limited_text ?>
       </span>
 
       <span class="shop-price">
@@ -243,7 +250,7 @@
    <?php
          }
       }
-      if ($number_publish < 6) {  
+      if ($number_publish < 7) {  
          for ($i = 1; $i <= $sum_publish; $i++) {
    ?>
    <div class="">

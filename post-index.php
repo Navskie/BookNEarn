@@ -124,7 +124,7 @@
    </div>
    <?php
       }
-      if ($number_publish < 6) {  
+      if ($number_publish < 7) {  
          for ($i = 1; $i <= $sum_publish; $i++) {
    ?>
    <div class="">
