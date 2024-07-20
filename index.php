@@ -208,7 +208,7 @@
    <?php 
       $get_host = mysqli_query($con, "SELECT * FROM `users` INNER JOIN `publish` ON creator = _token WHERE `role` = 'host' GROUP BY generated_id");
       $number_publish = mysqli_num_rows($get_host);
-      $sum_publish = 5 - $number_publish;
+      $sum_publish = 6 - $number_publish;
       foreach ($get_host as $hostData) {
          $img_host = $hostData['img'];
          $host_token = $hostData['_token'];
@@ -250,7 +250,7 @@
    <?php
          }
       }
-      if ($number_publish < 7) {  
+      if ($number_publish <= 6) {  
          for ($i = 1; $i <= $sum_publish; $i++) {
    ?>
    <div class="">

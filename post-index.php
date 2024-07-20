@@ -39,7 +39,7 @@
 
       $get_publish = mysqli_query($con, "SELECT * FROM `publish` WHERE `visible` = 'ON' AND `status` = 'Publish'AND `creator` = '$newTOken' ORDER BY id DESC");
       $number_publish = mysqli_num_rows($get_publish);
-      $sum_publish = 5 - $number_publish;
+      $sum_publish = 6 - $number_publish;
       foreach ($get_publish as $data) {
          $creator = $data['creator'];
          $unique_id = $data['unique_id'];
