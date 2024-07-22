@@ -72,10 +72,10 @@
 
             <div class="col-12">
                <div class="filter-header">
-                  <div class="stays">
+                  <div class="stays skeleton">
                      <button class="btn-stay active">Stay</button>
                   </div>
-                  <div class="experience">
+                  <div class="experience skeleton">
                      <button class="btn-experience">Experience</button>
                   </div>
                </div>
@@ -85,7 +85,7 @@
             <div class="col-12" id="staySection">
                <div class="row">
                   <div class="col-sm-12 col-lg-4">
-                     <div class="">
+                     <div class="skeleton">
                         <div class="form-group mb-2">
                            <input type="text" class="form-control input" autocomplete="off" id="stayDestination">
                            <div class="label">Destination *</div>
@@ -95,7 +95,7 @@
                   </div>
 
                   <div class="col-sm-12 col-lg-4">
-                     <div class="">
+                     <div class="skeleton">
                         <div class="form-group mb-2">
                            <input type="text" class="form-control input" id="startDate" autocomplete="OFF">
                            <div class="label">Check In</div>
@@ -104,7 +104,7 @@
                   </div>
 
                   <div class="col-sm-12 col-lg-4">
-                     <div class="">
+                     <div class="skeleton">
                         <div class="form-group mb-2">
                            <input type="text" class="form-control input" id="endDate" autocomplete="OFF">
                            <div class="label">Check Out</div>
@@ -116,8 +116,8 @@
 
             <div class="col-12" id="experienceSection">
                <div class="row">
-                  <div class="col-sm-12 col-lg-3">
-                     <div class="">
+                  <div class="col-sm-12 col-lg-6">
+                     <div class="skeleton">
                         <div class="form-group mb-2">
                            <input type="text" class="form-control input" autocomplete="off" id="experienceDestination">
                            <div class="label">Destination *</div>
@@ -126,29 +126,11 @@
                      </div>
                   </div>
 
-                  <div class="col-sm-12 col-lg-3">
-                     <div class="">
+                  <div class="col-sm-12 col-lg-6">
+                     <div class="skeleton">
                         <div class="form-group mb-2">
                            <input type="text" class="form-control input" id="startDate2" autocomplete="OFF">
-                           <div class="label">Check In</div>
-                        </div>
-                     </div>
-                  </div>
-
-                  <div class="col-sm-12 col-lg-3">
-                     <div class="">
-                        <div class="form-group mb-2">
-                           <input type="text" class="form-control input" id="" autocomplete="OFF">
-                           <div class="label">From</div>
-                        </div>
-                     </div>
-                  </div>
-
-                  <div class="col-sm-12 col-lg-3">
-                     <div class="">
-                        <div class="form-group mb-2">
-                           <input type="text" class="form-control input" id="" autocomplete="OFF">
-                           <div class="label">To</div>
+                           <div class="label">Date</div>
                         </div>
                      </div>
                   </div>
@@ -159,7 +141,7 @@
                <div class="hidden">
                   <div class="form-group mb-2">
                      <label for="" class="filter-label">Ages 13 or above</label>
-                     <input type="text" class="form-control input" autocomplete="OFF">
+                     <input type="text" class="form-control input" autocomplete="OFF" id="adultNum">
                      <div class="label">Adult</div>
                   </div>
                </div>
@@ -169,7 +151,7 @@
                <div class="hidden">
                   <div class="form-group">
                      <label for="" class="filter-label">Ages 12 or below</label>
-                     <input type="text" class="form-control input" autocomplete="OFF">
+                     <input type="text" class="form-control input" autocomplete="OFF" id="childNum">
                      <div class="label">Child</div>
                   </div>
                </div>
@@ -179,7 +161,7 @@
                <div class="hidden">
                   <div class="form-group">
                      <label for="" class="filter-label">Number of Pet</label>
-                     <input type="text" class="form-control input" autocomplete="OFF">
+                     <input type="text" class="form-control input" autocomplete="OFF" id="petNum">
                      <div class="label">Pet</div>
                   </div>
                </div>
@@ -189,7 +171,7 @@
                <div class="hidden">
                   <div class="form-group">
                      <label for="" class="filter-label"></label>
-                     <button class="btn-submit">Search</button>
+                     <button class="btn-submit" id="stayFilter">Search</button>
                   </div>
                </div>
             </div>
@@ -227,21 +209,21 @@
 
          if (mysqli_num_rows($postUser) > 0) {
    ?>
-   <div class="shop-body">
-      <div class="img skeleton">
+   <div class="shop-body skeleton">
+      <div class="img">
       <img src="assets/img/profile/<?php echo $img_host ?>" alt="This is Logo">
       </div>
       <div class="shop-content">
-      <span class="s-title skeleton"><?php echo $hostData['fullname'] ?></span>
+      <span class="s-title"><?php echo $hostData['fullname'] ?></span>
 
-      <span class="shop-short-desc skeleton">
+      <span class="shop-short-desc">
          <?php echo $limited_text ?>
       </span>
 
       <span class="shop-price">
-         <span class="s-ratings skeleton py-1 px-2 rounded-circle"></span>
+         <span class="s-ratings py-1 px-2 rounded-circle"></span>
 
-         <span class="s-price skeleton"></span>
+         <span class="s-price"></span>
       </span>
       </div>
       
@@ -298,4 +280,5 @@
    });
 </script>
 <script src="assets/js/index.js"></script>
+<script src="assets/js/stay.js"></script>
 </html>

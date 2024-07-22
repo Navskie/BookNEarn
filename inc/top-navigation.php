@@ -1,10 +1,10 @@
    <!-- loader -->
-   <div class="loader">
+   <!-- <div class="loader">
       <div class="loader-body">
          <i class='bx bx-loader-alt bx-spin'></i>
          <span>Loading</span>            
       </div>
-   </div>
+   </div> -->
 
    <section class="main-top-nav">
       <div class="top-nav-body container">
