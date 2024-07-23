@@ -2,7 +2,6 @@
 // GET
 $destination = $_GET['destination'];
 $startDate = isset($_GET['startDate']) ? $_GET['startDate'] : null;
-$endDate = isset($_GET['endDate']) ? $_GET['endDate'] : null;
 $adultNum = $_GET['adultNum'];
 $childNum = $_GET['childNum'];
 $petNum = $_GET['petNum'];
@@ -97,6 +96,8 @@ $petNum = $_GET['petNum'];
          $price_data = mysqli_fetch_array($get_price_sql);
          $price = $price_data['price'];
 
+         // Determine link based on type
+         $link = ($type === 'Daily') ? 'booknow-daily' : 'booknow-hourly';
       ?>
          <!-- Display fetched data -->
          <div class="shop-body">
@@ -131,7 +132,7 @@ $petNum = $_GET['petNum'];
                   <i class='bx bx-time-five'></i> &nbsp;2 days
                </div>
             </div>
-            <a href="stay-book?destination=<?php echo urlencode($destination); ?>&startDate=<?php echo urlencode($startDate); ?>&endDate=<?php echo urlencode($endDate); ?>&adultNum=<?php echo urlencode($adultNum); ?>&childNum=<?php echo urlencode($childNum); ?>&petNum=<?php echo urlencode($petNum); ?>&unique_id=<?php echo $unique_id; ?>" class="btn btn-sm btn-primary mt-3">Book Now</a>
+            <a href="<?php echo $link ?>?unique_id=<?php echo $unique_id ?>" class="btn btn-sm btn-primary mt-3">Book Now</a>
          </div>
       <?php
       }

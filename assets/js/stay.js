@@ -1,8 +1,18 @@
 $(document).ready(function() {
+   // Click event para sa Search button
    $("#stayFilter").click(function(e) {
       e.preventDefault();
 
+      // I-set ang content ng button sa loader icon habang naglo-load
       $(this).html("<i class='bx bx-loader-alt bx-spin'></i>");
+
+      // I-determine kung alin sa mga button ang aktibo
+      var filterType;
+      if ($('.btn-stay').hasClass('active')) {
+         filterType = 'stay';
+      } else if ($('.btn-experience').hasClass('active')) {
+         filterType = 'experience';
+      }
 
       // Get values of individual input fields
       var destination = $('#stayDestination').val();
@@ -13,7 +23,7 @@ $(document).ready(function() {
       var petNum = $('#petNum').val();
 
       // Construct the URL with parameters
-      var url = 'stay';
+      var url = filterType;
 
       // Append parameters to the URL
       url += '?destination=' + encodeURIComponent(destination);
