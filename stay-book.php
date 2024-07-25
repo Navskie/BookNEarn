@@ -446,43 +446,47 @@ $petNum = $_GET['petNum'];
 </body>
 <script>
    $(document).ready(function() {
-         // Function to calculate billing details
+
          function calculateBillingDetails(startDate, endDate, adultNum, petNum) {
-            // Calculate the number of days between startDate and endDate
             let startMoment = moment(startDate);
             let endMoment = moment(endDate);
-            let daysDifference = endMoment.diff(startMoment, 'days'); // Difference in days
+            let daysDifference = endMoment.diff(startMoment, 'days');
 
-            // Example calculations based on your provided logic
             let total = 0;
             let totalAdult = 0;
             let totalPet = 0;
             let taxTotal = 0;
 
-            // Example calculations based on your logic
-            let weekend = <?php echo $weekend ?>; // Example weekend rate, replace with your actual calculation
-            let weekday = <?php echo $weekday ?>; // Example weekday rate, replace with your actual calculation
-            let weekly = <?php echo $weekly ?>; // Example weekly rate, replace with your actual calculation
-            let monthly = <?php echo $monthly ?>; // Example monthly rate, replace with your actual calculation
+            let weekend = <?php echo $weekend ?>;
+            let weekday = <?php echo $weekday ?>;
+            let weekly = <?php echo $weekly ?>;
+            let monthly = <?php echo $monthly ?>;
 
             total = daysDifference * weekday;
 
             adultPrice = <?php echo $adult ?>;
+            minAdult = <?php echo $adultMin ?>;
+            maxAdult = <?php echo $adultMax ?>;
 
-            // Example calculation of total adult charge
-            totalAdult = adultPrice * adultNum * daysDifference; // Example calculation
+            if (adult >= minAdult) {
+               if (adult > maxAdult) {
+                  $('#adult').val('');
+                  $('#adultLabel').html("Maximum Adult is " + maxAdult);
+               } else {
+                  extraAdult = adult - minAdult;
+                  totalAdult = extraAdult * adultPrice * daysDifference;
+               }
+            } else {
+               totalAdult = 0;
+            }
 
-            // Example calculation of total pet charge
             petPrice = <?php echo $pet ?>;
-            totalPet = petPrice * petNum * daysDifference; // Example calculation
+            totalPet = petPrice * petNum * daysDifference;
 
-            // Example calculation of tax total
-            taxTotal = total * 0.12; // Example tax rate
+            taxTotal = total * 0.12;
 
-            // Example calculation of subtotal
             let subTotal = total + totalAdult + totalPet + taxTotal;
 
-            // Update HTML elements with calculated values
             $('#numberOfDays').text(daysDifference + " nights");
             $('#total').text("₱" + total.toFixed(2));
             $('#adultPrice').text("₱" + totalAdult.toFixed(2));
@@ -491,8 +495,6 @@ $petNum = $_GET['petNum'];
             $('#subtotalPrice').text("₱" + subTotal.toFixed(2));
          }
 
-         // Call the function when the page loads
-         // Call the function when the page loads
          calculateBillingDetails("<?php echo $startDate; ?>", "<?php echo $endDate; ?>", <?php echo $adultNum; ?>, <?php echo $petNum; ?>);
 
       });
