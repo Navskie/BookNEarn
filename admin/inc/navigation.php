@@ -104,13 +104,13 @@
                             <div class="dropdown-menu-columns">
                                 <div class="dropdown-menu-column">
                                     <a class="dropdown-item" href="payment-list">
-                                        Agent
+                                       Agent
                                     </a>
-                                    <a class="dropdown-item" href="payment-details">
-                                        Employee
+                                    <a class="dropdown-item" href="employee">
+                                       Employee
                                     </a>
                                     <a class="dropdown-item" href="payment-success">
-                                        Users
+                                       Users
                                     </a>
                                 </div>
                             </div>

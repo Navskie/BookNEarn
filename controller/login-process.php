@@ -9,41 +9,47 @@
    {
       if (filter_var($email, FILTER_VALIDATE_EMAIL)!==false)
       {
-            $credentials = mysqli_query($con, "SELECT * FROM `users` WHERE `email_address` = '$email' AND `password` = '$passwords'");
+         $credentials = mysqli_query($con, "SELECT * FROM `users` WHERE `email_address` = '$email' AND `password` = '$passwords'");
+         $data = mysqli_fetch_array($credentials);
+
+         if (mysqli_num_rows($credentials) > 0) {
+            $data_role = $data['role'];
+            $data_token = $data['_token'];
+
+            $_SESSION['token'] = $data_token;
+            $_SESSION['role'] = $data_role;
+
+            if ($data_role == 'user' || $data_role == 'host') {
+               echo "user success";
+            } elseif ($data_role == 'csr') {
+               echo "csr success";
+            }
+            
+         } else {
+            $credentials = mysqli_query($con, "SELECT * FROM `admin` WHERE `email` = '$email' AND `password` = '$passwords'");
             $data = mysqli_fetch_array($credentials);
 
-            if (mysqli_num_rows($credentials) > 0) {
-               $data_role = $data['role'];
+            if (mysqli_num_rows($credentials) > 0)
+            {
                $data_token = $data['_token'];
-
-               echo "user success";
+               echo "admin";
 
                $_SESSION['token'] = $data_token;
-               $_SESSION['role'] = $data_role;
-               
-            } else {
-               $credentials = mysqli_query($con, "SELECT * FROM `admin` WHERE `email` = '$email' AND `password` = '$passwords'");
-               $data = mysqli_fetch_array($credentials);
-
-               if (mysqli_num_rows($credentials) > 0)
-               {
-                  $data_token = $data['_token'];
-                  echo "admin";
-
-                  $_SESSION['token'] = $data_token;
-               }
-               else 
-               {
-                  echo "not match";
-               }
             }
+            else 
+            {
+               echo "not match";
+            }
+         }
       }
       else 
       {
-            echo "invalid email";
+         echo "invalid email";
       }
    }
    else 
    {
       echo "error";
    }
+
+?>
