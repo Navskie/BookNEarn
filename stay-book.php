@@ -76,29 +76,13 @@ $petNum = $_GET['petNum'];
                         <h4><?php echo $title ?></h4>
                         <p><?php echo $desc ?></h6>
                         <div class="amenities">
-                           <div class="ame-list">
-                           </div><div class="ame-list">
-                           </div><div class="ame-list">
-                           </div><div class="ame-list">
-                           </div><div class="ame-list">
-                           </div><div class="ame-list">
-                           </div><div class="ame-list">
-                           </div>
+                           <?php include 'plugin/php/booking-amenities.php' ?>
                         </div>
                      </div>
                      <hr>
                      <div class="details_below">
                         <div class="posted">
-                           <div class="posted-body">
-                              <div class="posted-img">
-                                 <img src="assets/img/profile/default.png" class="img-responsive">
-                              </div>
-
-                              <div class="posted-details">
-                                 <span class="name">RONNEL C NAVARRO</span>
-                                 <span class="verified">Verified</span>
-                              </div>
-                           </div>
+                           <?php include 'plugin/php/booking-posted.php' ?>
                         </div>
                         <div class="ratings">
                            <div class="count">4.9</div>
@@ -447,57 +431,57 @@ $petNum = $_GET['petNum'];
 <script>
    $(document).ready(function() {
 
-         function calculateBillingDetails(startDate, endDate, adultNum, petNum) {
-            let startMoment = moment(startDate);
-            let endMoment = moment(endDate);
-            let daysDifference = endMoment.diff(startMoment, 'days');
+      function calculateBillingDetails(startDate, endDate, adultNum, petNum) {
+         let startMoment = moment(startDate);
+         let endMoment = moment(endDate);
+         let daysDifference = endMoment.diff(startMoment, 'days');
 
-            let total = 0;
-            let totalAdult = 0;
-            let totalPet = 0;
-            let taxTotal = 0;
+         let total = 0;
+         let totalAdult = 0;
+         let totalPet = 0;
+         let taxTotal = 0;
 
-            let weekend = <?php echo $weekend ?>;
-            let weekday = <?php echo $weekday ?>;
-            let weekly = <?php echo $weekly ?>;
-            let monthly = <?php echo $monthly ?>;
+         let weekend = <?php echo $weekend ?>;
+         let weekday = <?php echo $weekday ?>;
+         let weekly = <?php echo $weekly ?>;
+         let monthly = <?php echo $monthly ?>;
 
-            total = daysDifference * weekday;
+         total = daysDifference * weekday;
 
-            adultPrice = <?php echo $adult ?>;
-            minAdult = <?php echo $adultMin ?>;
-            maxAdult = <?php echo $adultMax ?>;
+         adultPrice = <?php echo $adult ?>;
+         minAdult = <?php echo $adultMin ?>;
+         maxAdult = <?php echo $adultMax ?>;
 
-            if (adult >= minAdult) {
-               if (adult > maxAdult) {
-                  $('#adult').val('');
-                  $('#adultLabel').html("Maximum Adult is " + maxAdult);
-               } else {
-                  extraAdult = adult - minAdult;
-                  totalAdult = extraAdult * adultPrice * daysDifference;
-               }
+         if (adult >= minAdult) {
+            if (adult > maxAdult) {
+               $('#adult').val('');
+               $('#adultLabel').html("Maximum Adult is " + maxAdult);
             } else {
-               totalAdult = 0;
+               extraAdult = adult - minAdult;
+               totalAdult = extraAdult * adultPrice * daysDifference;
             }
-
-            petPrice = <?php echo $pet ?>;
-            totalPet = petPrice * petNum * daysDifference;
-
-            taxTotal = total * 0.12;
-
-            let subTotal = total + totalAdult + totalPet + taxTotal;
-
-            $('#numberOfDays').text(daysDifference + " nights");
-            $('#total').text("₱" + total.toFixed(2));
-            $('#adultPrice').text("₱" + totalAdult.toFixed(2));
-            $('#petPrice').text("₱" + totalPet.toFixed(2));
-            $('#taxPrice').text("₱" + taxTotal.toFixed(2));
-            $('#subtotalPrice').text("₱" + subTotal.toFixed(2));
+         } else {
+            totalAdult = 0;
          }
 
-         calculateBillingDetails("<?php echo $startDate; ?>", "<?php echo $endDate; ?>", <?php echo $adultNum; ?>, <?php echo $petNum; ?>);
+         petPrice = <?php echo $pet ?>;
+         totalPet = petPrice * petNum * daysDifference;
 
-      });
+         taxTotal = total * 0.12;
+
+         let subTotal = total + totalAdult + totalPet + taxTotal;
+
+         $('#numberOfDays').text(daysDifference + " nights");
+         $('#total').text("₱" + total.toFixed(2));
+         $('#adultPrice').text("₱" + totalAdult.toFixed(2));
+         $('#petPrice').text("₱" + totalPet.toFixed(2));
+         $('#taxPrice').text("₱" + taxTotal.toFixed(2));
+         $('#subtotalPrice').text("₱" + subTotal.toFixed(2));
+      }
+
+      calculateBillingDetails("<?php echo $startDate; ?>", "<?php echo $endDate; ?>", <?php echo $adultNum; ?>, <?php echo $petNum; ?>);
+
+   });
 </script>
 <script src="assets/js/review/review.js"></script>
 </html>

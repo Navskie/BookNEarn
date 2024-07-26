@@ -76,7 +76,7 @@
                      <button class="btn-stay active">Stay</button>
                   </div>
                   <div class="experience skeleton">
-                     <button class="btn-experience">Experience</button>
+                     <!-- <button class="btn-experience">Experience</button> -->
                   </div>
                </div>
                <hr class="hr">

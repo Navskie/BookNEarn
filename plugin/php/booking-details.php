@@ -4,6 +4,7 @@
    $details_data = mysqli_fetch_array($get_details);
 
    $title = $details_data['title'];
+   $creator = $details_data['creator'];
    $desc = $details_data['description'];
    $map = $details_data['google_map'];
    $type = $details_data['type'];
@@ -39,4 +40,4 @@
    $twelve_hour = $price_data['twelve_hour'];
    $overnight = $price_data['overnight'];
 
-   ?>
+?>

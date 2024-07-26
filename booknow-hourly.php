@@ -51,29 +51,13 @@
                         <h4><?php echo $title ?></h4>
                         <p><?php echo $desc ?></h6>
                         <div class="amenities">
-                           <div class="ame-list">
-                           </div><div class="ame-list">
-                           </div><div class="ame-list">
-                           </div><div class="ame-list">
-                           </div><div class="ame-list">
-                           </div><div class="ame-list">
-                           </div><div class="ame-list">
-                           </div>
+                           <?php include 'plugin/php/booking-amenities.php' ?>
                         </div>
                      </div>
                      <hr>
                      <div class="details_below">
                         <div class="posted">
-                           <div class="posted-body">
-                              <div class="posted-img">
-                                 <img src="assets/img/profile/default.png" class="img-responsive">
-                              </div>
-
-                              <div class="posted-details">
-                                 <span class="name">RONNEL C NAVARRO</span>
-                                 <span class="verified">Verified</span>
-                              </div>
-                           </div>
+                           <?php include 'plugin/php/booking-posted.php' ?>
                         </div>
                         <div class="ratings">
                            <div class="count">4.9</div>
