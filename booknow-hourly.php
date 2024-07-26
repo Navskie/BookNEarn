@@ -59,18 +59,7 @@
                         <div class="posted">
                            <?php include 'plugin/php/booking-posted.php' ?>
                         </div>
-                        <div class="ratings">
-                           <div class="count">4.9</div>
-                           <div class="desc">Ratings</div>
-                        </div>
-                        <div class="ratings">
-                           <div class="count">55</div>
-                           <div class="desc">Review</div>
-                        </div>
-                        <div class="ratings">
-                           <div class="count">28</div>
-                           <div class="desc">Booked</div>
-                        </div>
+                        <?php include 'plugin/php/booking-count.php' ?>
                      </div>
                   </div>
                </div>
