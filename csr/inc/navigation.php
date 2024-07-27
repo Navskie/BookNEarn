@@ -15,14 +15,14 @@
                         <div class="dropdown-menu">
                             <div class="dropdown-menu-columns">
                                 <div class="dropdown-menu-column">
-                                    <a class="dropdown-item" href="booking-list">
+                                    <a class="dropdown-item" href="index">
                                         Booking List
                                     </a>
                                     <a class="dropdown-item" href="pending-booking">
                                         Pending Booking
                                     </a>
-                                    <a class="dropdown-item" href="canceled-booking">
-                                        Canceled Booking
+                                    <a class="dropdown-item" href="reject-booking">
+                                        Reject Booking
                                     </a>
                                     <a class="dropdown-item" href="success-booking">
                                         Success Booking

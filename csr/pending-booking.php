@@ -20,7 +20,7 @@
                   <div class="row g-2 align-items-center">
                      <div class="col">
                         <h2 class="page-title">
-                        Booking List
+                        Pending List
                         </h2>
                      </div>
                   </div>
@@ -50,7 +50,7 @@
                               <?php 
                                  $get_data = mysqli_query($con, "SELECT 
                                     *
-                                 FROM `booking` WHERE `status` != 'Success' ORDER BY `id` DESC");
+                                 FROM `booking` WHERE `status` = 'Pending' ORDER BY `id` DESC");
                                  foreach ($get_data as $data)
                                  {
                                     $billing_id = $data['billing_id'];

@@ -23,13 +23,21 @@
    $wallet_details = mysqli_query($con, "SELECT * FROM wallet WHERE _token = '$users_token'");
    $wallet_data = mysqli_fetch_array($wallet_details);
 
-   $balance = $wallet_data['balance'];
-   $rebates = $wallet_data['rebates'];
+   if (mysqli_num_rows($wallet_details) > 0) {
 
-   $new_balance = $balance + $earnings;
-   $new_rebates = $rebates + $earnings;
+      $balance = $wallet_data['balance'];
+      $rebates = $wallet_data['rebates'];
 
-   $update_wallet = mysqli_query($con, "UPDATE wallet SET balance = '$new_balance', rebates = '$new_rebates' WHERE _token = '$users_token'");
+      $new_balance = $balance + $earnings;
+      $new_rebates = $rebates + $earnings;
+
+      $update_wallet = mysqli_query($con, "UPDATE wallet SET balance = '$new_balance', rebates = '$new_rebates' WHERE _token = '$users_token'");
+
+   } else {
+
+      $update_wallet = mysqli_query($con, "INSERT INTO wallet (`_token`, `balance`, `withdraw`, `rebates`) VALUES ('$users_token', '$earnings', '0', '$earnings')");
+
+   }
 
    $wallet_remarks = 'You have received amount of '.$earnings.' from Success Booking';
 
