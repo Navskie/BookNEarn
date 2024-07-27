@@ -326,6 +326,7 @@ $(document).ready(function() {
       var four_hour = $('#four_hour').val();
       var eight_hour = $('#eight_hour').val();
       var twelve_hour = $('#twelve_hour').val();
+      var overnight = $('#overnight').val();
       var weekly = $('#weekly').val();
       var monthly = $('#monthly').val();
       var weekday = $('#weekday').val();
@@ -343,6 +344,7 @@ $(document).ready(function() {
             four_hour : four_hour,
             eight_hour : eight_hour,
             twelve_hour : twelve_hour,
+            overnight : overnight,
             weekly : weekly,
             monthly : monthly,
             weekday : weekday,

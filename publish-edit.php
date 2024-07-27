@@ -46,6 +46,7 @@
 
       $four_hour = $get_price_data['four_hour'];
       $twelve_hour = $get_price_data['twelve_hour'];
+      $overnight = $get_price_data['overnight'];
       $eight_hour = $get_price_data['eight_hour'];
       $weekly = $get_price_data['weekly'];
       $monthly = $get_price_data['monthly'];
@@ -275,22 +276,28 @@
                         </div>
                      </div>
                      <?php } else { ?>
-                     <div class="col-sm-12 col-md-4 mb-3">
+                     <div class="col-sm-12 col-md-3 mb-3">
                         <div class="form-group">
                            <label for="">* 4H</label>
                            <input type="text" class="form-control shadow-none" value="<?php echo $four_hour ?>" id="four_hour">
                         </div>
                      </div>
-                     <div class="col-sm-12 col-md-4 mb-3">
+                     <div class="col-sm-12 col-md-3 mb-3">
                         <div class="form-group">
                            <label for="">* 8H</label>
                            <input type="text" class="form-control shadow-none" value="<?php echo $eight_hour ?>" id="eight_hour">
                         </div>
                      </div>
-                     <div class="col-sm-12 col-md-4 mb-3">
+                     <div class="col-sm-12 col-md-3 mb-3">
                         <div class="form-group">
                            <label for="">* 12H</label>
                            <input type="text" class="form-control shadow-none" value="<?php echo $twelve_hour ?>" id="twelve_hour">
+                        </div>
+                     </div>
+                     <div class="col-sm-12 col-md-3 mb-3">
+                        <div class="form-group">
+                           <label for="">* Overnight</label>
+                           <input type="text" class="form-control shadow-none" value="<?php echo $overnight ?>" id="overnight">
                         </div>
                      </div>
                      <div class="col-sm-12 col-md-6 mb-3">

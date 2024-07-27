@@ -53,6 +53,7 @@
                                  $FHour = $priceData['four_hour'];
                                  $EHour = $priceData['eight_hour'];
                                  $THour = $priceData['twelve_hour'];
+                                 $overnight = $priceData['overnight'];
                                  $WPrice = $priceData['weekly'];
                                  $MPrice = $priceData['monthly'];
                                  $endPrice = $priceData['weekend'];
@@ -118,6 +119,11 @@
                                        <div class="form-group">
                                           <label for="THour">12 Hours</label>
                                           <input type="text" class="form-control shadow-none" id="THour" value="<?php echo $THour ?>">
+                                       </div>
+                                    </div><div class="col-md-4 col-sm-12 mb-3">
+                                       <div class="form-group">
+                                          <label for="Overnight">Overnight</label>
+                                          <input type="text" class="form-control shadow-none" id="Overnight" value="<?php echo $Overnight ?>">
                                        </div>
                                     </div>
                                     <div class="col-md-4 col-sm-12 mb-3">

@@ -104,6 +104,7 @@
                                  <option value="4h">4h</option>
                                  <option value="8h">8h</option>
                                  <option value="12h">12h</option>
+                                 <option value="22h">Overnight</option>
                               </select>
                               <div class="label">Select Hours</div>
                            </div>

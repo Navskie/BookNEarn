@@ -65,6 +65,8 @@
       $total = $price_fetch['eight_hour'];
    } elseif ($selectTime === '12h') {
       $total = $price_fetch['twelve_hour'];
+   } elseif ($selectTime === '22h') {
+      $total = $price_fetch['overnight'];
    }
 
    $adultPrice = $price_fetch['adult'];

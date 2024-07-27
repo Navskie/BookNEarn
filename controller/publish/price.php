@@ -12,6 +12,7 @@
    $FHour = $_POST['FHour'];
    $EHour = $_POST['EHour'];
    $THour = $_POST['THour'];
+   $Overnight = $_POST['Overnight'];
    $WPrice = $_POST['WPrice'];
    $MPrice = $_POST['MPrice'];
    $dayPrice = $_POST['dayPrice'];
@@ -23,7 +24,7 @@
 
    if (mysqli_num_rows($checkPrice) > 0) {
 
-      $sql = "UPDATE `price` SET `price`='$DPrice', `four_hour`='$FHour', `eight_hour`='$EHour', `twelve_hour`='$THour', `weekly`='$WPrice', `monthly`='$MPrice', `weekday`='$dayPrice', `weekend`='$endPrice', `security`='$secPrice', `adult`='$APrice', `pet`='$PPrice' WHERE unique_id = '$unique_id'";
+      $sql = "UPDATE `price` SET `price`='$DPrice', `four_hour`='$FHour', `eight_hour`='$EHour', `twelve_hour`='$THour', `Overnight`='$Overnight', `weekly`='$WPrice', `monthly`='$MPrice', `weekday`='$dayPrice', `weekend`='$endPrice', `security`='$secPrice', `adult`='$APrice', `pet`='$PPrice' WHERE unique_id = '$unique_id'";
       $sql_execute = mysqli_query($con, $sql);
 
       if (!$sql_execute) {
@@ -31,7 +32,7 @@
          exit;
       }
    } else {
-      $sql = "INSERT INTO `price`(`unique_id`, `price`, `four_hour`, `eight_hour`, `twelve_hour`, `weekly`, `monthly`, `weekday`, `weekend`, `security`, `adult`, `pet`) VALUES ('$unique_id', '$DPrice', '$FHour', '$EHour', '$THour', '$WPrice', '$MPrice', '$dayPrice', '$endPrice', '$secPrice', '$APrice', '$PPrice')";
+      $sql = "INSERT INTO `price`(`unique_id`, `price`, `four_hour`, `eight_hour`, `twelve_hour`, `overnight`, `weekly`, `monthly`, `weekday`, `weekend`, `security`, `adult`, `pet`) VALUES ('$unique_id', '$DPrice', '$FHour', '$EHour', '$THour', '$Overnight', '$WPrice', '$MPrice', '$dayPrice', '$endPrice', '$secPrice', '$APrice', '$PPrice')";
       $sql_execute = mysqli_query($con, $sql);
 
       if (!$sql_execute) {

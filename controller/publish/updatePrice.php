@@ -10,6 +10,7 @@ include_once '../../.config/dbconnect.php';
    $four_hour = mysqli_real_escape_string($con, $_POST['four_hour']);
    $eight_hour = mysqli_real_escape_string($con, $_POST['eight_hour']);
    $twelve_hour = mysqli_real_escape_string($con, $_POST['twelve_hour']);
+   $overnight = mysqli_real_escape_string($con, $_POST['overnight']);
    $weekly = mysqli_real_escape_string($con, $_POST['weekly']);
    $monthly = mysqli_real_escape_string($con, $_POST['monthly']);
    $weekday = mysqli_real_escape_string($con, $_POST['weekday']);
@@ -25,6 +26,7 @@ include_once '../../.config/dbconnect.php';
               `four_hour`='$four_hour',
               `eight_hour`='$eight_hour',
               `twelve_hour`='$twelve_hour',
+              `overnight`='$overnight',
               `weekly`='$weekly',
               `monthly`='$monthly',
               `weekday`='$weekday',

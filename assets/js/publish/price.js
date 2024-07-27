@@ -73,6 +73,7 @@ $(document).ready(function() {
       var WPrice = $('#WPrice').val();
       var MPrice = $('#MPrice').val();
       var THour = $('#THour').val();
+      var Overnight = $('#Overnight').val();
       var dayPrice = $('#dayPrice').val();
       var endPrice = $('#endPrice').val();
 
@@ -82,6 +83,7 @@ $(document).ready(function() {
          FHour = 0;
          EHour = 0;
          THour = 0;
+         Overnight = 0;
          WPrice = 0;
          MPrice = 0;
       } else if (priceType === 'Hourly') {
@@ -100,6 +102,7 @@ $(document).ready(function() {
             FHour: FHour,
             EHour: EHour,
             THour: THour,
+            Overnight: Overnight,
             WPrice: WPrice,
             MPrice: MPrice,
             dayPrice: dayPrice,
@@ -107,16 +110,17 @@ $(document).ready(function() {
             priceType: priceType
          },
          success: function(response) {
-            if (response === 'success') {
-               var alert_title = "Success";
-               var alert_message = "Price has been added. Redirecting...";
+            console.log(response)
+            // if (response === 'success') {
+            //    var alert_title = "Success";
+            //    var alert_message = "Price has been added. Redirecting...";
 
-               ToastAlert(alert_message, alert_title);
+            //    ToastAlert(alert_message, alert_title);
 
-               setTimeout(function() {
-                  window.location.href = 'publish-image';
-               }, 3000);
-            }
+            //    setTimeout(function() {
+            //       window.location.href = 'publish-image';
+            //    }, 3000);
+            // }
          },
          error: function(xhr, status, error) {
             console.error('Error saving price:', error);
