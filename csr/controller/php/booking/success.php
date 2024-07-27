@@ -18,30 +18,33 @@
    $users_data = mysqli_fetch_array($users_details);
 
    $users_token = $users_data['_token'];
+   $users_role = $users_data['role'];
 
-   // get users wallet
-   $wallet_details = mysqli_query($con, "SELECT * FROM wallet WHERE _token = '$users_token'");
-   $wallet_data = mysqli_fetch_array($wallet_details);
+   if ($users_role == 'agent') {
+      // get users wallet
+      $wallet_details = mysqli_query($con, "SELECT * FROM wallet WHERE _token = '$users_token'");
+      $wallet_data = mysqli_fetch_array($wallet_details);
 
-   if (mysqli_num_rows($wallet_details) > 0) {
+      if (mysqli_num_rows($wallet_details) > 0) {
 
-      $balance = $wallet_data['balance'];
-      $rebates = $wallet_data['rebates'];
+         $balance = $wallet_data['balance'];
+         $rebates = $wallet_data['rebates'];
 
-      $new_balance = $balance + $earnings;
-      $new_rebates = $rebates + $earnings;
+         $new_balance = $balance + $earnings;
+         $new_rebates = $rebates + $earnings;
 
-      $update_wallet = mysqli_query($con, "UPDATE wallet SET balance = '$new_balance', rebates = '$new_rebates' WHERE _token = '$users_token'");
+         $update_wallet = mysqli_query($con, "UPDATE wallet SET balance = '$new_balance', rebates = '$new_rebates' WHERE _token = '$users_token'");
 
-   } else {
+      } else {
 
-      $update_wallet = mysqli_query($con, "INSERT INTO wallet (`_token`, `balance`, `withdraw`, `rebates`) VALUES ('$users_token', '$earnings', '0', '$earnings')");
+         $update_wallet = mysqli_query($con, "INSERT INTO wallet (`_token`, `balance`, `withdraw`, `rebates`) VALUES ('$users_token', '$earnings', '0', '$earnings')");
 
+      }
+
+      $wallet_remarks = 'You have received amount of '.$earnings.' from Success Booking';
+
+      $wallet_history = mysqli_query($con, "INSERT INTO wallet_history (`billing_id`, `generated_id`, `remarks`, `amount`, `status`) VALUES ('$billing_id', '$generated_id', '$wallet_remarks', '$earnings', 'Success Booking')");
    }
-
-   $wallet_remarks = 'You have received amount of '.$earnings.' from Success Booking';
-
-   $wallet_history = mysqli_query($con, "INSERT INTO wallet_history (`billing_id`, `generated_id`, `remarks`, `amount`, `status`) VALUES ('$billing_id', '$generated_id', '$wallet_remarks', '$earnings', 'Success Booking')");
 
    $booking_sql = mysqli_query($con, "UPDATE `booking` SET `status` = 'Success' WHERE `billing_id` = '$billing_id'");
    $block_sql = mysqli_query($con, "UPDATE `block` SET `status` = '1' WHERE `billing_id` = '$billing_id'");

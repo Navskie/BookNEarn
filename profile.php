@@ -216,6 +216,7 @@
                                              $billing_id = $data_book['billing_id'];
                                              $unique_id = $data_book['unique_id'];
                                              $fullname = $data_book['fullname'];
+                                             $statusData = $data_book['status'];
 
                                              $publish_details = mysqli_query($con, "SELECT * FROM publish WHERE unique_id = '$unique_id'");
                                              $publish_details_data = mysqli_fetch_array($publish_details);
@@ -263,7 +264,7 @@
                                           <span class="shop-price">
                                              <span class="s-ratings skeleton"></span>
 
-                                             <span class="s-price-taxes skeleton">Pending</span>
+                                             <span class="s-price-taxes skeleton"><?php echo $statusData ?></span>
                                           </span>
                                           </div>
                                           <!-- <a href="#" class="btn btn-sm btn-primary mt-3">Book Now</a> -->
