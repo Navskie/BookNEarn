@@ -24,8 +24,9 @@
       // get users wallet
       $wallet_details = mysqli_query($con, "SELECT * FROM wallet WHERE _token = '$users_token'");
       $wallet_data = mysqli_fetch_array($wallet_details);
+      $wallet_num = mysqli_num_rows($wallet_details);
 
-      if (mysqli_num_rows($wallet_details) > 0) {
+      if ($wallet_num> 0) {
 
          $balance = $wallet_data['balance'];
          $rebates = $wallet_data['rebates'];
@@ -37,7 +38,7 @@
 
       } else {
 
-         $update_wallet = mysqli_query($con, "INSERT INTO wallet (`_token`, `balance`, `withdraw`, `rebates`) VALUES ('$users_token', '$earnings', '0', '$earnings')");
+         $update_wallet = mysqli_query($con, "INSERT INTO wallet (`_token`, `balance`, `withdrawal`, `rebates`) VALUES ('$users_token', '$earnings', '0', '$earnings')");
 
       }
 

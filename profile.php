@@ -209,36 +209,36 @@
                               </p>
                               <div class="wishlist skeleton">
                                  <div class="row">
+                                    <?php
+                                       $sql_book = mysqli_query($con, "SELECT * FROM booking WHERE encoder_id = '$generated_id'");
+                                       foreach ($sql_book as $data_book) {
+                                          $billing_id = $data_book['billing_id'];
+                                          $unique_id = $data_book['unique_id'];
+                                          $fullname = $data_book['fullname'];
+                                          $statusData = $data_book['status'];
+
+                                          $publish_details = mysqli_query($con, "SELECT * FROM publish WHERE unique_id = '$unique_id'");
+                                          $publish_details_data = mysqli_fetch_array($publish_details);
+
+                                          $title = $publish_details_data['title'];
+
+                                          $p_image_sql = mysqli_query($con, "SELECT * FROM publish_img WHERE unique_id = '$unique_id' AND `status` = 'main'");
+                                          $p_image_data = mysqli_fetch_array($p_image_sql);
+
+                                          $filename = $p_image_data['filename'];
+
+                                          $block_sql = mysqli_query($con, "SELECT * FROM `block` WHERE billing_id = '$billing_id'");
+                                          $block_data = mysqli_fetch_array($block_sql);
+                                          
+                                          $start = $block_data['start'];
+                                          $end = $block_data['end'];
+
+                                          $payment_sql = mysqli_query($con, "SELECT * FROM payment WHERE billing_id = '$billing_id'");
+                                          $payment_data = mysqli_fetch_array($payment_sql);
+
+                                          $amount = $payment_data['subtotal'];
+                                    ?>
                                     <div class="col-md-3 col-sm-12">
-                                       <?php
-                                          $sql_book = mysqli_query($con, "SELECT * FROM booking WHERE encoder_id = '$generated_id'");
-                                          foreach ($sql_book as $data_book) {
-                                             $billing_id = $data_book['billing_id'];
-                                             $unique_id = $data_book['unique_id'];
-                                             $fullname = $data_book['fullname'];
-                                             $statusData = $data_book['status'];
-
-                                             $publish_details = mysqli_query($con, "SELECT * FROM publish WHERE unique_id = '$unique_id'");
-                                             $publish_details_data = mysqli_fetch_array($publish_details);
-
-                                             $title = $publish_details_data['title'];
-
-                                             $p_image_sql = mysqli_query($con, "SELECT * FROM publish_img WHERE unique_id = '$unique_id' AND `status` = 'main'");
-                                             $p_image_data = mysqli_fetch_array($p_image_sql);
-
-                                             $filename = $p_image_data['filename'];
-
-                                             $block_sql = mysqli_query($con, "SELECT * FROM `block` WHERE billing_id = '$billing_id'");
-                                             $block_data = mysqli_fetch_array($block_sql);
-                                             
-                                             $start = $block_data['start'];
-                                             $end = $block_data['end'];
-
-                                             $payment_sql = mysqli_query($con, "SELECT * FROM payment WHERE billing_id = '$billing_id'");
-                                             $payment_data = mysqli_fetch_array($payment_sql);
-
-                                             $amount = $payment_data['subtotal'];
-                                       ?>
                                        <div class="shop-body">
                                           <div class="img skeleton">
                                           <img src="assets/img/publish/<?php echo $filename ?>" alt="This is Logo">
@@ -269,8 +269,8 @@
                                           </div>
                                           <!-- <a href="#" class="btn btn-sm btn-primary mt-3">Book Now</a> -->
                                        </div>
-                                       <?php } ?>
                                     </div>
+                                 <?php } ?>
                                  </div>
                               </div>
                            </div>
