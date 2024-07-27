@@ -19,7 +19,7 @@
             $_SESSION['token'] = $data_token;
             $_SESSION['role'] = $data_role;
 
-            if ($data_role == 'user' || $data_role == 'host') {
+            if ($data_role == 'user' || $data_role == 'host' || $data_role == 'agent') {
                echo "user success";
             } elseif ($data_role == 'csr') {
                echo "csr success";
